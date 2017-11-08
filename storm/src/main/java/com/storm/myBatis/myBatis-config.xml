@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC 
+	"-//mybatis.org//DTD Config 3.0//EN" 
+	"HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- myBatis 운영 환경 설정 -->
+	<settings>	
+		<setting name="cacheEnabled" 		value="false" />
+		<setting name="useGeneratedKeys" 	value="true" />
+		<setting name="defaultExecutorType" value="REUSE" />
+	</settings>
+	<!-- myBatis에서 사용할 클래스의 별칭을 부여한다. -->
+	<typeAliases>
+		<typeAlias alias="int"		type="java.lang.Integer" />
+		<typeAlias alias="String"	type="java.lang.String" />
+		<typeAlias	alias="HMap"	type="java.util.Map"/>
+		<typeAlias alias="abVO"		type="com.dol.VO.AnBoardVO" />
+		<typeAlias	alias="fVO"		type="com.dol.VO.FileBoardVO"/>
+	</typeAliases>
+	<!--  SQL 파일을 등록할 xml파일을 지정한다. -->
+	<mappers>
+		<mapper resource="/com/dol/SQL/LoginSQL.xml" />
+		<mapper resource="/com/dol/SQL/AnBoardSQL.xml"/>
+		<mapper resource="/com/dol/SQL/FileBoardSQL.xml"/>
+	</mappers>
+</configuration>

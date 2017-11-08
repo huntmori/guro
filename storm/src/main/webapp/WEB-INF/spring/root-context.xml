@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd 
+			http://www.springframework.org/schema/context  
+			http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:annotation-config />
+	<!-- 커넥션 풀-->
+	<bean id="BaseBDDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@192.168.137.53:1521:orcl" />
+		<property name="username" value="scott" />
+		<property name="password" value="tiger" />
+	</bean>
+	
+	<!--	위의 커넥션 풀 작업의 결과를 윌는 앞으로 myBatis라는 프레임워크를
+			이용해서 처리 할 예정이다.
+			myBatis설정-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" >
+			<!-- myBatis 환경설정 파일을 무엇으로 사용할지를등록한다 -->
+			<value>classpath:/com/storm/myBatis/myBatis-config.xml</value>
+		</property>
+		<!-- 사용할 커넥션 풀과 연결한다. -->
+		<property name="dataSource" ref="BaseBDDataSource" />
+	</bean>  
+
+	<!-- myBatis를 이용해서 커넥션을 처리 할 빈 처리-->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!--  만들어진 DAO를 자동주입하기위한 bean 선언
+	<bean id="loginDAO" class="com.dol.DAO.LoginDAO">
+		자동 주입을 할 때 위에서 설정한 커넥션을 필요로 하고 있기 때문에
+		이 것을 등록해서 주입되도록 해 놓는다. 
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>	
+	<bean id="anBoardDAO" class="com.dol.DAO.AnBoardDAO">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="fileDAO"	class="com.dol.DAO.FileBoardDAO">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+		
+	만들어진 서비스 클래스를 자동 주입하기 위한 bean 선언
+	<bean id="loginS"			class="com.dol.Service.LoginService"/>
+	<bean id="anBoardS"		class="com.dol.Service.AnBoardService" />
+	<bean id="FileBoardS"		class="com.dol.Service.FileBoardService"/>
+	 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="1000000000" />
+        <property name="maxInMemorySize" value="1000000000" />
+		<property name="defaultEncoding" value="UTF-8" />
+    </bean>	
+</beans>
+
