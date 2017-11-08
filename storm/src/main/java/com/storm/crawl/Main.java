@@ -42,8 +42,9 @@ import  com.storm.VO.TagVO;
 public class Main 
 {
 	public static final int APP_VIEW = 1,
-							AGE_CHECK=2,
-							WARNNING=3;
+											AGE_CHECK=2,
+											WARNNING=3;
+	
 	HashMap<String, String> cookies;
 	public WebClient webClient;
 	
@@ -60,16 +61,18 @@ public class Main
 			if(e.className().equals("app_tag"))
 			{
 				String tagName = e.text();
-				System.out.println(tagName);
+				//System.out.println(tagName);
+				result.add(new TagVO());
 			}
 		}
 		
 		
 		return result;
 	}
-	public ArrayList getAppInfo(String url) throws IOException
+	
+	/*public ArrayList getAppInfo(String url) throws IOException
 	{
-		ArrayList	result	=	new ArrayList<Object>();
+		ArrayList	result	=	new ArrayList<AppVO>();
 		
 		Document document = (Document)Jsoup.connect(url).get();
 		
@@ -84,7 +87,7 @@ public class Main
 		}
 			
 		return result;
-	}
+	}*/
 	
 	public void getListInfo(String url) throws IOException
 	{

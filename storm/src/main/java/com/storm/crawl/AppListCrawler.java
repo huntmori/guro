@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,19 +24,25 @@ public class AppListCrawler
 	Document	document;
 	String		url;
 
-	
-	public AppListCrawler(String url) throws IOException
+	public AppListCrawler(String url, HashMap<String, String> cookies) throws IOException
 	{
 		this.url = url;
 		app_list = new ArrayList<AppVO>();
 		tag_list = new ArrayList<TagVO>();
 		
-		
-		document = Jsoup.connect(url).get();
+		if(cookies!=null)
+			document = Jsoup.connect(url).cookies(cookies).get();
+		else
+			document=Jsoup.connect(url).get();
+	}
+	public AppListCrawler(String url) throws IOException
+	{
+		this(url, null);
 	}
 	
 	public void ProccessCrawl(PrintStream output) throws IOException
 	{
+		//페이지 시작값
 		int page=1;
 		output.println("title\tappid\turl");
 		
@@ -47,10 +54,9 @@ public class AppListCrawler
 			System.out.print(element.text()+"\t");
 		}System.out.println();
 				
+		// 최대 페이지 값
 		int maxPage = Integer.parseInt(realPages.get(realPages.size()-2).text());
-		
-		System.out.println(maxPage);
-		
+				
 		//TagList
 		Element popupMenuItem = document.getElementById("TagFilter_Container");		
 		Elements divlist = popupMenuItem.select("div[data-value]");
