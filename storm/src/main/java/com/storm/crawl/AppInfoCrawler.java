@@ -137,8 +137,8 @@ public class AppInfoCrawler
 			appInfo.description="";
 		}
 			
-		
-		//ReleaseDate
+	
+		//ReleaseDatedd
 			Elements details = document.getElementsByClass("details_block");
 			Element detail = details.get(0);
 			
