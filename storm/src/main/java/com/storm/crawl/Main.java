@@ -2,19 +2,10 @@ package com.storm.crawl;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.eclipse.jetty.util.log.Log;
-import org.jsoup.Connection.Method;
-import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,18 +15,10 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebResponse;
-import com.gargoylesoftware.htmlunit.WebResponseData;
-import com.gargoylesoftware.htmlunit.html.DomElement;
-import com.gargoylesoftware.htmlunit.html.DomNodeList;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import com.gargoylesoftware.htmlunit.javascript.host.Set;
 import com.gargoylesoftware.htmlunit.util.Cookie;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Appinfo;
-
 import  com.storm.VO.AppVO;
 import  com.storm.VO.TagVO;
 
@@ -193,12 +176,14 @@ public class Main
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 		 
 		//URL 인코딩
-		try {
-			URLEncoder.encode(url,"UTF-8");
+		/*try {
+			System.out.println(url);
+			System.out.println(URLEncoder.encode(url,"UTF-8"));
+			System.out.println(url);
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			//e1.printStackTrace();
-		}
+		}*/
 		
 		// page를 받아옴
 		HtmlPage page = null;
