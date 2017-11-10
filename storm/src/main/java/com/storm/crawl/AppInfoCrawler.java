@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import  com.storm.VO.AppVO;
+import com.storm.crawlUtil.JSoupUtil;
 
 public class AppInfoCrawler 
 {
@@ -24,18 +25,92 @@ public class AppInfoCrawler
 	{
 		this.url = url;
 		
-		String userAgent="User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393";
-		
-		
-		document = Jsoup.connect(url).get();
+		document = JSoupUtil.ConnectionJsoup(url);
 		System.out.println(document.title());
 		
 		appInfo = new AppVO();
 	}
-	public ArrayList<String>	AppTagProcess()
+	
+	public	ArrayList<String>getCategoryList(Document document)
 	{
-		return null;
+		ArrayList<String>	result	=	new ArrayList<String>();
+		
+		//Categories
+		System.out.println("\nCategories");
+		Elements specDetail	=	document.getElementsByClass("game_area_details_specs");
+		
+		for(Element e : specDetail){
+			String category = e.select("a[class=name]").text();
+			System.out.println(category);
+			result.add(category);
+		}
+		
+		return result;
 	}
+	
+	public	ArrayList<String>getTagList(Document document)
+	{
+		ArrayList<String>	result	=	new ArrayList<String>();
+		//TagList
+		Elements tagList = document.getElementsByClass("app_tag");
+		System.out.println(tagList.size());
+		for(Element e : tagList)
+		{
+			String text = e.text();
+			if(text.indexOf('+')==-1){
+				result.add(text);
+				//System.out.println(text);
+			}
+		}
+		
+		return result;
+	}
+	
+	public	String	getAppDescription(Document document)
+	{
+		// Description
+		Element discription = document.select("div.game_description_snippet").first();
+		if(discription!=null){
+			System.out.println(discription.text());
+			discription.text();
+		}
+		else{
+			return "";
+		}
+		
+		return discription.text();
+	}
+	
+	public	String	getReleaseDate(Document document)
+	{
+		//ReleaseDate
+		Elements details = document.getElementsByClass("details_block");
+		Element detail = details.get(0);
+		
+		Element date = document.select("div.date").first();
+		System.out.println(date.text());
+		
+		return date.text();
+	}
+	
+	public int	getPrice(Document document)
+	{
+		//Price
+		Elements price = document.getElementsByClass("game_purchase_price price");
+		if(price.size()==0)
+		{
+			price = document.getElementsByClass("discount_original_price");
+		}
+		
+		String strPrice = price.get(0).text().substring(1);
+		strPrice = strPrice.replaceAll(",", "");
+		strPrice = strPrice.replaceAll(" ", "");
+		System.out.println("PRICE : "+strPrice);
+		//appInfo.price = Integer.parseInt(strPrice);
+		
+		return Integer.parseInt(strPrice);
+	}
+	
 	public void ProccessCrawl()
 	{
 		appInfo.tagList = new ArrayList<String>();
@@ -116,7 +191,8 @@ public class AppInfoCrawler
 			Element		tbody		=	langTable.get(0);
 			Elements	langRows	= 	tbody.getElementsByTag("tr");
 			
-			for(Element h : langRows){			
+			for(Element h : langRows)
+			{			
 				Elements tDetails = h.getElementsByTag("td");
 				
 				if(tDetails.size()==0)
