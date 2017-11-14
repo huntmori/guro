@@ -23,7 +23,7 @@ public class AppListCrawler
 	
 	Document	document;
 	String		url;
-
+	
 	public AppListCrawler(String url, HashMap<String, String> cookies) throws IOException
 	{
 		this.url = url;
@@ -35,6 +35,7 @@ public class AppListCrawler
 		else
 			document=Jsoup.connect(url).get();
 	}
+	
 	public AppListCrawler(String url) throws IOException
 	{
 		this(url, null);
