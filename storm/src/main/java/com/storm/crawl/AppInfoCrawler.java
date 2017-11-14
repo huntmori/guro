@@ -1,7 +1,9 @@
 package com.storm.crawl;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,13 +15,16 @@ import com.storm.crawlUtil.JSoupUtil;
 public class AppInfoCrawler 
 {
 	Document 	document;
-	String		url;
-	AppVO		appInfo;
+	String			url;
+	PrintStream	ps;
 	
+	AppVO		appInfo;
 	public AppInfoCrawler(Document doc)
 	{
 		this.document=doc;
 		appInfo = new AppVO();
+		
+		ps = System.out;
 	}
 	public AppInfoCrawler(String url) throws IOException
 	{
@@ -29,17 +34,23 @@ public class AppInfoCrawler
 		System.out.println(document.title());
 		
 		appInfo = new AppVO();
+		ps	=	System.out;
 	}
 	
+	
+	// 카테고리에 대한 ArrayList반환
 	public	ArrayList<String>getCategoryList(Document document)
 	{
 		ArrayList<String>	result	=	new ArrayList<String>();
 		
-		//Categories
+		//Categories	
 		System.out.println("\nCategories");
+		//Spec Detial 요소를 검색
 		Elements specDetail	=	document.getElementsByClass("game_area_details_specs");
 		
-		for(Element e : specDetail){
+		
+		for(Element e : specDetail)	{
+			//anchor 태그를 찾아온다.
 			String category = e.select("a[class=name]").text();
 			System.out.println(category);
 			result.add(category);
@@ -48,14 +59,17 @@ public class AppInfoCrawler
 		return result;
 	}
 	
-	public	ArrayList<String>getTagList(Document document)
+	//태그리스트를 얻어오는 함수
+	public	ArrayList<String>getAppTagList(Document document)
 	{
 		ArrayList<String>	result	=	new ArrayList<String>();
-		//TagList
+
+		//TagList 요소 선택
 		Elements tagList = document.getElementsByClass("app_tag");
+		
 		System.out.println(tagList.size());
-		for(Element e : tagList)
-		{
+		for(Element e : tagList)	{
+			//+ 문자열을 제외 한 모든 택스트를 리스트에 추가한다.
 			String text = e.text();
 			if(text.indexOf('+')==-1){
 				result.add(text);
@@ -66,6 +80,7 @@ public class AppInfoCrawler
 		return result;
 	}
 	
+	// 상품 설명을 반환하는 함수
 	public	String	getAppDescription(Document document)
 	{
 		// Description
@@ -81,11 +96,12 @@ public class AppInfoCrawler
 		return discription.text();
 	}
 	
+	//상품 출시일을 반환하는 함수
 	public	String	getReleaseDate(Document document)
 	{
 		//ReleaseDate
 		Elements details = document.getElementsByClass("details_block");
-		Element detail = details.get(0);
+		//Element detail = details.get(0);
 		
 		Element date = document.select("div.date").first();
 		System.out.println(date.text());
@@ -93,16 +109,21 @@ public class AppInfoCrawler
 		return date.text();
 	}
 	
+	//가격을 가져오는 함수
 	public int	getPrice(Document document)
 	{
 		//Price
 		Elements price = document.getElementsByClass("game_purchase_price price");
-		if(price.size()==0)
+		
+		if(price.size()==0)//할인 가격 인 경우 처리
 		{
 			price = document.getElementsByClass("discount_original_price");
 		}
 		
+		//단위 표시를 잘라낸다
 		String strPrice = price.get(0).text().substring(1);
+		
+		//콤마와 공백을 모두 제거
 		strPrice = strPrice.replaceAll(",", "");
 		strPrice = strPrice.replaceAll(" ", "");
 		System.out.println("PRICE : "+strPrice);
@@ -111,22 +132,135 @@ public class AppInfoCrawler
 		return Integer.parseInt(strPrice);
 	}
 	
-	public void ProccessCrawl()
+	// 개발사 목록을 가져오는 함수
+	public ArrayList<String>getAppDevelopers(Document document)
 	{
-		appInfo.tagList = new ArrayList<String>();
+		ArrayList<String>	result	=	new ArrayList<String>(); 
+
+		Elements details = document.getElementsByClass("details_block");
+		Element detail = details.get(0);
 		
-		//TagList
-		Elements tagList = document.getElementsByClass("app_tag");
-		System.out.println(tagList.size());
-		for(Element e : tagList)
-		{
-			String text = e.text();
-			if(text.indexOf('+')==-1){
-				appInfo.tagList.add(text);
-				System.out.println(text);
+		//Div, publisher, genre
+		Elements devs = detail.select("a[href]");
+		for(Element e : devs){
+			String href = e.attr("href");
+			
+			if(href.indexOf("developer")!=-1)	{
+				System.out.println("Developer : "+e.text()+" "+e.attr("href"));
+				result.add(e.text());
 			}
 		}
+		return result;
+	}
+	
+	public ArrayList<String>getAppPublishers(Document document)
+	{
+		ArrayList<String>	result	=	new ArrayList<String>(); 
+
+		Elements details = document.getElementsByClass("details_block");
+		Element detail = details.get(0);
 		
+		//Div, publisher, genre
+		Elements devs = detail.select("a[href]");
+		for(Element e : devs){
+			String href = e.attr("href");
+			
+			if(href.indexOf("publisher")!=-1)	{
+				System.out.println("publisher : "+e.text()+" "+e.attr("href"));
+				result.add(e.text());
+			}
+		}
+		return result;
+	}
+	
+	// 장르 목록을 가져오는 함수
+	public ArrayList<String>getAppGenres(Document document)
+	{
+		ArrayList<String>	result	=	new ArrayList<String>(); 
+
+		Elements details = document.getElementsByClass("details_block");
+		Element detail = details.get(0);
+		
+		//Div, publisher, genre
+		Elements devs = detail.select("a[href]");
+		for(Element e : devs){
+			String href = e.attr("href");
+			
+			if(href.indexOf("genre")!=-1)	{
+				System.out.println("genre : "+e.text()+" "+e.attr("href"));
+				result.add(e.text());
+			}
+		}
+		return result;
+	}
+	
+	public HashMap<String, boolean[]>	getSupportedLanguages(Document document)
+	{
+		HashMap<String, boolean[]>	result	=	new HashMap<String, boolean[]>();
+		
+		//Languege
+		Elements 	langTable		= 	document.getElementsByClass("game_language_options");
+		Element		tbody			=	langTable.get(0);
+		Elements		langRows		= 	tbody.getElementsByTag("tr");
+		
+		for(Element h : langRows)	{			
+			Elements tDetails = h.getElementsByTag("td");
+			
+			if(tDetails.size()==0)
+				continue;
+			
+			String languege = tDetails.get(0).text();
+				
+			boolean[] temp = new boolean[3];
+			for(int i=1;i<=3;i++)
+			{
+				boolean test = tDetails.get(i).hasAttr("colspan");
+				
+				if(test)
+				{
+					System.out.println("지원안함");
+					continue;
+				}
+				else
+				{
+					Elements check = tDetails.get(i).getElementsByTag("img");
+					boolean support = check.size()==1 ? true	:	false;
+					
+					temp[i-1] = support;
+				}
+			}			
+			result.put(languege, temp);				
+		}
+		
+		//System.out.println("languege\tinterface\tvoice\tsubtitle");
+		for(String key : result.keySet()){
+			boolean[] supp = result.get(key);
+			System.out.print(key);
+			
+			for(int i=0; i<supp.length; i++) {
+				System.out.print("\t"+supp[i]);
+			}
+			System.out.println();
+		}
+		
+		return result;
+	}
+	private	void	oldProc()
+	{
+		//appInfo.tagList = new ArrayList<String>();
+		
+				//TagList
+				/*Elements tagList = document.getElementsByClass("app_tag");
+				System.out.println(tagList.size());
+				for(Element e : tagList)
+				{
+					String text = e.text();
+					if(text.indexOf('+')==-1){
+						appInfo.tagList.add(text);
+						System.out.println(text);
+					}
+				}*/
+		/*
 		// Description
 		Element discription = document.select("div.game_description_snippet").first();
 		if(discription!=null){
@@ -135,10 +269,10 @@ public class AppInfoCrawler
 		}
 		else{
 			appInfo.description="";
-		}
-			
+		}*/
+	/*		
 	
-		//ReleaseDatedd
+		//ReleaseDate
 			Elements details = document.getElementsByClass("details_block");
 			Element detail = details.get(0);
 			
@@ -169,7 +303,6 @@ public class AppInfoCrawler
 					System.out.println("Genre : "+e.text());
 					appInfo.genre.add(e.text());
 				}
-					
 			}
 		
 		//Price
@@ -237,6 +370,15 @@ public class AppInfoCrawler
 				String category = e.select("a[class=name]").text();
 				System.out.println(category);
 				appInfo.categories.add(category);
-			}
+			}*/
+	}
+	public void ProccessCrawl()
+	{		
+		appInfo.tagList 			=	getAppTagList(document);
+		appInfo.description		=	getAppDescription(document);
+		appInfo.releaseDate	=	getReleaseDate(document);
+		appInfo.genre			=	getAppGenres(document);
+		appInfo.developList	=	getAppDevelopers(document);
+		appInfo.publisherList	=	getAppPublishers(document);
 	}
 }
