@@ -108,6 +108,39 @@ public class AppInfoCrawler
 		return date.text();
 	}
 	
+	//할인률을 가져오는 함수
+	public	float	getDiscountRate(Document document)
+	{
+		Element discountRate = document.getElementsByClass("discount_pct").get(0);
+		String strDiscount = discountRate.text();
+		strDiscount = strDiscount.replaceAll("-", "");
+		strDiscount = strDiscount.replaceAll("%", "");
+		System.out.println((Integer.parseInt(strDiscount) / 100.0f));
+		return Integer.parseInt(strDiscount) / 100.0f;
+	}
+	
+	public	boolean		getIsDiscounted(Document	document)
+	{
+		Elements price = document.getElementsByClass("game_purchase_price price");
+		if(price.size()==0)
+		{
+			return true;
+		}
+
+		return false;
+	}
+	
+	public int	getDiscountedPrice(Document document)
+	{
+		Element discounted = document.getElementsByClass("discount_final_price").get(0);
+		
+		String strPrice = discounted.text();
+		strPrice = strPrice.replaceAll(",", "");
+		strPrice = strPrice.replaceAll(" ", "");
+		
+		return Integer.parseInt(strPrice);
+	}
+	
 	//가격을 가져오는 함수
 	public int	getPrice(Document document)
 	{
@@ -371,7 +404,7 @@ public class AppInfoCrawler
 				appInfo.categories.add(category);
 			}*/
 	}
-	public void ProccessCrawl()
+	public void ProccessCrawl(Document document)
 	{		
 		appInfo.tagList 			=	getAppTagList(document);
 		appInfo.description		=	getAppDescription(document);
@@ -379,5 +412,14 @@ public class AppInfoCrawler
 		appInfo.genre			=	getAppGenres(document);
 		appInfo.developList	=	getAppDevelopers(document);
 		appInfo.publisherList	=	getAppPublishers(document);
+		
+	}
+	
+	
+	public void	ProccessCrawl()
+	{
+		ProccessCrawl(this.document);
+		getDiscountRate(this.document);
 	}
 }
+

@@ -8,16 +8,18 @@ public class AppVO implements Comparable<AppVO>
 	String id;
 	String title;
 	String url;
+	
+	boolean		isDiscount;
 	public int	price;
+	public int discountedPrice;
+	
 	public ArrayList<String>	genre;
 	public ArrayList<String>	tagList;
 	public ArrayList<String>	developList;
 	public ArrayList<String>	publisherList;
 	public ArrayList<String>	categories;
 	
-	public static final int 	INTERFACE=1,
-								VOICE=2,
-								SUBTITLE=3;
+	public static final int 	INTERFACE=1,	VOICE=2,	SUBTITLE=3;
 	
 	public HashMap<String, boolean[]>	langueges;
 	
@@ -64,5 +66,21 @@ public class AppVO implements Comparable<AppVO>
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public boolean isDiscount() {
+		return isDiscount;
+	}
+
+	public void setDiscount(boolean isDiscount) {
+		this.isDiscount = isDiscount;
+	}
+
+	public int getDiscountedPrice() {
+		return discountedPrice;
+	}
+
+	public void setDiscountedPrice(int discountedPrice) {
+		this.discountedPrice = discountedPrice;
 	}
 }

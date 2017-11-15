@@ -24,6 +24,8 @@ public class AppListCrawler
 	Document	document;
 	String		url;
 	
+		
+		
 	public AppListCrawler(String url, HashMap<String, String> cookies) throws IOException
 	{
 		this.url = url;

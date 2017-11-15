@@ -21,6 +21,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.util.Cookie;
 import  com.storm.VO.AppVO;
 import  com.storm.VO.TagVO;
+import com.storm.crawlUtil.HtmlUnitUtil;
+import com.storm.crawlUtil.JSoupUtil;
 
 public class Main 
 {
@@ -319,7 +321,7 @@ public class Main
 		return result;
 	}
 		
-	public Main() 
+	public Main() throws IOException 
 	{
 		//List URL
 		String url = "http://store.steampowered.com/search/?category1=998&page=";
@@ -337,8 +339,16 @@ public class Main
 		String deusEx = "http://store.steampowered.com/app/337000/Deus_Ex_Mankind_Divided/?snr=1_5_9__412";
 		//ReconnectAgecheck(deusEx);
 		String pubgInfo= "http://store.steampowered.com/app/578080/PLAYERUNKNOWNS_BATTLEGROUNDS/";
-		Document doc = ReconnectAgecheck(deusEx);
-		new AppInfoCrawler(doc).ProccessCrawl();
+		String broforce="http://store.steampowered.com/app/274190/Broforce/";
+		//Document doc = ReconnectAgecheck(broforce);
+		
+		AppReviewCrawler rv = new AppReviewCrawler("578080");
+		System.out.println(rv.getNextPositivePageUrl(2));
+		rv.test();
+		
+		
+		/*Document doc = JSoupUtil.ConnectionJsoup(broforce);
+		new AppInfoCrawler(doc).ProccessCrawl();*/
 		//ReconnectWarnningPage(pubg);
 		
 		/*
@@ -374,7 +384,7 @@ public class Main
 		
 		//System.out.println(deus.getElementsByClass("app_tag").get(0).text());*/
 	}
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		new Main();
 	}
