@@ -3,6 +3,7 @@ package com.storm.crawlUtil;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,18 +23,19 @@ public class HtmlUnitUtil
 		
 		public static WebClient	InitWebClient()
 		{
+			java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 			WebClient webClient = new WebClient(BrowserVersion.CHROME);
-		    webClient.waitForBackgroundJavaScript(5000);
+			webClient.waitForBackgroundJavaScript(5000);
 	 
-		    webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
-		    webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
-		    webClient.getCookieManager().setCookiesEnabled(true); 
-		    webClient.getOptions().setThrowExceptionOnScriptError(false);
-		    webClient.getOptions().setJavaScriptEnabled(true);
-		    webClient.getOptions().setCssEnabled(true);
-		    java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
+			webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
+			webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
+			webClient.getCookieManager().setCookiesEnabled(true); 
+			webClient.getOptions().setThrowExceptionOnScriptError(false);
+			webClient.getOptions().setJavaScriptEnabled(true);
+			webClient.getOptions().setCssEnabled(false);
+		    
 		
-		    return webClient;
+			return webClient;
 		}
 	
 		public static HtmlPage ConnectByWebClient(String url, WebClient webClient)
@@ -56,7 +58,7 @@ public class HtmlUnitUtil
 			HtmlPage page = null;
 			try {
 				page = webClient.getPage(url);
-		}
+			}
 			catch (FailingHttpStatusCodeException | IOException e1){
 				// TODO Auto-generated catch block
 				//e1.printStackTrace();
@@ -82,11 +84,11 @@ public class HtmlUnitUtil
 			else	{//	AgeCheckPage
 				System.out.println("ageCheckPage");
 					return AGE_CHECK;
-				}
+			}
 		}
 		
 		//경고 페이지를 넘어가기 위한 함수..
-		public Document ReconnectWarnningPage(String url, WebClient webClient)
+		public static Document ReconnectWarnningPage(String url, WebClient webClient)
 		{
 			HtmlPage page = ConnectByWebClient(url, webClient);
 			HtmlAnchor button = page.getAnchorByText("View Page");
@@ -120,7 +122,7 @@ public class HtmlUnitUtil
 		}
 		
 		// 연령체크 페이지를 넘어가기 위한 함수...
-		public Document ReconnectAgecheck(String url, WebClient webClient)
+		public static Document ReconnectAgecheck(String url, WebClient webClient)
 		{
 				// 웹 클라이언트 초기화
 			HtmlPage page = ConnectByWebClient(url, webClient);
@@ -186,4 +188,22 @@ public class HtmlUnitUtil
 		}
 		
 		
+		public static Document	SteamConnect(String url) throws IOException
+		{
+			Document document = null;
+			java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF); 
+			final	WebClient webClient	=	InitWebClient();
+			final	HtmlPage test	=	ConnectByWebClient(url, webClient);
+			
+			int check = checkPageType(test.getUrl().toString());
+			if(check==APP_VIEW){
+				return JSoupUtil.ConnectionJsoup(url);
+			}
+			else if(check==AGE_CHECK)
+				return	ReconnectAgecheck(url, webClient);
+			else if(check==WARNNING)
+				return	ReconnectWarnningPage(url, webClient);
+			
+			return document;
+		}
 }

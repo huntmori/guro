@@ -4,12 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.web.util.HtmlUtils;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.CookieManager;
@@ -23,118 +29,15 @@ import  com.storm.VO.AppVO;
 import  com.storm.VO.TagVO;
 import com.storm.crawlUtil.HtmlUnitUtil;
 import com.storm.crawlUtil.JSoupUtil;
+import com.storm.crawlUtil.KeyGenerator;
 
 public class Main 
 {
-	public static final int APP_VIEW = 1,
-											AGE_CHECK=2,
-											WARNNING=3;
+	public static final int APP_VIEW = 1,AGE_CHECK=2,WARNNING=3;
 	
 	HashMap<String, String> cookies;
 	public WebClient webClient;
-	
-	public ArrayList<TagVO> getAppTagList(Document doc, ArrayList<TagVO> allTags)
-	{
-		ArrayList<TagVO> result = new ArrayList<TagVO>();
 		
-		Elements tags= doc.getElementsByClass("glance_tags_label");
-		System.out.println(tags.size());
-		tags = tags.select("a[href][class]");
-		
-		for(Element e : tags)
-		{
-			if(e.className().equals("app_tag"))
-			{
-				String tagName = e.text();
-				//System.out.println(tagName);
-				result.add(new TagVO());
-			}
-		}
-		
-		
-		return result;
-	}
-	
-	/*public ArrayList getAppInfo(String url) throws IOException
-	{
-		ArrayList	result	=	new ArrayList<AppVO>();
-		
-		Document document = (Document)Jsoup.connect(url).get();
-		
-		Elements metas = document.select("meta");
-		
-		System.out.println(metas.size());
-		//metas = metas.select("meta");
-		for(Element e:metas)
-		{
-			System.out.println(e.text());
-			System.out.println(e.attr("itemprop")+"\t"+e.attr("content"));
-		}
-			
-		return result;
-	}*/
-	
-	public void getListInfo(String url) throws IOException
-	{
-		int page=1;
-				
-		Document doc = (Document) Jsoup.connect(url).get();
-		//Document doc = (Document)Jsoup.connect("./Steam.html");
-/*		String title = doc.title();
-		
-		
-		ArrayList<String>	titleList	= new ArrayList<String>();
-		ArrayList<String>	appURLList	= new ArrayList<String>();
-		ArrayList<String>	appIdList	= new ArrayList<String>();*/
-		
-		ArrayList<AppVO>	infoList	=	new ArrayList<AppVO>();
-		
-		PrintWriter output = new PrintWriter(new File("app_list.txt"));
-		output.println("title\tappid\turl");
-		//set max page numb
-		
-			
-			/*for(Element e : ele )
-			{
-				String temp = e.text().replaceAll(" ","_");
-				//System.out.println(temp);
-				titleList.add(temp);
-			}
-			
-			
-			for(Element e:linkList)
-			{
-				appURLList.add(e.attr("href"));
-			}
-			
-			
-			for(Element e : links)
-			{
-				String href = e.attr("data-ds-appid");
-				appIdList.add(href);
-			}*/
-		
-		
-		
-		
-		/*for(int i=0; i<titleList.size(); i++)
-		{
-			String appid = (String)appIdList.get(i);
-			int test = appid.indexOf(",");
-			
-			String strurl = (String)appURLList.get(i);
-			int test2 = strurl.indexOf("app");
-			
-			if(test==-1 && test2!=-1)
-			{
-				System.out.println(titleList.get(i)+"\t"+appIdList.get(i)+"\t"+appURLList.get(i));
-				output.println(titleList.get(i)+"\t"+appIdList.get(i)+"\t"+appURLList.get(i));
-			}				
-		}		*/
-		
-	}
-	
-	
 	//현재 페이지 타입을 확인한다.
 	public int	checkPageType(String url)
 	{
@@ -165,27 +68,16 @@ public class Main
 	public HtmlPage ConnectByWebClient(String url)
 	{
 		//웹 클라이언트 생성 및 설정
-		
+		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 		webClient = new WebClient(BrowserVersion.CHROME);
-	    webClient.waitForBackgroundJavaScript(5000);
+		webClient.waitForBackgroundJavaScript(5000);
  
 		webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
 		webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
 		webClient.getCookieManager().setCookiesEnabled(true); 
 		webClient.getOptions().setThrowExceptionOnScriptError(false);
 		webClient.getOptions().setJavaScriptEnabled(true);
-		webClient.getOptions().setCssEnabled(true);
-		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
-		 
-		//URL 인코딩
-		/*try {
-			System.out.println(url);
-			System.out.println(URLEncoder.encode(url,"UTF-8"));
-			System.out.println(url);
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
-		}*/
+		webClient.getOptions().setCssEnabled(false);
 		
 		// page를 받아옴
 		HtmlPage page = null;
@@ -280,7 +172,7 @@ public class Main
 			System.out.println(e.toString());
 		}
 		
-		checkPageType(result.getUrl().toString());
+		//checkPageType(result.getUrl().toString());
 		
 		cookies = new HashMap<String, String>();
 		CookieManager cookieManager = webClient.getCookieManager();
@@ -311,9 +203,6 @@ public class Main
 	
 	public static Document ConnectionJsoup(String url) throws IOException
 	{
-		//birthtime=-63190799; path=/
-		//lastagecheckage=1-January-1968;
-		//expires=Sat, 27-Oct-2018 14:59:26 GMT; Max-Age=31536000; path=/
 		Document result	=	(Document)Jsoup.connect(url).get();
 		
 		System.out.println(result.location());
@@ -341,16 +230,91 @@ public class Main
 		String pubgInfo= "http://store.steampowered.com/app/578080/PLAYERUNKNOWNS_BATTLEGROUNDS/";
 		String broforce="http://store.steampowered.com/app/274190/Broforce/";
 		//Document doc = ReconnectAgecheck(broforce);
+		String l4d="http://store.steampowered.com/app/550/Left_4_Dead_2/";
 		
+		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
+		webClient = new WebClient(BrowserVersion.CHROME);
+		webClient.waitForBackgroundJavaScript(5000);
+ 
+		webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
+		webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
+		webClient.getCookieManager().setCookiesEnabled(true); 
+		webClient.getOptions().setThrowExceptionOnScriptError(false);
+		webClient.getOptions().setJavaScriptEnabled(true);
+		webClient.getOptions().setCssEnabled(false);
+		
+		/*HtmlPage	test	=	HtmlUnitUtil.ConnectByWebClient(l4d, webClient);
+		System.out.println(test.getUrl().toString());
+		System.out.println(checkPageType(test.getUrl().toString()));
+		
+		if(checkPageType(test.getUrl().toString())==2){
+			Document	doc	=	ReconnectAgecheck(l4d);
+			new AppInfoCrawler(doc).ProccessCrawl();
+		}*/
+		
+		//Document re = HtmlUnitUtil.ReconnectAgecheck(l4d,webClient);
+		//new AppInfoCrawler(re).ProccessCrawl();
+		
+		System.out.println("before the crawl");
 		AppListCrawler	appList	=	new AppListCrawler(url);
 		appList.ProccessCrawl(System.out);
+		System.out.println("after crawl");
 		
-		ArrayList<AppVO>	list	=	appList.app_list;
-		for(AppVO v:list)
-		{
-			String check = v.getUrl();
-			int test	=	checkPageType(check);
+		HashMap<Integer, AppVO>	map = appList.app_list;
+		
+		Set<Integer>	keys	=	map.keySet();
+		ArrayList<Integer> sortedkeys = new ArrayList<Integer>(keys);
+		
+		Collections.sort(sortedkeys);
+		
+		for(Integer i : sortedkeys){
 			
+			AppVO	vo	=	map.get(i);
+			System.out.println(vo.getUrl());
+			System.out.print(i+"\t"+vo.getTitle()+"\t");
+			//Document _try = HtmlUnitUtil.SteamConnect(vo.getUrl());
+			
+			HtmlPage	_try	=	ConnectByWebClient(vo.getUrl());
+			int pageType	=	HtmlUnitUtil.checkPageType(_try.getUrl().toString());
+			String tempUrl = _try.getUrl().toString();
+			Document target = null;
+			if(pageType==APP_VIEW){
+				target = ConnectionJsoup(tempUrl);
+			}
+			else if(pageType==AGE_CHECK){
+				target	=	ReconnectAgecheck(tempUrl);
+			}
+			else if(pageType==WARNNING){
+				target = ReconnectWarnningPage(tempUrl);
+			}
+			webClient.close();
+			AppInfoCrawler	ac	=	new AppInfoCrawler(target);
+			ac.ProccessCrawl();
+			
+			//System.out.println(_try.getUrl());
+			
+			
+			//AppInfoCrawler info	=	new AppInfoCrawler(_try);
+			//info.ProccessCrawl();
+		}
+		
+		for(Integer i : sortedkeys){
+			AppVO	vo	=	map.get(i);
+			System.out.println(vo.getId()+"\t"+vo.getTitle()+"\t"+vo.genre.get(0)+"\t"+vo.tagList.get(0));
+		}
+		
+/*		
+		for(int i=0;i<list.size();i++)
+		{
+			System.out.println("i :"+i+"\tlist.size():"+list.size());
+			AppVO	v	=	list.get(i);
+			
+			String check = v.getUrl();
+			System.out.println(check);
+			HtmlPage	page = HtmlUnitUtil.ConnectByWebClient(check, webClient);
+			System.out.println(page.getUrl().toString());
+			int test	=	checkPageType(page.getUrl().toString());
+			System.out.println(test);
 			Document doc = null;
 			if(test==APP_VIEW){
 				doc = JSoupUtil.ConnectionJsoup(check);
@@ -364,7 +328,7 @@ public class Main
 			AppInfoCrawler	info	=	new AppInfoCrawler(doc);	
 			info.ProccessCrawl();
 		}
-		/*
+*/		/*
 		AppReviewCrawler rv = new AppReviewCrawler("578080");
 		System.out.println(rv.getNextPositivePageUrl(2));
 		rv.test();
@@ -409,6 +373,7 @@ public class Main
 	}
 	public static void main(String[] args) throws IOException
 	{
+		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
 		new Main();
 	}
 }

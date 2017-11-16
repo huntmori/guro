@@ -107,6 +107,8 @@ public class AppInfoCrawler
 		//Element detail = details.get(0);
 		
 		Element date = document.select("div.date").first();
+		if(date==null)
+			return "";
 		System.out.println("ReleaseDate : "+date.text());
 		
 		return date.text();
@@ -220,6 +222,8 @@ public class AppInfoCrawler
 		ArrayList<String>	result	=	new ArrayList<String>(); 
 
 		Elements details = document.getElementsByClass("details_block");
+		if(details.size()==0)
+			return null;
 		Element detail = details.get(0);
 		
 		//Div, publisher, genre
@@ -430,6 +434,7 @@ public class AppInfoCrawler
 	
 	public void	ProccessCrawl()
 	{
+		//System.out.println(this.document.toString());
 		ProccessCrawl(this.document);
 		//getDiscountRate(this.document);
 	}

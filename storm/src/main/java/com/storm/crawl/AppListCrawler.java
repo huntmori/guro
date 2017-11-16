@@ -18,8 +18,10 @@ import  com.storm.VO.TagVO;
 
 public class AppListCrawler 
 {
-	ArrayList<AppVO>	app_list;
+	//ArrayList<AppVO>	app_list;
 	ArrayList<TagVO>	tag_list;
+	
+	HashMap<Integer, AppVO>app_list;
 	
 	Document	document;
 	String		url;
@@ -29,7 +31,8 @@ public class AppListCrawler
 	public AppListCrawler(String url, HashMap<String, String> cookies) throws IOException
 	{
 		this.url = url;
-		app_list = new ArrayList<AppVO>();
+		//app_list = new ArrayList<AppVO>();
+		app_list	=	new HashMap<Integer,AppVO>();
 		tag_list = new ArrayList<TagVO>();
 		
 		if(cookies!=null)
@@ -97,21 +100,23 @@ public class AppListCrawler
 					continue;
 				if(tempId.indexOf(",")==-1)
 				{
-					app_list.add(new AppVO(tempId, tempTitle, tempUrl));
+					app_list.put(Integer.parseInt(tempId), new AppVO(tempId, tempTitle, tempUrl));
+					//add(new AppVO(tempId, tempTitle, tempUrl));
 					//output.println(tempTitle+"\t"+tempId+"\t"+tempUrl);
+					System.out.print(p+"/"+maxPage+"=="+cnt+"\t\tMap Size : " +app_list.size()+"\t");
 					System.out.println(tempTitle+"\t"+tempId+"\t"+tempUrl);
 				}
 					
-				System.out.println(p+"/"+maxPage+"=="+cnt);
+				
 			}	
 		}
 		
-		Collections.sort(app_list);
-		for(AppVO a : app_list)
+		
+		/*for(AppVO a : app_list)
 		{
 			output.println(a.getId()+"\t"+a.getTitle()+"\t"+a.getUrl());
-		}
-		output.flush();
-		output.close();
+		}*/
+		//output.flush();
+		//output.close();
 	}
 }
