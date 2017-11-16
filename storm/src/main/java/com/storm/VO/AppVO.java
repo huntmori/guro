@@ -26,7 +26,9 @@ public class AppVO implements Comparable<AppVO>
 	public	String	releaseDate;
 	public	String	description;
 	
-	public AppVO(String id, String title, String url){
+	
+	public AppVO(String id, String title, String url)
+	{
 		this.id = id;
 		this.title = title;
 		this.url = url;

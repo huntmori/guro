@@ -51,9 +51,10 @@ public class AppInfoCrawler
 		for(Element e : specDetail)	{
 			//anchor 태그를 찾아온다.
 			String category = e.select("a[class=name]").text();
-			System.out.println(category);
+			System.out.print(category+"     ");
 			result.add(category);
 		}
+		System.out.println();
 		
 		return result;
 	}
@@ -66,15 +67,17 @@ public class AppInfoCrawler
 		//TagList 요소 선택
 		Elements tagList = document.getElementsByClass("app_tag");
 		
-		System.out.println(tagList.size());
+		//System.out.println(tagList.size());
+		System.out.print("tags : ");
 		for(Element e : tagList)	{
 			//+ 문자열을 제외 한 모든 택스트를 리스트에 추가한다.
 			String text = e.text();
 			if(text.indexOf('+')==-1){
 				result.add(text);
-				//System.out.println(text);
+				System.out.print(text+"    ");
 			}
 		}
+		System.out.println();
 		
 		return result;
 	}
@@ -85,12 +88,13 @@ public class AppInfoCrawler
 		// Description
 		Element discription = document.select("div.game_description_snippet").first();
 		if(discription!=null){
-			System.out.println(discription.text());
+			System.out.print(discription.text());
 			discription.text();
 		}
 		else{
 			return "";
 		}
+		System.out.println();
 		
 		return discription.text();
 	}
@@ -103,7 +107,7 @@ public class AppInfoCrawler
 		//Element detail = details.get(0);
 		
 		Element date = document.select("div.date").first();
-		System.out.println(date.text());
+		System.out.println("ReleaseDate : "+date.text());
 		
 		return date.text();
 	}
@@ -115,7 +119,7 @@ public class AppInfoCrawler
 		String strDiscount = discountRate.text();
 		strDiscount = strDiscount.replaceAll("-", "");
 		strDiscount = strDiscount.replaceAll("%", "");
-		System.out.println((Integer.parseInt(strDiscount) / 100.0f));
+		System.out.println("Discounted rate : "+(Integer.parseInt(strDiscount) / 100.0f));
 		return Integer.parseInt(strDiscount) / 100.0f;
 	}
 	
@@ -124,9 +128,10 @@ public class AppInfoCrawler
 		Elements price = document.getElementsByClass("game_purchase_price price");
 		if(price.size()==0)
 		{
+			System.out.println("discounted now");
 			return true;
 		}
-
+		System.out.println("not discounted");
 		return false;
 	}
 	
@@ -138,7 +143,9 @@ public class AppInfoCrawler
 		strPrice = strPrice.replaceAll(",", "");
 		strPrice = strPrice.replaceAll(" ", "");
 		
-		return Integer.parseInt(strPrice);
+		int result = Integer.parseInt(strPrice);
+		System.out.println("Discounted Price : "+result);
+		return result;
 	}
 	
 	//가격을 가져오는 함수
@@ -158,7 +165,7 @@ public class AppInfoCrawler
 		//콤마와 공백을 모두 제거
 		strPrice = strPrice.replaceAll(",", "");
 		strPrice = strPrice.replaceAll(" ", "");
-		System.out.println("PRICE : "+strPrice);
+		System.out.println("Origin PRICE : "+strPrice);
 		//appInfo.price = Integer.parseInt(strPrice);
 		
 		return Integer.parseInt(strPrice);
@@ -177,11 +184,13 @@ public class AppInfoCrawler
 		for(Element e : devs){
 			String href = e.attr("href");
 			
+			System.out.print("Developer : ");
 			if(href.indexOf("developer")!=-1)	{
-				System.out.println("Developer : "+e.text()+" "+e.attr("href"));
+				System.out.print(e.text()+"    ");
 				result.add(e.text());
 			}
 		}
+		System.out.println();
 		return result;
 	}
 	
@@ -214,15 +223,18 @@ public class AppInfoCrawler
 		Element detail = details.get(0);
 		
 		//Div, publisher, genre
+		System.out.print("Genre : ");
 		Elements devs = detail.select("a[href]");
 		for(Element e : devs){
 			String href = e.attr("href");
 			
 			if(href.indexOf("genre")!=-1)	{
-				System.out.println("genre : "+e.text()+" "+e.attr("href"));
+				System.out.print(e.text()+"    ");
 				result.add(e.text());
 			}
 		}
+		System.out.println();
+		
 		return result;
 	}
 	
@@ -264,7 +276,7 @@ public class AppInfoCrawler
 			result.put(languege, temp);				
 		}
 		
-		//System.out.println("languege\tinterface\tvoice\tsubtitle");
+		System.out.println("languege\tinterface\tvoice\tsubtitle");
 		for(String key : result.keySet()){
 			boolean[] supp = result.get(key);
 			System.out.print(key);
@@ -419,7 +431,7 @@ public class AppInfoCrawler
 	public void	ProccessCrawl()
 	{
 		ProccessCrawl(this.document);
-		getDiscountRate(this.document);
+		//getDiscountRate(this.document);
 	}
 }
 

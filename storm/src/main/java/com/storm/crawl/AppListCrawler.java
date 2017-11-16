@@ -103,7 +103,7 @@ public class AppListCrawler
 				}
 					
 				System.out.println(p+"/"+maxPage+"=="+cnt);
-			}		
+			}	
 		}
 		
 		Collections.sort(app_list);

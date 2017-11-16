@@ -342,10 +342,33 @@ public class Main
 		String broforce="http://store.steampowered.com/app/274190/Broforce/";
 		//Document doc = ReconnectAgecheck(broforce);
 		
+		AppListCrawler	appList	=	new AppListCrawler(url);
+		appList.ProccessCrawl(System.out);
+		
+		ArrayList<AppVO>	list	=	appList.app_list;
+		for(AppVO v:list)
+		{
+			String check = v.getUrl();
+			int test	=	checkPageType(check);
+			
+			Document doc = null;
+			if(test==APP_VIEW){
+				doc = JSoupUtil.ConnectionJsoup(check);
+			}
+			else if(test==WARNNING){
+				doc = ReconnectWarnningPage(check);
+			}
+			else if(test==AGE_CHECK){
+				doc = ReconnectAgecheck(check);
+			}
+			AppInfoCrawler	info	=	new AppInfoCrawler(doc);	
+			info.ProccessCrawl();
+		}
+		/*
 		AppReviewCrawler rv = new AppReviewCrawler("578080");
 		System.out.println(rv.getNextPositivePageUrl(2));
 		rv.test();
-		
+		*/
 		
 		/*Document doc = JSoupUtil.ConnectionJsoup(broforce);
 		new AppInfoCrawler(doc).ProccessCrawl();*/
