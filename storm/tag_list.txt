@@ -85,8 +85,8 @@ Key	Type	TagName
 1643	tags	Building
 1678	tags	War
 1702	tags	Crafting
-3987	tags	Historical
 4234	tags	Short
+3987	tags	Historical
 5611	tags	Mature
 5537	tags	Puzzle-Platformer
 1775	tags	PvP
@@ -115,8 +115,8 @@ Key	Type	TagName
 4242	tags	Episodic
 1445	tags	Software Training
 4840	tags	4 Player Local
-4172	tags	Medieval
 4150	tags	World War II
+4172	tags	Medieval
 6426	tags	Choices Matter
 4295	tags	Futuristic
 4158	tags	Beat 'em up
@@ -260,8 +260,8 @@ Key	Type	TagName
 4878	tags	Parody 
 8666	tags	Runner
 3854	tags	Lore-Rich
-3796	tags	Based On A Novel
 5382	tags	World War I
+3796	tags	Based On A Novel
 4202	tags	Trading
 10679	tags	Time Travel
 1679	tags	Soccer

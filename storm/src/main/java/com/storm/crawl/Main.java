@@ -2,7 +2,9 @@ package com.storm.crawl;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -70,7 +72,7 @@ public class Main
 		//웹 클라이언트 생성 및 설정
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 		webClient = new WebClient(BrowserVersion.CHROME);
-		webClient.waitForBackgroundJavaScript(5000);
+		webClient.waitForBackgroundJavaScript(1);
  
 		webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
 		webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
@@ -92,9 +94,9 @@ public class Main
 	}
 	
 	//경고 페이지를 넘어가기 위한 함수..
-	public Document ReconnectWarnningPage(String url)
+	public Document ReconnectWarnningPage(String url) throws FailingHttpStatusCodeException, MalformedURLException, IOException
 	{
-		HtmlPage page = ConnectByWebClient(url);
+		HtmlPage page = webClient.getPage(url);
 		HtmlAnchor button = page.getAnchorByText("View Page");
 		
 		HtmlPage result = null;
@@ -129,10 +131,10 @@ public class Main
 	}
 	
 	// 연령체크 페이지를 넘어가기 위한 함수...
-	public Document ReconnectAgecheck(String url)
+	public Document ReconnectAgecheck(String url) throws FailingHttpStatusCodeException, MalformedURLException, IOException
 	{
 		// 웹 클라이언트 초기화
-		HtmlPage page = ConnectByWebClient(url);
+		HtmlPage page = webClient.getPage(url);
 		
 		// 페이지 상의 모든 폼을 받아온다.
 		List<HtmlForm> formlist = page.getForms();
@@ -234,7 +236,7 @@ public class Main
 		
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 		webClient = new WebClient(BrowserVersion.CHROME);
-		webClient.waitForBackgroundJavaScript(5000);
+		webClient.waitForBackgroundJavaScript(1);
  
 		webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
 		webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
@@ -266,17 +268,22 @@ public class Main
 		ArrayList<Integer> sortedkeys = new ArrayList<Integer>(keys);
 		
 		Collections.sort(sortedkeys);
-		
+		PrintStream	log	=	new PrintStream(new File("2017-11-17_log.txt"));
+		int cnt=0;
 		for(Integer i : sortedkeys){
 			
+			System.out.println("==============================="+cnt++);
 			AppVO	vo	=	map.get(i);
 			System.out.println(vo.getUrl());
 			System.out.print(i+"\t"+vo.getTitle()+"\t");
 			//Document _try = HtmlUnitUtil.SteamConnect(vo.getUrl());
 			
-			HtmlPage	_try	=	ConnectByWebClient(vo.getUrl());
+			HtmlPage	_try	=	//ConnectByWebClient(vo.getUrl());
+					webClient.getPage(vo.getUrl());
 			int pageType	=	HtmlUnitUtil.checkPageType(_try.getUrl().toString());
+			
 			String tempUrl = _try.getUrl().toString();
+			
 			Document target = null;
 			if(pageType==APP_VIEW){
 				target = ConnectionJsoup(tempUrl);
@@ -287,8 +294,11 @@ public class Main
 			else if(pageType==WARNNING){
 				target = ReconnectWarnningPage(tempUrl);
 			}
-			webClient.close();
+			
+			//webClient.close();
 			AppInfoCrawler	ac	=	new AppInfoCrawler(target);
+			ac.appInfo = vo;
+			ac.ps = log;
 			ac.ProccessCrawl();
 			
 			//System.out.println(_try.getUrl());
@@ -297,9 +307,11 @@ public class Main
 			//AppInfoCrawler info	=	new AppInfoCrawler(_try);
 			//info.ProccessCrawl();
 		}
-		
+		log.flush();
+		log.close();
 		for(Integer i : sortedkeys){
 			AppVO	vo	=	map.get(i);
+			
 			System.out.println(vo.getId()+"\t"+vo.getTitle()+"\t"+vo.genre.get(0)+"\t"+vo.tagList.get(0));
 		}
 		

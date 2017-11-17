@@ -23,17 +23,17 @@ public class AppInfoCrawler
 		this.document=doc;
 		appInfo = new AppVO();
 		
-		ps = System.out;
+		ps = ps;
 	}
 	public AppInfoCrawler(String url) throws IOException
 	{
 		this.url = url;
 		
 		document = JSoupUtil.ConnectionJsoup(url);
-		System.out.println(document.title());
+		ps.println(document.title());
 		
 		appInfo = new AppVO();
-		ps	=	System.out;
+		ps	=	ps;
 	}
 	
 	
@@ -43,7 +43,7 @@ public class AppInfoCrawler
 		ArrayList<String>	result	=	new ArrayList<String>();
 		
 		//Categories	
-		System.out.println("\nCategories");
+		ps.println("\nCategories");
 		//Spec Detial 요소를 검색
 		Elements specDetail	=	document.getElementsByClass("game_area_details_specs");
 		
@@ -51,10 +51,10 @@ public class AppInfoCrawler
 		for(Element e : specDetail)	{
 			//anchor 태그를 찾아온다.
 			String category = e.select("a[class=name]").text();
-			System.out.print(category+"     ");
+			ps.print(category+"     ");
 			result.add(category);
 		}
-		System.out.println();
+		ps.println();
 		
 		return result;
 	}
@@ -67,17 +67,17 @@ public class AppInfoCrawler
 		//TagList 요소 선택
 		Elements tagList = document.getElementsByClass("app_tag");
 		
-		//System.out.println(tagList.size());
-		System.out.print("tags : ");
+		//ps.println(tagList.size());
+		ps.print("tags : ");
 		for(Element e : tagList)	{
 			//+ 문자열을 제외 한 모든 택스트를 리스트에 추가한다.
 			String text = e.text();
 			if(text.indexOf('+')==-1){
 				result.add(text);
-				System.out.print(text+"    ");
+				ps.print(text+"    ");
 			}
 		}
-		System.out.println();
+		ps.println();
 		
 		return result;
 	}
@@ -88,13 +88,13 @@ public class AppInfoCrawler
 		// Description
 		Element discription = document.select("div.game_description_snippet").first();
 		if(discription!=null){
-			System.out.print(discription.text());
+			ps.print(discription.text());
 			discription.text();
 		}
 		else{
 			return "";
 		}
-		System.out.println();
+		ps.println();
 		
 		return discription.text();
 	}
@@ -109,7 +109,7 @@ public class AppInfoCrawler
 		Element date = document.select("div.date").first();
 		if(date==null)
 			return "";
-		System.out.println("ReleaseDate : "+date.text());
+		ps.println("ReleaseDate : "+date.text());
 		
 		return date.text();
 	}
@@ -121,7 +121,7 @@ public class AppInfoCrawler
 		String strDiscount = discountRate.text();
 		strDiscount = strDiscount.replaceAll("-", "");
 		strDiscount = strDiscount.replaceAll("%", "");
-		System.out.println("Discounted rate : "+(Integer.parseInt(strDiscount) / 100.0f));
+		ps.println("Discounted rate : "+(Integer.parseInt(strDiscount) / 100.0f));
 		return Integer.parseInt(strDiscount) / 100.0f;
 	}
 	
@@ -130,10 +130,10 @@ public class AppInfoCrawler
 		Elements price = document.getElementsByClass("game_purchase_price price");
 		if(price.size()==0)
 		{
-			System.out.println("discounted now");
+			ps.println("discounted now");
 			return true;
 		}
-		System.out.println("not discounted");
+		ps.println("not discounted");
 		return false;
 	}
 	
@@ -146,7 +146,7 @@ public class AppInfoCrawler
 		strPrice = strPrice.replaceAll(" ", "");
 		
 		int result = Integer.parseInt(strPrice);
-		System.out.println("Discounted Price : "+result);
+		ps.println("Discounted Price : "+result);
 		return result;
 	}
 	
@@ -167,7 +167,7 @@ public class AppInfoCrawler
 		//콤마와 공백을 모두 제거
 		strPrice = strPrice.replaceAll(",", "");
 		strPrice = strPrice.replaceAll(" ", "");
-		System.out.println("Origin PRICE : "+strPrice);
+		ps.println("Origin PRICE : "+strPrice);
 		//appInfo.price = Integer.parseInt(strPrice);
 		
 		return Integer.parseInt(strPrice);
@@ -182,17 +182,17 @@ public class AppInfoCrawler
 		Element detail = details.get(0);
 		
 		//Div, publisher, genre
+		ps.print("Developer : ");
 		Elements devs = detail.select("a[href]");
 		for(Element e : devs){
 			String href = e.attr("href");
-			
-			System.out.print("Developer : ");
+						
 			if(href.indexOf("developer")!=-1)	{
-				System.out.print(e.text()+"    ");
+				ps.print(e.text()+"    ");
 				result.add(e.text());
 			}
 		}
-		System.out.println();
+		ps.println();
 		return result;
 	}
 	
@@ -204,15 +204,17 @@ public class AppInfoCrawler
 		Element detail = details.get(0);
 		
 		//Div, publisher, genre
+		ps.print("Publishers : ");
 		Elements devs = detail.select("a[href]");
 		for(Element e : devs){
 			String href = e.attr("href");
 			
 			if(href.indexOf("publisher")!=-1)	{
-				System.out.println("publisher : "+e.text()+" "+e.attr("href"));
+				ps.print (e.text()+"   ");
 				result.add(e.text());
 			}
 		}
+		ps.println();
 		return result;
 	}
 	
@@ -227,17 +229,17 @@ public class AppInfoCrawler
 		Element detail = details.get(0);
 		
 		//Div, publisher, genre
-		System.out.print("Genre : ");
+		ps.print("Genre : ");
 		Elements devs = detail.select("a[href]");
 		for(Element e : devs){
 			String href = e.attr("href");
 			
 			if(href.indexOf("genre")!=-1)	{
-				System.out.print(e.text()+"    ");
+				ps.print(e.text()+"    ");
 				result.add(e.text());
 			}
 		}
-		System.out.println();
+		ps.println();
 		
 		return result;
 	}
@@ -266,7 +268,7 @@ public class AppInfoCrawler
 				
 				if(test)
 				{
-					System.out.println("지원안함");
+					ps.println("지원안함");
 					continue;
 				}
 				else
@@ -280,15 +282,15 @@ public class AppInfoCrawler
 			result.put(languege, temp);				
 		}
 		
-		System.out.println("languege\tinterface\tvoice\tsubtitle");
+		ps.println("languege\tinterface\tvoice\tsubtitle");
 		for(String key : result.keySet()){
 			boolean[] supp = result.get(key);
-			System.out.print(key);
+			ps.print(key);
 			
 			for(int i=0; i<supp.length; i++) {
-				System.out.print("\t"+supp[i]);
+				ps.print("\t"+supp[i]);
 			}
-			System.out.println();
+			ps.println();
 		}
 		
 		return result;
@@ -299,20 +301,20 @@ public class AppInfoCrawler
 		
 				//TagList
 				/*Elements tagList = document.getElementsByClass("app_tag");
-				System.out.println(tagList.size());
+				ps.println(tagList.size());
 				for(Element e : tagList)
 				{
 					String text = e.text();
 					if(text.indexOf('+')==-1){
 						appInfo.tagList.add(text);
-						System.out.println(text);
+						ps.println(text);
 					}
 				}*/
 		/*
 		// Description
 		Element discription = document.select("div.game_description_snippet").first();
 		if(discription!=null){
-			System.out.println(discription.text());
+			ps.println(discription.text());
 			appInfo.description=discription.text();
 		}
 		else{
@@ -325,7 +327,7 @@ public class AppInfoCrawler
 			Element detail = details.get(0);
 			
 			Element date = document.select("div.date").first();
-			System.out.println(date.text());
+			ps.println(date.text());
 			appInfo.releaseDate = date.text();
 			appInfo.developList = new ArrayList<String>();
 			appInfo.publisherList = new ArrayList<String>();
@@ -337,18 +339,18 @@ public class AppInfoCrawler
 				
 				if(href.indexOf("developer")!=-1)
 				{
-					System.out.println("Developer : "+e.text()+" "+e.attr("href"));
+					ps.println("Developer : "+e.text()+" "+e.attr("href"));
 					appInfo.developList.add(e.text());
 				}
 					
 				else if(href.indexOf("publisher")!=-1)
 				{
-					System.out.println("Publisher : "+e.text()+" "+e.attr("href"));
+					ps.println("Publisher : "+e.text()+" "+e.attr("href"));
 					appInfo.publisherList.add(e.text());
 				}
 				else if(href.indexOf("genre")!=-1)
 				{
-					System.out.println("Genre : "+e.text());
+					ps.println("Genre : "+e.text());
 					appInfo.genre.add(e.text());
 				}
 			}
@@ -363,7 +365,7 @@ public class AppInfoCrawler
 			String strPrice = price.get(0).text().substring(1);
 			strPrice = strPrice.replaceAll(",", "");
 			strPrice = strPrice.replaceAll(" ", "");
-			System.out.println("PRICE : "+strPrice);
+			ps.println("PRICE : "+strPrice);
 			appInfo.price = Integer.parseInt(strPrice);
 		
 		
@@ -386,7 +388,7 @@ public class AppInfoCrawler
 					boolean test = tDetails.get(i).hasAttr("colspan");
 					
 					if(test){
-						System.out.println("지원안함");
+						ps.println("지원안함");
 						continue;
 					}
 					else{
@@ -399,24 +401,24 @@ public class AppInfoCrawler
 				appInfo.langueges.put(languege, temp);				
 			}
 			
-		System.out.println("languege\tinterface\tvoice\tsubtitle");
+		ps.println("languege\tinterface\tvoice\tsubtitle");
 		for(String key : appInfo.langueges.keySet()){
 			boolean[] supp = appInfo.langueges.get(key);
-			System.out.print(key);
+			ps.print(key);
 			
 			for(int i=0; i<supp.length; i++) {
-				System.out.print("\t"+supp[i]);
+				ps.print("\t"+supp[i]);
 			}
-			System.out.println();
+			ps.println();
 		}
 		
 		//Categories
-			System.out.println("\nCategories");
+			ps.println("\nCategories");
 			Elements specDetail	=	document.getElementsByClass("game_area_details_specs");
 			appInfo.categories=new ArrayList<String>();
 			for(Element e : specDetail){
 				String category = e.select("a[class=name]").text();
-				System.out.println(category);
+				ps.println(category);
 				appInfo.categories.add(category);
 			}*/
 	}
@@ -434,9 +436,13 @@ public class AppInfoCrawler
 	
 	public void	ProccessCrawl()
 	{
-		//System.out.println(this.document.toString());
+		ps.println("============================================================");
+		ps.println("Title: "+appInfo.getTitle());
+		ps.println("APP_ID:" +appInfo.getId());
+		//ps.println(this.document.toString());
 		ProccessCrawl(this.document);
 		//getDiscountRate(this.document);
+		
 	}
 }
 
