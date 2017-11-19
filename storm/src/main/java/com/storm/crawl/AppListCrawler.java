@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -72,11 +73,15 @@ public class AppListCrawler
 		tagList.println("Key\tType\tTagName");
 		for(Element e : divlist)
 		{	
+			String key	=	e.attr("data-value");
+			String name	=	e.attr("data-loc");
 			tagList.print(e.attr("data-value")+"\t");	//key
 			tagList.print(e.attr("data-param")+"\t");	//type
-			tagList.println(e.attr("data-loc"));		//tagname			
+			tagList.println(e.attr("data-loc"));		//tagname
+			tag_list.add(new TagVO(key,name));
 		}
 		tagList.close();
+		Collections.sort(tag_list);
 		
 		for(int p=page;p<=maxPage; p++)
 		{

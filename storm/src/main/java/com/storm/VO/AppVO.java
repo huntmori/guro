@@ -1,10 +1,15 @@
 package com.storm.VO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AppVO implements Comparable<AppVO>
+public class AppVO implements Comparable<AppVO>, Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String id;
 	String title;
 	String url;
@@ -19,7 +24,7 @@ public class AppVO implements Comparable<AppVO>
 	public ArrayList<String>	publisherList;
 	public ArrayList<String>	categories;
 	
-	public static final int 	INTERFACE=1,	VOICE=2,	SUBTITLE=3;
+	public static final int 	INTERFACE=0,	VOICE=1,	SUBTITLE=2;
 	
 	public HashMap<String, boolean[]>	langueges;
 	

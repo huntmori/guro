@@ -1,11 +1,22 @@
 package com.storm.VO;
 
-public class LanguageVO implements Comparable<LanguageVO>{
+import java.io.Serializable;
+
+public class LanguageVO implements Comparable<LanguageVO>, Serializable
+{
 	private	int		languageNo;
 	private	String	languageName;
 	private	boolean	languageSubtitle;
 	private	boolean	languageVoice;
 	private	boolean	languageInterface;
+	
+	public LanguageVO(int no, String name, boolean[] support){
+		this.languageNo	=	no;
+		this.languageName	=	name;
+		this.languageInterface	=	support[0];
+		this.languageVoice	=	support[1];
+		this.languageSubtitle	=	support[2];
+	}
 	
 	public int getLanguageNo() {
 		return languageNo;

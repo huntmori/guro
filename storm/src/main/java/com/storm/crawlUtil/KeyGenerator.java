@@ -3,17 +3,18 @@ package com.storm.crawlUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class KeyGenerator<T>
+@SuppressWarnings("hiding")
+public class KeyGenerator<String>
 {
-	public HashMap<Integer, T>	map;
+	public HashMap<Integer, String>	map;
 	int cnt=0;
 	
 	public KeyGenerator()
 	{	
-		map	=	new HashMap<Integer, T>();
+		map	=	new HashMap<Integer, String>();
 	}
 	
-	public void	insertArrayList(ArrayList<T> list)
+	public void	insertArrayList(ArrayList<String> list)
 	{
 		/*
 		 * 1.	리스트 순회
@@ -21,6 +22,11 @@ public class KeyGenerator<T>
 		 * 3. 없을 시 cnt를 1증가시켜 맵에 삽입
 		 * 4. 있을 시 스킵
 		 */
+		if(list==null)
+			return;
+		if(list.size()==0)
+			return;
+		
 		for(int i=0;	i<list.size();	i++)
 		{
 			boolean test = map.containsKey(list.get(i));

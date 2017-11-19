@@ -1,8 +1,9 @@
 package com.storm.VO;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ReviewVO 
+public class ReviewVO implements Serializable
 {
 	Date	writeDate;
 	String 	text;

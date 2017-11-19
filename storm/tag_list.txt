@@ -39,8 +39,8 @@ Key	Type	TagName
 1662	tags	Survival
 1719	tags	Comedy
 4700	tags	Movie
-12095	tags	Sexual Content
 3810	tags	Sandbox
+12095	tags	Sexual Content
 84	tags	Design & Illustration
 1773	tags	Arcade
 4004	tags	Retro
@@ -52,12 +52,12 @@ Key	Type	TagName
 1659	tags	Zombies
 3843	tags	Online Co-Op
 3834	tags	Exploration
-7481	tags	Controller
 3799	tags	Visual Novel
+7481	tags	Controller
 1755	tags	Space
 1027	tags	Audio Production
-1721	tags	Psychological Horror
 4726	tags	Cute
+1721	tags	Psychological Horror
 1036	tags	Education
 872	tags	Animation & Modeling
 10397	tags	Memes
@@ -71,17 +71,17 @@ Key	Type	TagName
 3968	tags	Physics
 4342	tags	Dark
 4231	tags	Action RPG
+4175	tags	Realistic
 5716	tags	Mystery
 5900	tags	Walking Simulator
-4175	tags	Realistic
 5577	tags	RPGMaker
 1734	tags	Fast-Paced
 1676	tags	RTS
 1687	tags	Stealth
 784	tags	Video Production
 1741	tags	Turn-Based Strategy
-4106	tags	Action-Adventure
 1738	tags	Hidden Object
+4106	tags	Action-Adventure
 1643	tags	Building
 1678	tags	War
 1702	tags	Crafting
@@ -98,16 +98,16 @@ Key	Type	TagName
 4885	tags	Bullet Hell
 1645	tags	Tower Defense
 7478	tags	Illuminati
-12472	tags	Management
 4305	tags	Colorful
+12472	tags	Management
 4747	tags	Character Customization
 9551	tags	Dating Sim
 1669	tags	Moddable
 3835	tags	Post-apocalyptic
-4434	tags	JRPG
-4791	tags	Top-Down
-1654	tags	Relaxing
 1621	tags	Music
+1654	tags	Relaxing
+4791	tags	Top-Down
+4434	tags	JRPG
 1754	tags	MMORPG
 3878	tags	Competitive
 5984	tags	Drama
@@ -115,9 +115,9 @@ Key	Type	TagName
 4242	tags	Episodic
 1445	tags	Software Training
 4840	tags	4 Player Local
+6426	tags	Choices Matter
 4150	tags	World War II
 4172	tags	Medieval
-6426	tags	Choices Matter
 4295	tags	Futuristic
 4158	tags	Beat 'em up
 1720	tags	Dungeon Crawler
@@ -128,24 +128,24 @@ Key	Type	TagName
 5711	tags	Team-Based
 5752	tags	Robots
 4115	tags	Cyberpunk
-4057	tags	Magic
 4064	tags	Thriller
+4057	tags	Magic
 5851	tags	Isometric
 4947	tags	Romance
 4168	tags	Military
 6378	tags	Crime
 1710	tags	Surreal
 4036	tags	Parkour
-7332	tags	Base Building
 4094	tags	Minimalist
+7332	tags	Base Building
 1666	tags	Card Game
 4486	tags	Choose Your Own Adventure
-1673	tags	Aliens
 1628	tags	Metroidvania
+1673	tags	Aliens
 1644	tags	Driving
 4637	tags	Top-Down Shooter
-1759	tags	Perma Death
 4325	tags	Turn-Based Combat
+1759	tags	Perma Death
 4328	tags	City Builder
 5923	tags	Dark Humor
 1770	tags	Board Game
@@ -155,12 +155,12 @@ Key	Type	TagName
 8122	tags	Level Editor
 1777	tags	Steampunk
 6971	tags	Multiple Endings
-4195	tags	Cartoony
 14139	tags	Turn-Based Tactics
 15045	tags	Flight
+4195	tags	Cartoony
 1718	tags	MOBA
-809	tags	Photo Editing
 4252	tags	Stylized
+809	tags	Photo Editing
 1616	tags	Trains
 29363	tags	3D Vision
 4364	tags	Grand Strategy
@@ -168,8 +168,8 @@ Key	Type	TagName
 5153	tags	Kickstarter
 5613	tags	Detective
 7948	tags	Soundtrack
-4236	tags	Loot
 5363	tags	Destruction
+4236	tags	Loot
 13906	tags	Game Development
 6691	tags	1990's
 5547	tags	Arena Shooter
@@ -182,9 +182,9 @@ Key	Type	TagName
 9541	tags	Demons
 5186	tags	Psychological
 4562	tags	Cartoon
+7782	tags	Cult Classic
 8075	tags	TrackIR
 7743	tags	1980s
-7782	tags	Cult Classic
 7432	tags	Lovecraftian
 1665	tags	Match 3
 1670	tags	4X
@@ -193,16 +193,16 @@ Key	Type	TagName
 4975	tags	2.5D
 11014	tags	Interactive Fiction
 25085	tags	Touch-Friendly
-1688	tags	Ninja
 4736	tags	2D Fighter
+1688	tags	Ninja
 4821	tags	Mechs
 10816	tags	Split Screen
 16598	tags	Space Sim
 7107	tags	Real-Time with Pause
 4400	tags	Abstract
 4046	tags	Dragons
-5160	tags	Dinosaurs
 4161	tags	Real-Time
+5160	tags	Dinosaurs
 1752	tags	Rhythm
 1681	tags	Pirates
 1649	tags	GameMaker
@@ -210,40 +210,40 @@ Key	Type	TagName
 4376	tags	Assassin
 17305	tags	Strategy RPG
 5310	tags	Games Workshop
-1671	tags	Superhero
 7250	tags	Linear
+1671	tags	Superhero
 9271	tags	Trading Card Game
 1751	tags	Comic Book
 21725	tags	Tactical RPG
 12057	tags	Tutorial
 4598	tags	Alternate History
-6052	tags	Noir
 13276	tags	Tanks
-5055	tags	e-sports
-1714	tags	Psychedelic
+6052	tags	Noir
 31275	tags	Text-Based
 31579	tags	Otome
-19995	tags	Dark Comedy
+5055	tags	e-sports
+1714	tags	Psychedelic
+5502	tags	Hacking
 1647	tags	Western
 1732	tags	Voxel
-5502	tags	Hacking
+19995	tags	Dark Comedy
 5179	tags	Cold War
+5765	tags	Gun Customization
 11123	tags	Mouse only
 150626	tags	Gaming
-5765	tags	Gun Customization
-4608	tags	Swordplay
 5794	tags	Science
+4608	tags	Swordplay
 379975	tags	Clicker
-10808	tags	Supernatural
 4474	tags	CRPG
+10808	tags	Supernatural
 6910	tags	Naval
-1717	tags	Hex Grid
-3813	tags	Real Time Tactics
 4508	tags	Co-op Campaign
+3813	tags	Real Time Tactics
+1717	tags	Hex Grid
+1651	tags	Satire
 4559	tags	Quick-Time Events
 5154	tags	Score Attack
 9564	tags	Hunting
-1651	tags	Satire
 5300	tags	God Game
 4145	tags	Cinematic
 4155	tags	Class-Based
@@ -253,28 +253,28 @@ Key	Type	TagName
 4754	tags	Politics
 4018	tags	Vampire
 3955	tags	Character Action Game
-5094	tags	Narration
-7226	tags	Football
-13190	tags	America
-7113	tags	Crowdfunded
-4878	tags	Parody 
 8666	tags	Runner
+7226	tags	Football
+5094	tags	Narration
+13190	tags	America
+4878	tags	Parody 
+7113	tags	Crowdfunded
 3854	tags	Lore-Rich
 5382	tags	World War I
 3796	tags	Based On A Novel
 4202	tags	Trading
 10679	tags	Time Travel
-1679	tags	Soccer
 15954	tags	Silent Protagonist
-18594	tags	FMV
+1679	tags	Soccer
 3952	tags	Gothic
+18594	tags	FMV
 9157	tags	Underwater
 1736	tags	LEGO
+5796	tags	Bullet Time
+6621	tags	Pinball
 7569	tags	Grid-Based Movement
 12286	tags	Warhammer 40K
-5796	tags	Bullet Time
 6915	tags	Martial Arts
-6621	tags	Pinball
 7423	tags	Sniper
 16094	tags	Mythology
 22602	tags	Agriculture
@@ -297,8 +297,8 @@ Key	Type	TagName
 5981	tags	Mining
 6948	tags	Rome
 134316	tags	Philisophical
-17015	tags	Werewolves
 13577	tags	Sailing
+17015	tags	Werewolves
 5407	tags	Benchmark
 4184	tags	Chess
 16250	tags	Gambling
@@ -310,11 +310,11 @@ Key	Type	TagName
 6702	tags	Mars
 198631	tags	Mystery Dungeon
 24904	tags	NSFW
-1674	tags	Typing
 9994	tags	Experience
+1674	tags	Typing
 4845	tags	Capitalism
-24003	tags	Word Game
 776177	tags	360 Video
+24003	tags	Word Game
 1746	tags	Basketball
 8369	tags	Investigation
 7038	tags	Golf

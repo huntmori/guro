@@ -23,7 +23,7 @@ public class AppInfoCrawler
 		this.document=doc;
 		appInfo = new AppVO();
 		
-		ps = ps;
+		ps = System.out;
 	}
 	public AppInfoCrawler(String url) throws IOException
 	{
@@ -33,9 +33,13 @@ public class AppInfoCrawler
 		ps.println(document.title());
 		
 		appInfo = new AppVO();
-		ps	=	ps;
+		ps	=	System.out;
 	}
 	
+	public void setPrintStream(PrintStream ps)
+	{
+		this.ps = ps;
+	}
 	
 	// 카테고리에 대한 ArrayList반환
 	public	ArrayList<String>getCategoryList(Document document)
@@ -68,7 +72,7 @@ public class AppInfoCrawler
 		Elements tagList = document.getElementsByClass("app_tag");
 		
 		//ps.println(tagList.size());
-		ps.print("tags : ");
+		ps.print("tags : [");
 		for(Element e : tagList)	{
 			//+ 문자열을 제외 한 모든 택스트를 리스트에 추가한다.
 			String text = e.text();
@@ -77,7 +81,7 @@ public class AppInfoCrawler
 				ps.print(text+"    ");
 			}
 		}
-		ps.println();
+		ps.println(" ] ");
 		
 		return result;
 	}
@@ -179,19 +183,22 @@ public class AppInfoCrawler
 		ArrayList<String>	result	=	new ArrayList<String>(); 
 
 		Elements details = document.getElementsByClass("details_block");
-		Element detail = details.get(0);
+		//Element detail = details.get(0);
 		
 		//Div, publisher, genre
 		ps.print("Developer : ");
-		Elements devs = detail.select("a[href]");
-		for(Element e : devs){
-			String href = e.attr("href");
-						
-			if(href.indexOf("developer")!=-1)	{
-				ps.print(e.text()+"    ");
-				result.add(e.text());
+		for(Element detail : details){
+			Elements devs = detail.select("a[href]");
+			for(Element e : devs){
+				String href = e.attr("href");
+							
+				if(href.indexOf("developer")!=-1)	{
+					ps.print(e.text()+"    ");
+					result.add(e.text());
+				}
 			}
 		}
+		
 		ps.println();
 		return result;
 	}
@@ -201,17 +208,20 @@ public class AppInfoCrawler
 		ArrayList<String>	result	=	new ArrayList<String>(); 
 
 		Elements details = document.getElementsByClass("details_block");
-		Element detail = details.get(0);
+		//Element detail = details.get(0);
 		
 		//Div, publisher, genre
 		ps.print("Publishers : ");
-		Elements devs = detail.select("a[href]");
-		for(Element e : devs){
-			String href = e.attr("href");
-			
-			if(href.indexOf("publisher")!=-1)	{
-				ps.print (e.text()+"   ");
-				result.add(e.text());
+		for(Element detail : details)
+		{
+			Elements devs = detail.select("a[href]");
+			for(Element e : devs){
+				String href = e.attr("href");
+				
+				if(href.indexOf("publisher")!=-1)	{
+					ps.print (e.text()+"   ");
+					result.add(e.text());
+				}
 			}
 		}
 		ps.println();
@@ -224,21 +234,23 @@ public class AppInfoCrawler
 		ArrayList<String>	result	=	new ArrayList<String>(); 
 
 		Elements details = document.getElementsByClass("details_block");
-		if(details.size()==0)
-			return null;
-		Element detail = details.get(0);
+		//Element detail = details.get(0);
 		
 		//Div, publisher, genre
 		ps.print("Genre : ");
-		Elements devs = detail.select("a[href]");
-		for(Element e : devs){
-			String href = e.attr("href");
-			
-			if(href.indexOf("genre")!=-1)	{
-				ps.print(e.text()+"    ");
-				result.add(e.text());
+		for(Element detail : details)
+		{
+			Elements devs = detail.select("a[href]");
+			for(Element e : devs){
+				String href = e.attr("href");
+				
+				if(href.indexOf("genre")!=-1)	{
+					ps.print(e.text()+"    ");
+					result.add(e.text());
+				}
 			}
 		}
+		
 		ps.println();
 		
 		return result;
