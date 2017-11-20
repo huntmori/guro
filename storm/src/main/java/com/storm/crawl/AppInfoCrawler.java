@@ -160,14 +160,22 @@ public class AppInfoCrawler
 		//Price
 		Elements price = document.getElementsByClass("game_purchase_price price");
 		
+		
 		if(price.size()==0)//할인 가격 인 경우 처리
 		{
 			price = document.getElementsByClass("discount_original_price");
 		}
+		if(price.size()==0){
+			return -1;
+		}
 		
 		//단위 표시를 잘라낸다
-		String strPrice = price.get(0).text().substring(1);
+		String strPrice = price.get(0).text();
 		
+		if(strPrice.equals("Free to Play")){
+			return 0;
+		}
+		strPrice	=	strPrice.substring(1);
 		//콤마와 공백을 모두 제거
 		strPrice = strPrice.replaceAll(",", "");
 		strPrice = strPrice.replaceAll(" ", "");
@@ -442,7 +450,7 @@ public class AppInfoCrawler
 		appInfo.genre			=	getAppGenres(document);
 		appInfo.developList	=	getAppDevelopers(document);
 		appInfo.publisherList	=	getAppPublishers(document);
-		
+		appInfo.price	=	getPrice(document);
 	}
 	
 	

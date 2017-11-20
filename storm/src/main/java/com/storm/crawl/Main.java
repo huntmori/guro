@@ -131,7 +131,7 @@ public class Main
 		//웹 클라이언트 생성 및 설정
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 		webClient = new WebClient(BrowserVersion.CHROME);
-		webClient.waitForBackgroundJavaScript(1);
+		webClient.waitForBackgroundJavaScript(500);
  
 		webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
 		webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
@@ -195,7 +195,7 @@ public class Main
 	public Document ReconnectAgecheck(String url) throws FailingHttpStatusCodeException, MalformedURLException, IOException
 	{
 		// 웹 클라이언트 초기화
-		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
+		//java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 		HtmlPage page = //HtmlUnitUtil.InitWebClient()
 				webClient.getPage(url);
 		
@@ -287,7 +287,7 @@ public class Main
 		{
 			java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 			webClient = new WebClient(BrowserVersion.CHROME);
-			webClient.waitForBackgroundJavaScript(1);
+			webClient.waitForBackgroundJavaScript(500);
 	 
 			webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
 			webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
@@ -313,7 +313,7 @@ public class Main
 			
 			Set<Integer>	keys	=	map.keySet();
 			ArrayList<Integer> sortedkeys = new ArrayList<Integer>(keys);
-			
+			tagMap = new HashMap<Integer, TagVO>();
 			for(TagVO vo : appList.tag_list){
 				tagMap.put(vo.getTag_id(), vo);
 			}
@@ -588,7 +588,7 @@ public class Main
 	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
-		new Main("LOAD").printAppInfoList();
+		new Main("NEW").printAppInfoList();
 	}
 	
 	public	void	test() throws IOException, ClassNotFoundException{
