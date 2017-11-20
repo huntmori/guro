@@ -29,8 +29,4 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>*.storm</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>appServlet</servlet-name>
-		<url-pattern>*.ad</url-pattern>
-	</servlet-mapping>
 </web-app>

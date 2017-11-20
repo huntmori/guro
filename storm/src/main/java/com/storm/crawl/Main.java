@@ -63,13 +63,13 @@ public class Main
 	HashMap<Integer,CompanyVO>	companyMap;
 	HashMap<Integer,LanguageVO>	languageMap;
 		
-	final static String	APP_INFO_FILE ="[APP_INFO_LIST]",
-					CATEGORY_FILE="[CATEGORY_LIST]",
-					GENRE_FILE="[GENRE_LIST]",
-					COMPANY_FILE="[COMPANY_LIST]",
-					LANGUAGE_FILE="[LANGUAGE_LIST]",
-					TAG_FILE="[TAG_LIST]",
-					APP_KEY_LIST="[APP_KEY_LIST]";
+	final static String	APP_INFO_FILE ="APP_INFO_LIST",
+					CATEGORY_FILE="CATEGORY_LIST",
+					GENRE_FILE="GENRE_LIST",
+					COMPANY_FILE="COMPANY_LIST",
+					LANGUAGE_FILE="LANGUAGE_LIST",
+					TAG_FILE="TAG_LIST",
+					APP_KEY_LIST="APP_KEY_LIST";
 	//List URL
 	String url = "http://store.steampowered.com/search/?category1=998&page=";
 	String soma= ("http://store.steampowered.com/app/282140");
@@ -310,9 +310,12 @@ public class Main
 			Set<Integer>	keys	=	map.keySet();
 			ArrayList<Integer> sortedkeys = new ArrayList<Integer>(keys);
 			
+			for(TagVO vo : appList.tag_list){
+				tagMap.put(vo.getTag_id(), vo);
+			}
 			listFos		=	new FileOutputStream(TAG_FILE+".dat");
 			listStream	=	new ObjectOutputStream(listFos);
-			listStream.writeObject(appList.tag_list);		
+			listStream.writeObject(tagMap);		
 			listStream.flush();		listStream.close();
 			listFos.flush();			listFos.close();
 			
@@ -424,13 +427,14 @@ public class Main
 		else if(mode.equals("LOAD")){
 			loadAppListMap();
 			loadAppInfoMap();
-			loadTagMap();
+			//loadTagMap();
 			loadCategoryMap();
 			loadLanguageMap();
 			loadGenreMap();
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public  void 	loadAppInfoMap(){
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
@@ -451,6 +455,7 @@ public class Main
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
 	}
+	@SuppressWarnings("unchecked")
 	public  void 	loadTagMap(){
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
@@ -471,6 +476,7 @@ public class Main
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
 	}
+	@SuppressWarnings("unchecked")
 	public  void 	loadAppListMap(){
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
@@ -491,6 +497,7 @@ public class Main
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
 	}
+	@SuppressWarnings("unchecked")
 	public  void 	loadCategoryMap(){
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
@@ -511,6 +518,7 @@ public class Main
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
 	}
+	@SuppressWarnings("unchecked")
 	public  void 	loadLanguageMap(){
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
@@ -551,19 +559,11 @@ public class Main
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	public static void main(String[] args) throws IOException
 	{
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
-		new Main("NEW");
+		new Main("LOAD");
 	}
 }
 
