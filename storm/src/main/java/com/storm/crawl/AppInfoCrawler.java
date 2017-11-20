@@ -168,12 +168,18 @@ public class AppInfoCrawler
 		if(price.size()==0){
 			return -1;
 		}
-		
-		//단위 표시를 잘라낸다
 		String strPrice = price.get(0).text();
-		
-		if(strPrice.equals("Free to Play")){
+		//단위 표시를 잘라낸다
+		if(strPrice.indexOf("demo")!=-1){
+			strPrice	=	price.get(1).text();
+		}
+			
+		System.out.println(strPrice);
+		if(strPrice.indexOf("Free")!=-1){
 			return 0;
+		}
+		if(strPrice.indexOf("Third")!=-1){
+			return -1;
 		}
 		strPrice	=	strPrice.substring(1);
 		//콤마와 공백을 모두 제거
@@ -182,7 +188,14 @@ public class AppInfoCrawler
 		ps.println("Origin PRICE : "+strPrice);
 		//appInfo.price = Integer.parseInt(strPrice);
 		
-		return Integer.parseInt(strPrice);
+		int result = 0;
+		try{
+			result = Integer.parseInt(strPrice);
+		}catch (Exception e) {
+			return -1;
+		}
+		
+		return result;
 	}
 	
 	// 개발사 목록을 가져오는 함수

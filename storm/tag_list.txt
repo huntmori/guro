@@ -1,0 +1,339 @@
+Key	Type	TagName
+492	tags	Indie
+19	tags	Action
+21	tags	Adventure
+597	tags	Casual
+9	tags	Strategy
+599	tags	Simulation
+122	tags	RPG
+113	tags	Free to Play
+4182	tags	Singleplayer
+128	tags	Massively Multiplayer
+701	tags	Sports
+4667	tags	Violent
+699	tags	Racing
+3859	tags	Multiplayer
+4345	tags	Gore
+1756	tags	Great Soundtrack
+4166	tags	Atmospheric
+1664	tags	Puzzle
+1667	tags	Horror
+3871	tags	2D
+4085	tags	Anime
+6650	tags	Nudity
+1742	tags	Story Rich
+1695	tags	Open World
+21978	tags	VR
+3942	tags	Sci-fi
+4026	tags	Difficult
+1774	tags	Shooter
+1685	tags	Co-op
+1684	tags	Fantasy
+1625	tags	Platformer
+4136	tags	Funny
+1663	tags	FPS
+3839	tags	First-Person
+7208	tags	Female Protagonist
+3964	tags	Pixel Graphics
+87	tags	Utilities
+1662	tags	Survival
+1719	tags	Comedy
+4700	tags	Movie
+12095	tags	Sexual Content
+3810	tags	Sandbox
+84	tags	Design & Illustration
+1773	tags	Arcade
+4004	tags	Retro
+5350	tags	Family Friendly
+1693	tags	Classic
+1677	tags	Turn-Based
+1698	tags	Point & Click
+1697	tags	Third Person
+1659	tags	Zombies
+3843	tags	Online Co-Op
+3834	tags	Exploration
+3799	tags	Visual Novel
+7481	tags	Controller
+1755	tags	Space
+1027	tags	Audio Production
+4726	tags	Cute
+1721	tags	Psychological Horror
+1036	tags	Education
+872	tags	Animation & Modeling
+10397	tags	Memes
+1708	tags	Tactical
+7368	tags	Local Multiplayer
+4711	tags	Replay Value
+1716	tags	Rogue-like
+3841	tags	Local Co-Op
+4255	tags	Shoot 'Em Up
+3978	tags	Survival Horror
+3968	tags	Physics
+4342	tags	Dark
+4231	tags	Action RPG
+5716	tags	Mystery
+5900	tags	Walking Simulator
+4175	tags	Realistic
+5577	tags	RPGMaker
+1734	tags	Fast-Paced
+784	tags	Video Production
+1676	tags	RTS
+1687	tags	Stealth
+1741	tags	Turn-Based Strategy
+1738	tags	Hidden Object
+4106	tags	Action-Adventure
+1643	tags	Building
+1678	tags	War
+1702	tags	Crafting
+4234	tags	Short
+3987	tags	Historical
+5611	tags	Mature
+5537	tags	Puzzle-Platformer
+1775	tags	PvP
+1646	tags	Hack and Slash
+1038	tags	Web Publishing
+3798	tags	Side Scroller
+3814	tags	Third-Person Shooter
+1743	tags	Fighting
+4885	tags	Bullet Hell
+1645	tags	Tower Defense
+7478	tags	Illuminati
+4305	tags	Colorful
+12472	tags	Management
+4747	tags	Character Customization
+1669	tags	Moddable
+3835	tags	Post-apocalyptic
+9551	tags	Dating Sim
+4791	tags	Top-Down
+1621	tags	Music
+1654	tags	Relaxing
+4434	tags	JRPG
+1754	tags	MMORPG
+3878	tags	Competitive
+5984	tags	Drama
+4604	tags	Dark Fantasy
+4242	tags	Episodic
+1445	tags	Software Training
+4840	tags	4 Player Local
+6426	tags	Choices Matter
+4150	tags	World War II
+4172	tags	Medieval
+4295	tags	Futuristic
+4158	tags	Beat 'em up
+1720	tags	Dungeon Crawler
+8013	tags	Software
+3959	tags	Rogue-lite
+10695	tags	Party-Based RPG
+5125	tags	Procedural Generation
+5711	tags	Team-Based
+5752	tags	Robots
+4115	tags	Cyberpunk
+4064	tags	Thriller
+4057	tags	Magic
+4168	tags	Military
+5851	tags	Isometric
+4947	tags	Romance
+6378	tags	Crime
+1710	tags	Surreal
+4036	tags	Parkour
+4094	tags	Minimalist
+7332	tags	Base Building
+1666	tags	Card Game
+4486	tags	Choose Your Own Adventure
+1628	tags	Metroidvania
+1673	tags	Aliens
+1644	tags	Driving
+4637	tags	Top-Down Shooter
+4325	tags	Turn-Based Combat
+1759	tags	Perma Death
+4328	tags	City Builder
+5923	tags	Dark Humor
+1770	tags	Board Game
+4758	tags	Twin Stick Shooter
+5228	tags	Blood
+5395	tags	3D Platformer
+8122	tags	Level Editor
+1777	tags	Steampunk
+6971	tags	Multiple Endings
+14139	tags	Turn-Based Tactics
+4195	tags	Cartoony
+15045	tags	Flight
+1718	tags	MOBA
+4252	tags	Stylized
+809	tags	Photo Editing
+1616	tags	Trains
+29363	tags	3D Vision
+4364	tags	Grand Strategy
+4695	tags	Economy
+5153	tags	Kickstarter
+5613	tags	Detective
+7948	tags	Soundtrack
+5363	tags	Destruction
+4236	tags	Loot
+13906	tags	Game Development
+6691	tags	1990's
+5547	tags	Arena Shooter
+13782	tags	Experimental
+15339	tags	Documentary
+5030	tags	Dystopian 
+5348	tags	Mod
+8945	tags	Resource Management
+6730	tags	PvE
+9541	tags	Demons
+5186	tags	Psychological
+4562	tags	Cartoon
+7782	tags	Cult Classic
+8075	tags	TrackIR
+7743	tags	1980s
+7432	tags	Lovecraftian
+1665	tags	Match 3
+1670	tags	4X
+6815	tags	Hand-drawn
+5708	tags	Remake
+4975	tags	2.5D
+11014	tags	Interactive Fiction
+4736	tags	2D Fighter
+25085	tags	Touch-Friendly
+1688	tags	Ninja
+4821	tags	Mechs
+10816	tags	Split Screen
+16598	tags	Space Sim
+7107	tags	Real-Time with Pause
+4400	tags	Abstract
+4046	tags	Dragons
+4161	tags	Real-Time
+5160	tags	Dinosaurs
+1752	tags	Rhythm
+1681	tags	Pirates
+1649	tags	GameMaker
+4684	tags	Wargame
+4376	tags	Assassin
+17305	tags	Strategy RPG
+5310	tags	Games Workshop
+7250	tags	Linear
+1671	tags	Superhero
+9271	tags	Trading Card Game
+1751	tags	Comic Book
+21725	tags	Tactical RPG
+13276	tags	Tanks
+12057	tags	Tutorial
+4598	tags	Alternate History
+6052	tags	Noir
+31275	tags	Text-Based
+31579	tags	Otome
+5055	tags	e-sports
+1714	tags	Psychedelic
+5502	tags	Hacking
+19995	tags	Dark Comedy
+1647	tags	Western
+1732	tags	Voxel
+5179	tags	Cold War
+5765	tags	Gun Customization
+11123	tags	Mouse only
+150626	tags	Gaming
+5794	tags	Science
+4608	tags	Swordplay
+379975	tags	Clicker
+4474	tags	CRPG
+10808	tags	Supernatural
+6910	tags	Naval
+4508	tags	Co-op Campaign
+3813	tags	Real Time Tactics
+1717	tags	Hex Grid
+1651	tags	Satire
+4559	tags	Quick-Time Events
+5154	tags	Score Attack
+9564	tags	Hunting
+5300	tags	God Game
+4145	tags	Cinematic
+4155	tags	Class-Based
+1680	tags	Heist
+11333	tags	Villain Protagonist
+4853	tags	Political
+4754	tags	Politics
+4018	tags	Vampire
+3955	tags	Character Action Game
+8666	tags	Runner
+7226	tags	Football
+5094	tags	Narration
+13190	tags	America
+4878	tags	Parody 
+7113	tags	Crowdfunded
+3854	tags	Lore-Rich
+5382	tags	World War I
+3796	tags	Based On A Novel
+4202	tags	Trading
+10679	tags	Time Travel
+15954	tags	Silent Protagonist
+1679	tags	Soccer
+3952	tags	Gothic
+18594	tags	FMV
+9157	tags	Underwater
+1736	tags	LEGO
+5796	tags	Bullet Time
+6621	tags	Pinball
+7569	tags	Grid-Based Movement
+12286	tags	Warhammer 40K
+6915	tags	Martial Arts
+7423	tags	Sniper
+16094	tags	Mythology
+22602	tags	Agriculture
+17770	tags	Asynchronous Multiplayer
+5432	tags	Programming
+5372	tags	Conspiracy
+4835	tags	6DOF
+1735	tags	Star Wars
+15564	tags	Fishing
+1694	tags	Batman
+5390	tags	Time Attack
+4777	tags	Spectacle fighter
+6625	tags	Time Manipulation
+348922	tags	Steam Machine
+56690	tags	On-Rails Shooter
+5673	tags	Modern
+7622	tags	Offroad
+6869	tags	Nonlinear
+6276	tags	Inventory Management
+5981	tags	Mining
+6948	tags	Rome
+134316	tags	Philisophical
+13577	tags	Sailing
+17015	tags	Werewolves
+5407	tags	Benchmark
+4184	tags	Chess
+16250	tags	Gambling
+603297	tags	Hardware
+6041	tags	Horses
+8253	tags	Music-Based Procedural Generation
+9592	tags	Dynamic Narration
+6310	tags	Diplomacy
+6702	tags	Mars
+198631	tags	Mystery Dungeon
+24904	tags	NSFW
+9994	tags	Experience
+1674	tags	Typing
+4845	tags	Capitalism
+776177	tags	360 Video
+24003	tags	Word Game
+1746	tags	Basketball
+8369	tags	Investigation
+7038	tags	Golf
+233824	tags	Feature Film
+1730	tags	Sokoban
+21006	tags	Underground
+21722	tags	Lara Croft
+17337	tags	Lemmings
+4137	tags	Transhumanism
+7926	tags	Artificial Intelligence
+7328	tags	Bowling
+22955	tags	Mini Golf
+47827	tags	Wrestling
+17927	tags	Pool
+15172	tags	Conversation
+51306	tags	Foreign
+71389	tags	Spelling
+180368	tags	Faith
+14906	tags	Intentionally Awkward Controls
+19568	tags	Cycling
+27758	tags	Voice Control
+123332	tags	Bikes
