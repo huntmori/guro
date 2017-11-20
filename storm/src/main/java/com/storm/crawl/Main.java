@@ -69,7 +69,15 @@ public class Main
 					COMPANY_FILE="COMPANY_LIST",
 					LANGUAGE_FILE="LANGUAGE_LIST",
 					TAG_FILE="TAG_LIST",
-					APP_KEY_LIST="APP_KEY_LIST";
+					APP_KEY_LIST="APP_KEY_LIST",
+					
+					APP_TABLE_SQL="APP_TABLE_SQL.sql",
+					TAG_TABLE_SQL="TAG_TABLE_SQL.sql",
+					CATEGORY_TABLE_SQL="CATEGORY_TABLE_SQL.sql",
+					GENRE_TABLE_SQL="GENRE_TABLE_SQL.sql",
+					COMPANY_TABLE_SQL="COMPANY_TABLE_SQL.sql",
+					LANGUAGE_TABLE_SQL="LANGUAGE_TABLE_SQL.sql";
+	
 	//List URL
 	String url = "http://store.steampowered.com/search/?category1=998&page=";
 	String soma= ("http://store.steampowered.com/app/282140");
@@ -103,19 +111,15 @@ public class Main
 		System.out.println(url.length());
 		System.out.println(url.length()-testAgeCheck);*/
 		
-		if(testAgeCheck==-1)
-		{//상품 view임
+		if(testAgeCheck==-1)	{//상품 view임
 			System.out.println("APP VIEW");
 			return APP_VIEW;
-		}
-		
-		else if(url.length()-testAgeCheck==8)
-		{// warning page 8 
+		}		
+		else if(url.length()-testAgeCheck==8)	{// warning page 8 
 			System.out.println("WarnningPage");
 			return WARNNING;
 		}
-		else
-		{//	AgeCheckPage
+		else	{//	AgeCheckPage
 			System.out.println("ageCheckPage");
 			return AGE_CHECK;
 		}
@@ -277,7 +281,7 @@ public class Main
 	//Document re = HtmlUnitUtil.ReconnectAgecheck(l4d,webClient);
 	//new AppInfoCrawler(re).ProccessCrawl();
 	
-	public Main(String mode) throws IOException 
+	public Main(String mode) throws IOException, ClassNotFoundException 
 	{
 		if(mode.equals("NEW"))
 		{
@@ -427,10 +431,11 @@ public class Main
 		else if(mode.equals("LOAD")){
 			loadAppListMap();
 			loadAppInfoMap();
-			//loadTagMap();
+			loadTagMap();
 			loadCategoryMap();
 			loadLanguageMap();
 			loadGenreMap();
+			loadCompanyMap();
 		}
 	}
 	
@@ -502,7 +507,7 @@ public class Main
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
 		
-		try {		fis	=	new FileInputStream(new File(APP_KEY_LIST+".dat"));	}
+		try {		fis	=	new FileInputStream(new File(CATEGORY_FILE+".dat"));	}
 		catch (FileNotFoundException e) {	e.printStackTrace();			}
 		
 		if(fis==null)
@@ -539,6 +544,26 @@ public class Main
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
 	}
+	public  void 	loadCompanyMap(){
+		FileInputStream	fis = null;
+		ObjectInputStream	ois	=	null;
+		
+		try {		fis	=	new FileInputStream(new File(COMPANY_FILE+".dat"));	}
+		catch (FileNotFoundException e) {	e.printStackTrace();			}
+		
+		if(fis==null)
+			return;	
+		
+		try {		ois	=	new ObjectInputStream(fis);	}
+		catch (IOException e) {		e.printStackTrace();	}
+		
+		if(ois==null)
+			return;
+		
+		try {		this.companyMap=	(HashMap<Integer, CompanyVO>) ois.readObject();	} 
+		catch (ClassNotFoundException e) {	e.printStackTrace();	}
+		catch (IOException e) {				e.printStackTrace();	}
+	}
 	public  void 	loadGenreMap(){
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
@@ -560,10 +585,162 @@ public class Main
 		catch (IOException e) {				e.printStackTrace();	}
 	}
 		
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, ClassNotFoundException
 	{
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
-		new Main("LOAD");
+		new Main("LOAD").printAppInfoList();
+	}
+	
+	public	void	test() throws IOException, ClassNotFoundException{
+		FileInputStream	fis	=	new FileInputStream(TAG_FILE+".dat");
+		ObjectInputStream	ois	=	new ObjectInputStream(fis);
+		this.tagMap	=	new HashMap<Integer, TagVO>();
+		@SuppressWarnings("unchecked")
+		ArrayList<TagVO>	temp = (ArrayList<TagVO>) ois.readObject();
+		System.out.println(temp.size());
+		for(TagVO vo : temp){
+			this.tagMap.put(vo.getTag_id(), vo);
+		}
+		fis.close();ois.close();
+		
+		FileOutputStream	fos	=	new FileOutputStream(TAG_FILE+".dat");
+		ObjectOutputStream	oos	=	new ObjectOutputStream(fos);
+		oos.writeObject(this.tagMap);
+		fos.close();
+		oos.close();
+		
+		return;
+	}
+	public void printAppInfoList() throws FileNotFoundException
+	{
+		Set<Integer>	keys = appInfoMap.keySet();
+		PrintWriter	pw	=	new PrintWriter(new File(APP_TABLE_SQL));
+		for(Integer i: keys){
+			AppVO vo	=	appInfoMap.get(i);
+			
+			pw.println(appInsertQuery(i)+";");
+		}
+		pw.flush();	pw.close();
+		
+		keys	=	tagMap.keySet();
+		pw	=	new PrintWriter(new File(TAG_TABLE_SQL));
+		for(Integer i: keys){
+			pw.println(tagInsertQuery(i));			
+		}
+		pw.flush();	pw.close();
+		
+		pw = new PrintWriter(new File(LANGUAGE_TABLE_SQL));
+		keys	=	languageMap.keySet();
+		for(Integer key : keys){
+			pw.println(languageInsertQuery(key));
+		}
+		pw.flush();	pw.close();
+		
+		pw = new PrintWriter(new File(COMPANY_TABLE_SQL));
+		keys	=	companyMap.keySet();
+		for(Integer key : keys){
+			pw.println(companyInsertQuery(key));
+		}
+		pw.flush();	pw.close();
+		
+		pw = new PrintWriter(new File(CATEGORY_TABLE_SQL));
+		keys	=	categoryMap.keySet();
+		for(Integer key : keys){
+			pw.println(categoryInsertQuery(key));
+		}
+		pw.flush();	pw.close();
+		
+		pw = new PrintWriter(new File(GENRE_TABLE_SQL));
+		keys	=	genreMap.keySet();
+		for(Integer key : keys){
+			pw.println(genreInsertQuery(key));
+		}
+		pw.flush();	pw.close();
+		
+		
+	}
+	
+	public	String	genreInsertQuery(Integer key)
+	{
+		StringBuilder	sb	=	new StringBuilder();
+		GenreVO	vo	=	this.genreMap.get(key);
+		
+		sb.append("INSERT	INTO GENRE_TABLE VALUES( ");
+		sb.append(vo.getGenreNo()+", '"+vo.getGenreName()+"' );");
+		
+		return sb.toString();
+	}
+	
+	public	String	categoryInsertQuery(Integer key)
+	{
+		StringBuilder	sb	=	new StringBuilder();
+		CategoryVO	vo	=	this.categoryMap.get(key);
+		
+		sb.append("INSERT INTO CATEGORY_TABLE VALUES( ");
+		sb.append(vo.getCategoryNo()+", '");
+		sb.append(vo.getCategoryName()+"' );");
+		
+		return sb.toString();
+	}
+	
+	public	String	languageInsertQuery(Integer key)
+	{
+		StringBuilder sb = new StringBuilder();
+		LanguageVO	vo	=	this.languageMap.get(key);
+		
+		sb.append("INSERT	INTO	Language_table	");
+		sb.append("	VALUES(	");
+		sb.append("		"+vo.getLanguageNo()+",	");
+		sb.append("		'"+vo.getLanguageName());
+		sb.append("'	)");
+		
+		
+		return sb.toString();
+	}
+	public	String	companyInsertQuery(Integer key)
+	{
+		StringBuilder sb	=	new StringBuilder();
+		
+		CompanyVO	vo	=	this.companyMap.get(key);
+		
+		sb.append("INSERT INTO company_table values( ");
+		sb.append(vo.getCompany_id()+", '"+vo.getCompany_name()+"');");
+		
+		return sb.toString();
+	}
+	public String	tagInsertQuery(Integer key){
+		TagVO	vo	=	this.tagMap.get(key);
+		
+		StringBuilder	sb	=	new StringBuilder();
+		
+		sb.append("INSERT	");
+		sb.append("	INTO	Tag_Table	");
+		sb.append("		VALUES (	");
+		sb.append("			"+vo.getTag_id()+",");
+		sb.append("			'"+vo.getTag_name());
+		sb.append("'		);");
+		
+		return sb.toString();
+	}
+	public String	appInsertQuery(Integer key){
+		AppVO	vo	=	this.appInfoMap.get(key);
+		String	tempTitle	=	vo.getTitle();
+		String	tempDes	=	vo.description;
+		StringBuilder sb	=	new StringBuilder();
+		sb.append("INSERT ");
+		sb.append("INTO ");
+		sb.append("	APP_TABLE	");
+		sb.append(" 		VALUES	");
+		sb.append("			(	");
+		sb.append("				"+vo.getId()+",");
+		sb.append("				'"+tempTitle+"',");
+		sb.append("				'"+tempDes+"',");
+		sb.append("					SYSDATE	,");
+		sb.append("				"+vo.price+",");
+		sb.append("				''");		
+		sb.append("			)	");
+		
+		return sb.toString();
 	}
 }
 

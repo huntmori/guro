@@ -29,7 +29,7 @@ public class KeyGenerator<String>
 		
 		for(int i=0;	i<list.size();	i++)
 		{
-			boolean test = map.containsKey(list.get(i));
+			boolean test = map.containsValue(list.get(i));
 			
 			if(test){//해당 값이 map에 존재 함
 				continue;
