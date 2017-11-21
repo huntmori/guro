@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,7 +29,18 @@ public class AppListCrawler
 	String		url;
 	
 		
+	public void removeNoneData()
+	{
+		Set<Integer>	keyset		=	app_list.keySet();
 		
+		for(Integer key : keyset){
+			AppVO	vo	=	app_list.get(key);
+			
+			if(vo.categories==null &&vo.developList==null && vo.genre==null&&vo.tagList==null&&vo.langueges==null&&vo.publisherList==null)
+				app_list.remove(key);
+			}
+	}
+	
 	public AppListCrawler(String url, HashMap<String, String> cookies) throws IOException
 	{
 		this.url = url;
@@ -62,13 +74,13 @@ public class AppListCrawler
 		}System.out.println();
 				
 		// 최대 페이지 값
-		int maxPage = Integer.parseInt(realPages.get(realPages.size()-2).text());
-				
+		//int maxPage = Integer.parseInt(realPages.get(realPages.size()-2).text());
+			int maxPage	=	4;	
 		//TagList
 		Element popupMenuItem = document.getElementById("TagFilter_Container");		
 		Elements divlist = popupMenuItem.select("div[data-value]");
 		Elements list = popupMenuItem.getElementsByTag("span");
-				
+			
 		PrintWriter tagList = new PrintWriter(new File("tag_list.txt"));
 		tagList.println("Key\tType\tTagName");
 		for(Element e : divlist)
@@ -92,9 +104,17 @@ public class AppListCrawler
 			//URL
 			Elements linkList = document.select("a[href][data-ds-appid]");
 			Elements links = document.select("a[data-ds-appid]");
+			//Elements	prices	=	document.select("div[col search_price_discount_combined responsive_secondrow]");
 			
+					
 			for(int cnt=0;cnt<ele.size(); cnt++)
 			{				
+				//Element	tempPriceDiv	=	prices.get(0).select("").get(0);
+				
+				/*if(tempPriceDiv==null)//discount
+				{
+					
+				}*/
 				
 				String	tempTitle 	=	ele.get(cnt).text().replaceAll(" ","_");
 				String	tempId		=	links.get(cnt).attr("data-ds-appid");
@@ -105,6 +125,7 @@ public class AppListCrawler
 					continue;
 				if(tempId.indexOf(",")==-1)
 				{
+					AppVO	vo	=	new AppVO(tempId,	tempTitle,	tempUrl);
 					app_list.put(Integer.parseInt(tempId), new AppVO(tempId, tempTitle, tempUrl));
 					//add(new AppVO(tempId, tempTitle, tempUrl));
 					//output.println(tempTitle+"\t"+tempId+"\t"+tempUrl);

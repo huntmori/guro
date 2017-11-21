@@ -130,9 +130,9 @@ Key	Type	TagName
 4115	tags	Cyberpunk
 4064	tags	Thriller
 4057	tags	Magic
-4168	tags	Military
 5851	tags	Isometric
 4947	tags	Romance
+4168	tags	Military
 6378	tags	Crime
 1710	tags	Surreal
 4036	tags	Parkour
@@ -156,8 +156,8 @@ Key	Type	TagName
 1777	tags	Steampunk
 6971	tags	Multiple Endings
 14139	tags	Turn-Based Tactics
-4195	tags	Cartoony
 15045	tags	Flight
+4195	tags	Cartoony
 1718	tags	MOBA
 4252	tags	Stylized
 809	tags	Photo Editing
@@ -303,6 +303,7 @@ Key	Type	TagName
 4184	tags	Chess
 16250	tags	Gambling
 603297	tags	Hardware
+776177	tags	360 Video
 6041	tags	Horses
 8253	tags	Music-Based Procedural Generation
 9592	tags	Dynamic Narration
@@ -313,7 +314,6 @@ Key	Type	TagName
 9994	tags	Experience
 1674	tags	Typing
 4845	tags	Capitalism
-776177	tags	360 Video
 24003	tags	Word Game
 1746	tags	Basketball
 8369	tags	Investigation

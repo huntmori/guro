@@ -49,7 +49,13 @@ public class AppInfoCrawler
 		//Categories	
 		ps.println("\nCategories");
 		//Spec Detial 요소를 검색
-		Elements specDetail	=	document.getElementsByClass("game_area_details_specs");
+		Elements specDetail	=	null;
+		try{
+			specDetail = document.getElementsByClass("game_area_details_specs");
+		}
+		catch (Exception e) {
+			return null;
+		}
 		
 		
 		for(Element e : specDetail)	{
@@ -69,7 +75,15 @@ public class AppInfoCrawler
 		ArrayList<String>	result	=	new ArrayList<String>();
 
 		//TagList 요소 선택
-		Elements tagList = document.getElementsByClass("app_tag");
+		Elements tagList =null;
+		try{
+			tagList=	document.getElementsByClass("app_tag");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+			
 		
 		//ps.println(tagList.size());
 		ps.print("tags : [");
@@ -90,7 +104,13 @@ public class AppInfoCrawler
 	public	String	getAppDescription(Document document)
 	{
 		// Description
-		Element discription = document.select("div.game_description_snippet").first();
+		Element discription = null;
+		try{
+			discription	=	document.select("div.game_description_snippet").first();
+		}catch (Exception e) {
+			return "";
+		}
+		
 		if(discription!=null){
 			ps.print(discription.text());
 			discription.text();
@@ -107,7 +127,15 @@ public class AppInfoCrawler
 	public	String	getReleaseDate(Document document)
 	{
 		//ReleaseDate
-		Elements details = document.getElementsByClass("details_block");
+		Elements details = null;
+		
+		try{
+			details = document.getElementsByClass("details_block");
+		}
+		catch (Exception e) {
+			return "";
+		}
+		
 		//Element detail = details.get(0);
 		
 		Element date = document.select("div.date").first();
@@ -203,7 +231,14 @@ public class AppInfoCrawler
 	{
 		ArrayList<String>	result	=	new ArrayList<String>(); 
 
-		Elements details = document.getElementsByClass("details_block");
+		Elements details = null;
+		try{
+			details = document.getElementsByClass("details_block");
+		}
+		catch (Exception e) {
+			return null;
+		}
+				
 		//Element detail = details.get(0);
 		
 		//Div, publisher, genre
@@ -228,7 +263,14 @@ public class AppInfoCrawler
 	{
 		ArrayList<String>	result	=	new ArrayList<String>(); 
 
-		Elements details = document.getElementsByClass("details_block");
+		Elements details = null;
+		try{
+			details = document.getElementsByClass("details_block");
+			
+		}
+		catch (Exception e) {
+			return null;
+		}
 		//Element detail = details.get(0);
 		
 		//Div, publisher, genre
@@ -254,7 +296,12 @@ public class AppInfoCrawler
 	{
 		ArrayList<String>	result	=	new ArrayList<String>(); 
 
-		Elements details = document.getElementsByClass("details_block");
+		Elements details = null;
+		try{
+			details = document.getElementsByClass("details_block");
+		}catch (Exception e) {
+			return null;
+		}
 		//Element detail = details.get(0);
 		
 		//Div, publisher, genre
@@ -282,7 +329,18 @@ public class AppInfoCrawler
 		HashMap<String, boolean[]>	result	=	new HashMap<String, boolean[]>();
 		
 		//Languege
-		Elements 	langTable		= 	document.getElementsByClass("game_language_options");
+		Elements 	langTable		= 	null;
+		try{
+			langTable = document.getElementsByClass("game_language_options");
+		}
+		catch (Exception e) {
+			return null;
+		}
+		
+		if(langTable==null)
+			return null;
+		if(langTable.size()==0)
+			return null;
 		Element		tbody			=	langTable.get(0);
 		Elements		langRows		= 	tbody.getElementsByTag("tr");
 		
@@ -295,7 +353,7 @@ public class AppInfoCrawler
 			String languege = tDetails.get(0).text();
 				
 			boolean[] temp = new boolean[3];
-			for(int i=1;i<=3;i++)
+			for(int i=1;i<=3&&i<tDetails.size();i++)
 			{
 				boolean test = tDetails.get(i).hasAttr("colspan");
 				
@@ -457,13 +515,15 @@ public class AppInfoCrawler
 	}
 	public void ProccessCrawl(Document document)
 	{		
-		appInfo.tagList 			=	getAppTagList(document);
+		appInfo.tagList 			=		getAppTagList(document);
 		appInfo.description		=	getAppDescription(document);
-		appInfo.releaseDate	=	getReleaseDate(document);
-		appInfo.genre			=	getAppGenres(document);
-		appInfo.developList	=	getAppDevelopers(document);
+		appInfo.releaseDate	=		getReleaseDate(document);
+		appInfo.genre			=		getAppGenres(document);
+		appInfo.developList	=		getAppDevelopers(document);
 		appInfo.publisherList	=	getAppPublishers(document);
-		appInfo.price	=	getPrice(document);
+		appInfo.langueges	=	getSupportedLanguages(document);
+		appInfo.categories	=	getCategoryList(document);
+		//appInfo.price	=	getPrice(document);
 	}
 	
 	

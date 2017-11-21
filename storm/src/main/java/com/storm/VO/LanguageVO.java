@@ -13,6 +13,10 @@ public class LanguageVO implements Comparable<LanguageVO>, Serializable
 	public LanguageVO(int no, String name, boolean[] support){
 		this.languageNo	=	no;
 		this.languageName	=	name;
+		
+		if(support==null)
+			return;
+		
 		this.languageInterface	=	support[0];
 		this.languageVoice	=	support[1];
 		this.languageSubtitle	=	support[2];

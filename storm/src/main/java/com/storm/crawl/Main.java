@@ -302,9 +302,13 @@ public class Main
 			appList.ProccessCrawl(System.out);
 			System.out.println("after crawl");
 			
+			
+			appList.removeNoneData();
 			@SuppressWarnings("unchecked")
 			HashMap<Integer, AppVO>	map = (HashMap<Integer, AppVO>) appList.app_list.clone();
-				
+			
+			
+			
 			FileOutputStream	listFos	=	new FileOutputStream(APP_KEY_LIST+".dat");
 			ObjectOutputStream	listStream	=	new ObjectOutputStream(listFos);
 			listStream.writeObject(map);
@@ -332,6 +336,8 @@ public class Main
 			
 			int cnt=0;
 			for(Integer i : sortedkeys){	
+				if(cnt==100)
+					break;
 				System.out.println("==============================="+cnt++);
 				AppVO	vo	=	map.get(i);
 				System.out.println(vo.getUrl());
@@ -351,12 +357,12 @@ public class Main
 					target	=	ReconnectAgecheck(tempUrl);
 				}
 				else if(pageType==WARNNING){
-					target = ReconnectWarnningPage(tempUrl);
 				}
 		
 				AppInfoCrawler	ac	=	new AppInfoCrawler(target);
 				ac.appInfo = vo;
-				ac.ps = log;
+				//ac.ps = log;
+				ac.ps = System.out;
 				ac.ProccessCrawl();
 			}
 			log.flush();
@@ -373,9 +379,20 @@ public class Main
 			KeyGenerator<String> 	genreGen	=	new	KeyGenerator<String>();
 			KeyGenerator<String> 	langGen		=	new	KeyGenerator<String>();
 			
+			
 			for(Integer i : sortedkeys)	{
-				AppVO tmp = map.get(i);
-				ArrayList<String>	langs = new ArrayList<String>(tmp.langueges.keySet());
+				AppVO tmp = null;
+				try{
+					tmp = map.get(i);
+				}catch (Exception e) {
+					continue;
+				}
+				
+				ArrayList<String>	langs=null;
+				
+				if(tmp.langueges!=null)
+					langs= new ArrayList<String>(tmp.langueges.keySet());
+				
 				categoryGen.insertArrayList(tmp.categories);
 				companyGen.insertArrayList(tmp.developList);
 				companyGen.insertArrayList(tmp.developList);
@@ -420,7 +437,7 @@ public class Main
 			HashMap<Integer,LanguageVO> languageMap=new HashMap<Integer,LanguageVO>();
 			Set<Integer>	languageKeySet	=	langGen.map.keySet();
 			for(Integer i: languageKeySet){
-				languageMap.put(i, new LanguageVO(i, companyGen.map.get(i),null));
+				languageMap.put(i, new LanguageVO(i, langGen.map.get(i),null));
 			}
 			listFos	=	new FileOutputStream(LANGUAGE_FILE+".dat");
 			listStream	=	new ObjectOutputStream(listFos);
@@ -544,6 +561,7 @@ public class Main
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
 	}
+	@SuppressWarnings("unchecked")
 	public  void 	loadCompanyMap(){
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
@@ -564,6 +582,7 @@ public class Main
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
 	}
+	@SuppressWarnings("unchecked")
 	public  void 	loadGenreMap(){
 		FileInputStream	fis = null;
 		ObjectInputStream	ois	=	null;
@@ -583,12 +602,6 @@ public class Main
 		try {		this.genreMap=	(HashMap<Integer, GenreVO>) ois.readObject();	} 
 		catch (ClassNotFoundException e) {	e.printStackTrace();	}
 		catch (IOException e) {				e.printStackTrace();	}
-	}
-		
-	public static void main(String[] args) throws IOException, ClassNotFoundException
-	{
-		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
-		new Main("NEW").printAppInfoList();
 	}
 	
 	public	void	test() throws IOException, ClassNotFoundException{
@@ -611,50 +624,75 @@ public class Main
 		
 		return;
 	}
-	public void printAppInfoList() throws FileNotFoundException
+	public String	replaceForInsert(String str){
+		String result = str;
+		if(str!=null)
+			result	=	result.replaceAll("'", "''");
+				
+		return result;
+	}
+	public void createSQLStatementsFile() throws FileNotFoundException
 	{
 		Set<Integer>	keys = appInfoMap.keySet();
 		PrintWriter	pw	=	new PrintWriter(new File(APP_TABLE_SQL));
+		pw.println("SET DEFINE OFF;");
 		for(Integer i: keys){
 			AppVO vo	=	appInfoMap.get(i);
-			
+			Integer key = i;
 			pw.println(appInsertQuery(i)+";");
+			pw.println(map_App_CategoryInsertQuery(i));
+			pw.println(map_App_Developer_InsertQuery(i));
+			pw.println(map_App_Genre_InsertQuery(i));
+			pw.println(map_App_Lang_InsertQuery(key));
+			pw.println(map_App_Publisher_InsertQuery(key));
+			pw.println(map_App_Tag_InsertQuery(key));
 		}
+		pw.println("SET DEFINE ON;");
 		pw.flush();	pw.close();
 		
 		keys	=	tagMap.keySet();
 		pw	=	new PrintWriter(new File(TAG_TABLE_SQL));
+		pw.println("SET DEFINE OFF;");
 		for(Integer i: keys){
 			pw.println(tagInsertQuery(i));			
 		}
+		pw.println("SET DEFINE ON;");
 		pw.flush();	pw.close();
 		
 		pw = new PrintWriter(new File(LANGUAGE_TABLE_SQL));
+		pw.println("SET DEFINE OFF;");
 		keys	=	languageMap.keySet();
 		for(Integer key : keys){
 			pw.println(languageInsertQuery(key));
 		}
+		pw.println("SET DEFINE ON;");
 		pw.flush();	pw.close();
 		
 		pw = new PrintWriter(new File(COMPANY_TABLE_SQL));
+		pw.println("SET DEFINE OFF;");
 		keys	=	companyMap.keySet();
 		for(Integer key : keys){
 			pw.println(companyInsertQuery(key));
 		}
+		pw.println("SET DEFINE ON;");
 		pw.flush();	pw.close();
 		
 		pw = new PrintWriter(new File(CATEGORY_TABLE_SQL));
+		pw.println("SET DEFINE OFF;");
 		keys	=	categoryMap.keySet();
 		for(Integer key : keys){
 			pw.println(categoryInsertQuery(key));
 		}
+		pw.println("SET DEFINE ON;");
 		pw.flush();	pw.close();
 		
 		pw = new PrintWriter(new File(GENRE_TABLE_SQL));
+		pw.println("SET DEFINE OFF;");
 		keys	=	genreMap.keySet();
 		for(Integer key : keys){
 			pw.println(genreInsertQuery(key));
 		}
+		pw.println("SET DEFINE ON;");
 		pw.flush();	pw.close();
 		
 		
@@ -664,9 +702,9 @@ public class Main
 	{
 		StringBuilder	sb	=	new StringBuilder();
 		GenreVO	vo	=	this.genreMap.get(key);
-		
+		String name = replaceForInsert(vo.getGenreName());
 		sb.append("INSERT	INTO GENRE_TABLE VALUES( ");
-		sb.append(vo.getGenreNo()+", '"+vo.getGenreName()+"' );");
+		sb.append(vo.getGenreNo()+", '"+name+"' );");
 		
 		return sb.toString();
 	}
@@ -675,10 +713,10 @@ public class Main
 	{
 		StringBuilder	sb	=	new StringBuilder();
 		CategoryVO	vo	=	this.categoryMap.get(key);
-		
+		String name = replaceForInsert(vo.getCategoryName());
 		sb.append("INSERT INTO CATEGORY_TABLE VALUES( ");
 		sb.append(vo.getCategoryNo()+", '");
-		sb.append(vo.getCategoryName()+"' );");
+		sb.append(name+"' );");
 		
 		return sb.toString();
 	}
@@ -687,11 +725,11 @@ public class Main
 	{
 		StringBuilder sb = new StringBuilder();
 		LanguageVO	vo	=	this.languageMap.get(key);
-		
+		String name = replaceForInsert(vo.getLanguageName());
 		sb.append("INSERT	INTO	Language_table	");
 		sb.append("	VALUES(	");
 		sb.append("		"+vo.getLanguageNo()+",	");
-		sb.append("		'"+vo.getLanguageName());
+		sb.append("		'"+name);
 		sb.append("'	)");
 		
 		
@@ -702,30 +740,30 @@ public class Main
 		StringBuilder sb	=	new StringBuilder();
 		
 		CompanyVO	vo	=	this.companyMap.get(key);
-		
+		String name = replaceForInsert(vo.getCompany_name());
 		sb.append("INSERT INTO company_table values( ");
-		sb.append(vo.getCompany_id()+", '"+vo.getCompany_name()+"');");
+		sb.append(vo.getCompany_id()+", '"+name+"');");
 		
 		return sb.toString();
 	}
-	public String	tagInsertQuery(Integer key){
+	public 	String	tagInsertQuery(Integer key){
 		TagVO	vo	=	this.tagMap.get(key);
 		
 		StringBuilder	sb	=	new StringBuilder();
-		
+		String name = replaceForInsert(vo.getTag_name());
 		sb.append("INSERT	");
 		sb.append("	INTO	Tag_Table	");
 		sb.append("		VALUES (	");
 		sb.append("			"+vo.getTag_id()+",");
-		sb.append("			'"+vo.getTag_name());
+		sb.append("			'"+name);
 		sb.append("'		);");
 		
 		return sb.toString();
 	}
-	public String	appInsertQuery(Integer key){
+	public	String	appInsertQuery(Integer key){
 		AppVO	vo	=	this.appInfoMap.get(key);
-		String	tempTitle	=	vo.getTitle();
-		String	tempDes	=	vo.description;
+		String	tempTitle	= replaceForInsert(vo.getTitle());
+		String	tempDes	=	replaceForInsert(vo.description);
 		StringBuilder sb	=	new StringBuilder();
 		sb.append("INSERT ");
 		sb.append("INTO ");
@@ -741,6 +779,315 @@ public class Main
 		sb.append("			)	");
 		
 		return sb.toString();
+	}
+	
+	
+	public	String	map_App_CategoryInsertQuery(Integer key)
+	{
+		AppVO	vo	=	this.appInfoMap.get(key);
+		StringBuilder sb = new StringBuilder();
+		
+		ArrayList<String>	categories = vo.categories;
+		if(categories == null)
+			return "";
+		for(String str : categories){
+			Set<Integer>	keys = categoryMap.keySet();
+			
+			for(Integer k : keys){
+				String name = categoryMap.get(k).getCategoryName();
+				
+				if(str.equals(name))	{
+					sb.append("INSERT INTO MAP_APP_CATEGORY VALUES( ");
+					sb.append(key+", ");
+					sb.append(k+" );\n")	;
+				}
+			}
+		}		
+		return sb.toString();
+	}
+	
+	public	String	map_App_Developer_InsertQuery(Integer key)
+	{
+		AppVO	vo	=	this.appInfoMap.get(key);
+		StringBuilder sb = new StringBuilder();
+		
+		ArrayList<String>	devs = vo.developList;
+		if(devs==null)
+			return "";
+		for(String str : devs){
+			Set<Integer>	keys = companyMap.keySet();
+			
+			for(Integer k : keys){
+				String name = companyMap.get(k).getCompany_name();
+				
+				if(str.equals(name))	{
+					sb.append("INSERT INTO MAP_APP_DEVELOPER VALUES( ");
+					sb.append(key+", ");
+					sb.append(k+" );\n")	;
+				}
+			}
+		}		
+		return sb.toString();
+	}
+	
+	public	String	map_App_Publisher_InsertQuery(Integer key)
+	{
+		AppVO	vo	=	this.appInfoMap.get(key);
+		StringBuilder sb = new StringBuilder();
+		
+		ArrayList<String>	pubs = vo.publisherList;
+		if(pubs==null)
+			return "";
+		for(String str : pubs){
+			Set<Integer>	keys = companyMap.keySet();
+			
+			for(Integer k : keys){
+				String name = companyMap.get(k).getCompany_name();
+				
+				if(str.equals(name))	{
+					sb.append("INSERT INTO MAP_APP_PUBLISHER VALUES( ");
+					sb.append(key+", ");
+					sb.append(k+" );\n")	;
+				}
+			}
+		}		
+		return sb.toString();
+	}
+	
+	public	String	map_App_Genre_InsertQuery(Integer key)
+	{
+		AppVO	vo	=	this.appInfoMap.get(key);
+		StringBuilder sb = new StringBuilder();
+		
+		ArrayList<String>	genre = vo.genre;
+		if(genre==null)
+			return "";
+		for(String str : genre){
+			Set<Integer>	keys = genreMap.keySet();
+			
+			for(Integer k : keys){
+				String name = genreMap.get(k).getGenreName();
+				
+				if(str.equals(name))	{
+					sb.append("INSERT INTO MAP_APP_GENRE VALUES( ");
+					sb.append(key+", ");
+					sb.append(k+" );\n")	;
+				}
+			}
+		}		
+		return sb.toString();
+	}
+	
+	public	String	map_App_Tag_InsertQuery(Integer key)
+	{
+		AppVO	vo	=	this.appInfoMap.get(key);
+		StringBuilder sb = new StringBuilder();
+		
+		ArrayList<String>	tagList = vo.tagList;
+		if(tagList == null)
+			return "";
+		for(String str : tagList){
+			Set<Integer>	keys = tagMap.keySet();
+			
+			for(Integer k : keys){
+				String name = tagMap.get(k).getTag_name();
+				
+				if(str.equals(name))	{
+					sb.append("INSERT INTO MAP_APP_TAG VALUES( ");
+					sb.append(key+", ");
+					sb.append(k+" );\n")	;
+				}
+			}
+		}		
+		return sb.toString();
+	}
+	public	String	map_App_Lang_InsertQuery(Integer key)
+	{
+		AppVO	vo	=	this.appInfoMap.get(key);
+		StringBuilder sb = new StringBuilder();
+		
+		HashMap<String,boolean[]>	map	=	vo.langueges;
+		
+		if(map==null)
+			return "";
+		
+		Set<String>	mapKeys = map.keySet();
+		
+		for(String str : mapKeys){
+			
+			Set<Integer>	innerKeys = languageMap.keySet();
+			for(Integer inKey : innerKeys){
+				String tempName	=	languageMap.get(inKey).getLanguageName();
+				
+				// 이름이 일치하는 자료다...
+				if(str.equals(tempName))
+				{// 실제 필요한 데이터를 가지고 있는 boolean[]이 필요하므로
+					//꺼낸다
+					boolean[]	source = map.get(str);
+					
+					sb.append("INSERT INTO MAP_APP_LANG VALUES ( ");
+					//app의 id를 넣는다
+					sb.append(key+", ");
+					//language의 id를 넣는다.
+					sb.append(inKey+", ");
+					
+					//source[]의 값에 따라 'Y'와  'N'을 설정한다.
+					char	interFace	= source[AppVO.INTERFACE] ? 'Y' : 'N';
+					char	voice	= source[AppVO.VOICE] ? 'Y' : 'N';
+					char	subtitle	= source[AppVO.SUBTITLE] ? 'Y' : 'N';
+					sb.append(" '"+interFace+"', '"+voice+"', '"+subtitle+"' );");
+					
+				}
+			}
+		}
+		
+		return sb.toString();
+	}
+	
+	public void printAppVO(PrintStream pw){
+		Set<Integer>	keyset	=	this.appInfoMap.keySet();
+		
+		int cnt = 0;
+		for(Integer key : keyset)
+		{
+			System.out.println("=============================================================================");
+			cnt++;
+			AppVO	vo	=	this.appInfoMap.get(key);
+//			pw.println("[cnt]:"+);
+			pw.println("["+cnt+"]id:\t"+vo.getId());
+			pw.println("["+cnt+"]title:\t"+vo.getTitle());
+			pw.println("["+cnt+"]Description:\t"+vo.description);
+			
+			ArrayList<String>cate	=	vo.categories;
+			StringBuilder	sb	;
+			if(cate==null || cate.size()==0){
+				
+			}
+			else{
+				sb	=	new StringBuilder();
+				for(String str : cate)
+					sb.append(str+" ");
+				pw.println("["+cnt+"]category:\t"+sb.toString());
+			}
+			
+			
+			ArrayList<String> devs	=	vo.developList;
+			if(devs!=null )
+			{
+				sb	=	new StringBuilder();
+				for(String str : devs)
+					sb.append(str+" ");
+				pw.println("["+cnt+"]Developers:\t"+sb.toString());
+			}
+			
+			
+			ArrayList<String> pubs	=	vo.publisherList;
+			if(pubs!=null){
+				sb	=	new StringBuilder();
+				for(String str : pubs)
+					sb.append(str+" ");
+				pw.println("["+cnt+"]Publishers:\t"+sb.toString());
+			}
+			
+			
+			ArrayList<String> tags	=	vo.tagList;
+			
+			if(tags!=null){
+				sb	=	new StringBuilder();
+				for(String str : tags)
+					sb.append(str+" ");
+				pw.println("["+cnt+"]Tags:\t"+sb.toString());
+			}
+			
+			
+			ArrayList<String> genres	=	vo.genre;
+			if(genres!=null)
+			{
+				sb	=	new StringBuilder();
+				for(String str : genres)
+					sb.append(str+" ");
+				pw.println("["+cnt+"]Genres:\t"+sb.toString());
+			}
+			
+			ArrayList<String>	category = vo.categories;
+			if(category!=null)
+			{
+				sb = new StringBuilder();
+				
+				for(String str : category){
+					sb.append(str+" ");
+				}
+				sb.append("["+cnt+"]category : "+sb.toString());
+			}
+			
+			
+			HashMap<String, boolean[]> temp	=	vo.langueges;
+			sb	=	new StringBuilder();
+			
+			if(temp!=null)
+			{
+				Set<String>	ks	=	temp.keySet();
+				for(String k : ks){
+					boolean[]	bools	=	temp.get(k);
+					pw.print("["+cnt+"]Language:"+k+"\t");
+					for(int i=0;i<bools.length;i++)
+					{
+						pw.print(bools[i]+"\t");
+					}
+					pw.println();
+				}
+			}
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static void main(String[] args) throws IOException, ClassNotFoundException
+	{
+		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
+		/**/
+		Main temp	=	new Main("NEW");
+		PrintStream	ps	=	new PrintStream("log.txt");
+		temp = new Main("LOAD");
+		temp.printAppVO(System.out);
+		temp.createSQLStatementsFile();
+		ps.flush();
+		ps.close();
+		/**/
+		//new Main("NEW");
 	}
 }
 
