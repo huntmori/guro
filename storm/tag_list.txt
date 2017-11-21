@@ -30,8 +30,8 @@ Key	Type	TagName
 1685	tags	Co-op
 1684	tags	Fantasy
 1625	tags	Platformer
-4136	tags	Funny
 1663	tags	FPS
+4136	tags	Funny
 3839	tags	First-Person
 7208	tags	Female Protagonist
 3964	tags	Pixel Graphics
@@ -71,8 +71,8 @@ Key	Type	TagName
 3968	tags	Physics
 4342	tags	Dark
 4231	tags	Action RPG
-5716	tags	Mystery
 5900	tags	Walking Simulator
+5716	tags	Mystery
 4175	tags	Realistic
 5577	tags	RPGMaker
 1734	tags	Fast-Paced
@@ -83,9 +83,9 @@ Key	Type	TagName
 1738	tags	Hidden Object
 4106	tags	Action-Adventure
 1643	tags	Building
+4234	tags	Short
 1678	tags	War
 1702	tags	Crafting
-4234	tags	Short
 3987	tags	Historical
 5611	tags	Mature
 5537	tags	Puzzle-Platformer
@@ -95,18 +95,18 @@ Key	Type	TagName
 3798	tags	Side Scroller
 3814	tags	Third-Person Shooter
 1743	tags	Fighting
+4305	tags	Colorful
 4885	tags	Bullet Hell
 1645	tags	Tower Defense
 7478	tags	Illuminati
-4305	tags	Colorful
 12472	tags	Management
 4747	tags	Character Customization
+1654	tags	Relaxing
 1669	tags	Moddable
 3835	tags	Post-apocalyptic
 9551	tags	Dating Sim
 4791	tags	Top-Down
 1621	tags	Music
-1654	tags	Relaxing
 4434	tags	JRPG
 1754	tags	MMORPG
 3878	tags	Competitive
@@ -119,9 +119,9 @@ Key	Type	TagName
 4150	tags	World War II
 4172	tags	Medieval
 4295	tags	Futuristic
+8013	tags	Software
 4158	tags	Beat 'em up
 1720	tags	Dungeon Crawler
-8013	tags	Software
 3959	tags	Rogue-lite
 10695	tags	Party-Based RPG
 5125	tags	Procedural Generation
@@ -135,8 +135,8 @@ Key	Type	TagName
 4168	tags	Military
 6378	tags	Crime
 1710	tags	Surreal
-4036	tags	Parkour
 4094	tags	Minimalist
+4036	tags	Parkour
 7332	tags	Base Building
 1666	tags	Card Game
 4486	tags	Choose Your Own Adventure
@@ -148,8 +148,8 @@ Key	Type	TagName
 1759	tags	Perma Death
 4328	tags	City Builder
 5923	tags	Dark Humor
-1770	tags	Board Game
 4758	tags	Twin Stick Shooter
+1770	tags	Board Game
 5228	tags	Blood
 5395	tags	3D Platformer
 8122	tags	Level Editor
@@ -181,8 +181,8 @@ Key	Type	TagName
 6730	tags	PvE
 9541	tags	Demons
 5186	tags	Psychological
-4562	tags	Cartoon
 7782	tags	Cult Classic
+4562	tags	Cartoon
 8075	tags	TrackIR
 7743	tags	1980s
 7432	tags	Lovecraftian
@@ -198,8 +198,8 @@ Key	Type	TagName
 4821	tags	Mechs
 10816	tags	Split Screen
 16598	tags	Space Sim
-7107	tags	Real-Time with Pause
 4400	tags	Abstract
+7107	tags	Real-Time with Pause
 4046	tags	Dragons
 4161	tags	Real-Time
 5160	tags	Dinosaurs
@@ -219,12 +219,12 @@ Key	Type	TagName
 12057	tags	Tutorial
 4598	tags	Alternate History
 6052	tags	Noir
+1714	tags	Psychedelic
+5055	tags	e-sports
 31275	tags	Text-Based
 31579	tags	Otome
-5055	tags	e-sports
-1714	tags	Psychedelic
-5502	tags	Hacking
 19995	tags	Dark Comedy
+5502	tags	Hacking
 1647	tags	Western
 1732	tags	Voxel
 5179	tags	Cold War

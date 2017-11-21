@@ -75,7 +75,7 @@ public class AppListCrawler
 				
 		// 최대 페이지 값
 		//int maxPage = Integer.parseInt(realPages.get(realPages.size()-2).text());
-			int maxPage	=	4;	
+		int maxPage	=	40;	
 		//TagList
 		Element popupMenuItem = document.getElementById("TagFilter_Container");		
 		Elements divlist = popupMenuItem.select("div[data-value]");

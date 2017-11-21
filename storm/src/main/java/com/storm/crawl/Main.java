@@ -63,20 +63,20 @@ public class Main
 	HashMap<Integer,CompanyVO>	companyMap;
 	HashMap<Integer,LanguageVO>	languageMap;
 		
-	final static String	APP_INFO_FILE ="APP_INFO_LIST",
-					CATEGORY_FILE="CATEGORY_LIST",
-					GENRE_FILE="GENRE_LIST",
-					COMPANY_FILE="COMPANY_LIST",
-					LANGUAGE_FILE="LANGUAGE_LIST",
-					TAG_FILE="TAG_LIST",
-					APP_KEY_LIST="APP_KEY_LIST",
+	final static String	APP_INFO_FILE =".\\dat\\APP_INFO_LIST",
+					CATEGORY_FILE=".\\dat\\CATEGORY_LIST",
+					GENRE_FILE=".\\dat\\GENRE_LIST",
+					COMPANY_FILE=".\\dat\\COMPANY_LIST",
+					LANGUAGE_FILE=".\\dat\\LANGUAGE_LIST",
+					TAG_FILE=".\\dat\\TAG_LIST",
+					APP_KEY_LIST=".\\dat\\APP_KEY_LIST",
 					
-					APP_TABLE_SQL="APP_TABLE_SQL.sql",
-					TAG_TABLE_SQL="TAG_TABLE_SQL.sql",
-					CATEGORY_TABLE_SQL="CATEGORY_TABLE_SQL.sql",
-					GENRE_TABLE_SQL="GENRE_TABLE_SQL.sql",
-					COMPANY_TABLE_SQL="COMPANY_TABLE_SQL.sql",
-					LANGUAGE_TABLE_SQL="LANGUAGE_TABLE_SQL.sql";
+					APP_TABLE_SQL=".\\sql\\APP_TABLE_SQL.sql",
+					TAG_TABLE_SQL=".\\sql\\TAG_TABLE_SQL.sql",
+					CATEGORY_TABLE_SQL=".\\sql\\CATEGORY_TABLE_SQL.sql",
+					GENRE_TABLE_SQL=".\\sql\\GENRE_TABLE_SQL.sql",
+					COMPANY_TABLE_SQL=".\\sql\\COMPANY_TABLE_SQL.sql",
+					LANGUAGE_TABLE_SQL=".\\sql\\LANGUAGE_TABLE_SQL.sql";
 	
 	//List URL
 	String url = "http://store.steampowered.com/search/?category1=998&page=";
@@ -336,7 +336,7 @@ public class Main
 			
 			int cnt=0;
 			for(Integer i : sortedkeys){	
-				if(cnt==100)
+				if(cnt==1000)
 					break;
 				System.out.println("==============================="+cnt++);
 				AppVO	vo	=	map.get(i);
@@ -638,6 +638,10 @@ public class Main
 		pw.println("SET DEFINE OFF;");
 		for(Integer i: keys){
 			AppVO vo	=	appInfoMap.get(i);
+			
+			if(vo.description==null)
+				continue;
+			
 			Integer key = i;
 			pw.println(appInsertQuery(i)+";");
 			pw.println(map_App_CategoryInsertQuery(i));
@@ -765,19 +769,9 @@ public class Main
 		String	tempTitle	= replaceForInsert(vo.getTitle());
 		String	tempDes	=	replaceForInsert(vo.description);
 		StringBuilder sb	=	new StringBuilder();
-		sb.append("INSERT ");
-		sb.append("INTO ");
-		sb.append("	APP_TABLE	");
-		sb.append(" 		VALUES	");
-		sb.append("			(	");
-		sb.append("				"+vo.getId()+",");
-		sb.append("				'"+tempTitle+"',");
-		sb.append("				'"+tempDes+"',");
-		sb.append("					SYSDATE	,");
-		sb.append("				"+vo.price+",");
-		sb.append("				''");		
-		sb.append("			)	");
-		
+		sb.append("INSERT INTO APP_TABLE	 VALUES( ");
+		sb.append(vo.getId()+", '"+tempTitle+"', '"+tempDes+"', SYSDATE ,"+vo.price+", '' )");		
+				
 		return sb.toString();
 	}
 	
@@ -797,7 +791,7 @@ public class Main
 				String name = categoryMap.get(k).getCategoryName();
 				
 				if(str.equals(name))	{
-					sb.append("INSERT INTO MAP_APP_CATEGORY VALUES( ");
+					sb.append("\tINSERT INTO MAP_APP_CATEGORY VALUES( ");
 					sb.append(key+", ");
 					sb.append(k+" );\n")	;
 				}
@@ -821,7 +815,7 @@ public class Main
 				String name = companyMap.get(k).getCompany_name();
 				
 				if(str.equals(name))	{
-					sb.append("INSERT INTO MAP_APP_DEVELOPER VALUES( ");
+					sb.append("\tINSERT INTO MAP_APP_DEVELOPER VALUES( ");
 					sb.append(key+", ");
 					sb.append(k+" );\n")	;
 				}
@@ -845,7 +839,7 @@ public class Main
 				String name = companyMap.get(k).getCompany_name();
 				
 				if(str.equals(name))	{
-					sb.append("INSERT INTO MAP_APP_PUBLISHER VALUES( ");
+					sb.append("\tINSERT INTO MAP_APP_PUBLISHER VALUES( ");
 					sb.append(key+", ");
 					sb.append(k+" );\n")	;
 				}
@@ -869,7 +863,7 @@ public class Main
 				String name = genreMap.get(k).getGenreName();
 				
 				if(str.equals(name))	{
-					sb.append("INSERT INTO MAP_APP_GENRE VALUES( ");
+					sb.append("\tINSERT INTO MAP_APP_GENRE VALUES( ");
 					sb.append(key+", ");
 					sb.append(k+" );\n")	;
 				}
@@ -893,7 +887,7 @@ public class Main
 				String name = tagMap.get(k).getTag_name();
 				
 				if(str.equals(name))	{
-					sb.append("INSERT INTO MAP_APP_TAG VALUES( ");
+					sb.append("\tINSERT INTO MAP_APP_TAG VALUES( ");
 					sb.append(key+", ");
 					sb.append(k+" );\n")	;
 				}
@@ -925,7 +919,7 @@ public class Main
 					//꺼낸다
 					boolean[]	source = map.get(str);
 					
-					sb.append("INSERT INTO MAP_APP_LANG VALUES ( ");
+					sb.append("\tINSERT INTO MAP_APP_LANG VALUES ( ");
 					//app의 id를 넣는다
 					sb.append(key+", ");
 					//language의 id를 넣는다.
@@ -935,7 +929,7 @@ public class Main
 					char	interFace	= source[AppVO.INTERFACE] ? 'Y' : 'N';
 					char	voice	= source[AppVO.VOICE] ? 'Y' : 'N';
 					char	subtitle	= source[AppVO.SUBTITLE] ? 'Y' : 'N';
-					sb.append(" '"+interFace+"', '"+voice+"', '"+subtitle+"' );");
+					sb.append(" '"+interFace+"', '"+voice+"', '"+subtitle+"' );\n");
 					
 				}
 			}
