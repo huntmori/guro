@@ -169,7 +169,11 @@
 		    <artifactId>jsoup</artifactId>
 		    <version>1.11.1</version>
 		</dependency>
-		
+	    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>3.7.1</version>
+    </dependency> 
 	</dependencies>
     <build>
         <plugins>

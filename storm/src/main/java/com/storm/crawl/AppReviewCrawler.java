@@ -1,192 +1,117 @@
 package com.storm.crawl;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Set;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.springframework.web.util.HtmlUtils;
-
-import com.gargoylesoftware.htmlunit.CookieManager;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlButton;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.util.Cookie;
-import com.storm.crawlUtil.HtmlUnitUtil;
+import java.awt.AWTException;
+import java.util.ArrayList;
+import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import com.storm.VO.ReviewVO;
 
 
 //view-source:
 public class AppReviewCrawler 
 {
 	public	String	appid;
-	public	Document	document;
 	
-	public void test() throws IOException
-	{
-		String url = "http://steamcommunity.com/app/282140/positivereviews/?browsefilter=toprated&snr=1_5_reviews_&filterLanguage=koreana#scrollTop=0";
-		document = Jsoup.connect(url).get();
-		
-		Elements forms = document.getElementsByTag("form");
-		forms.get(0);
-		
-		WebClient	webClient = HtmlUnitUtil.InitWebClient();
-		
-		webClient.getCurrentWindow().setInnerHeight(Integer.MAX_VALUE);
-		HtmlPage page = HtmlUnitUtil.ConnectByWebClient(url, webClient);
-		
-		System.out.println(page.getForms().get(0).getOnSubmitAttribute());;
-		
-		
-		HtmlForm	form = page.getFormByName("MoreContentForm1");
-		HtmlAnchor button = page.getAnchorByText("See More Content");
-		System.out.println(button.asText());
-		webClient.getCurrentWindow().setInnerHeight(Integer.MAX_VALUE);
-		HtmlPage result = button.click();
-		
-		HashMap<String, String>cookieMap = new HashMap<String,String>();
-		CookieManager 	cookieManger = webClient.getCookieManager();
-		
-		Set<Cookie>	cookieSet	=	cookieManger.getCookies();
-		for(Cookie c:cookieSet)
-		{
-			cookieMap.put(c.getName(), c.getValue());
-		}
-		
-		Document	doc = null;
-		try
-		{
-			doc = Jsoup.connect(url).cookies(cookieMap).get();
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.err.println(e.toString());
-		}
-		
-		System.out.println(doc.toString());
-		
-		
-		System.out.println(form.getActionAttribute());
-		
-		
-		HtmlAnchor	next = page.getAnchorByHref("javascript:CheckForMoreContent();");
-		System.out.println(next.asText());
-		
-		//document.getElementById(id)
-		
-		
-		
-		
-		
-		
-		/*
-		for(int i=1;i<100;i++)
-		{
-			Elements content = document.getElementsByClass("apphub_CardTextContent");
-			
-			for(int j =0;j<content.size(); j++)
-			{
-				System.out.println(i+"page\tNO:"+j);
-				System.out.println(content.get(j).text());
-			}
-			System.out.println(getNextPositivePageUrl(2));
-			document = (Document) Jsoup.connect(getNextPositivePageUrl(i));
-		}	*/
+	ArrayList<ReviewVO>	positiveReviews;
+	ArrayList<ReviewVO>	negativeReviews;
+	
+	public String	getPositivePageURL(){
+		return "http://steamcommunity.com/app/"+this.appid+"/positivereviews/?browsefilter=toprated&snr=1_5_reviews_&filterLanguage=koreana";
 	}
-	public void test(String url) throws IOException
-	{
-		document = Jsoup.connect(url).get();
-		
-		Elements content = document.getElementsByClass("apphub_CardTextContent");
-		
-		for(Element e : content)
-		{
-			System.out.println(e.text());
-		}
-		
-	}
-	public AppReviewCrawler(String appid) throws IOException
-	{
-		this.appid=appid;
-		//test();
-		
-	}
-	public AppReviewCrawler() throws IOException
-	{
-		this("");
+	public String getNegativePageURL(){
+		return "http://steamcommunity.com/app/"+this.appid+"/negativereviews/?browsefilter=toprated&snr=1_5_reviews_&filterLanguage=koreana";
 	}
 	
-	public String getPositiveURL()
-	{
-		return "http://steamcommunity.com/app/"+
-				appid+
-				"/negativereviews/"+
-				"?browsefilter=toprated&"+
-				"snr=1_5_reviews_&filterLanguage=koreana";
-	}
-	public String getNegativeURL()
-	{
-		return "http://steamcommunity.com/app/"+
-				appid+
-				"/positivereviews/"+
-				"?browsefilter=toprated&"+
-				"snr=1_5_reviews_&filterLanguage=koreana";
-	}
 	
-	public String getNextNegativePageUrl(int i)
+	public ArrayList<ReviewVO>	getReviews(boolean isPositive)
 	{
-		return "http://steamcommunity.com/app/"
-				+ appid+"/homecontent/?userreviewsoffset=10&"+
-				"p="+i
-				+"&workshopitemspage="+i
-				+"&readytouseitemspage="+i
-				+"&mtxitemspage="+i
-				+"&itemspage="+i
-				+"&screenshotspage="+i
-				+"&videospage="+i
-				+"&artpage="+i
-				+"&allguidepage="+i
-				+"&webguidepage="+i
-				+"&integratedguidepage="+i
-				+"&discussionspage="+i
-				+ "&numperpage=10"
-				+ "&browsefilter=toprated"
-				+ "&browsefilter=toprated"
-				+ "&l=koreana"
-				+ "&appHubSubSection=10"
-				+ "&filterLanguage=koreana"
-				+ "&searchText="
-				+ "&forceanon=1";
-	}
-	public String getNextPositivePageUrl(int i)
-	{
-		return "http://steamcommunity.com/app/"
-				+ appid+"/homecontent/?userreviewsoffset=10&"+
-				"p="+i
-				+"&workshopitemspage="+i
-				+"&readytouseitemspage="+i
-				+"&mtxitemspage="+i
-				+"&itemspage="+i
-				+"&screenshotspage="+i
-				+"&videospage="+i
-				+"&artpage="+i
-				+"&allguidepage="+i
-				+"&webguidepage="+i
-				+"&integratedguidepage="+i
-				+"&discussionspage="+i
-				+ "&numperpage=10"
-				+ "&browsefilter=toprated"
-				+ "&browsefilter=toprated"
-				+ "&l=koreana"
-				+ "&appHubSubSection=16"
-				+ "&filterLanguage=koreana"
-				+ "&searchText="
-				+ "&forceanon=1";
-	}
+		ArrayList<ReviewVO>	result = new ArrayList<>();
+		
+		String CHROMEDRIVER_FILE_PATH = ".\\chromedriver.exe";
+		System.setProperty("webdriver.chrome.driver", CHROMEDRIVER_FILE_PATH);
 
-	//public 
+		WebDriver	driver	=	new ChromeDriver();
+		
+		String url = isPositive ? this.getPositivePageURL():this.getNegativePageURL();
+		try{
+			driver.get(url);
+			
+			System.out.println(driver.getPageSource());
+		}catch (Exception e) {
+			e.printStackTrace();
+			driver.quit();
+		}
+		
+		WebElement nomore = driver.findElement(By.className("apphub_NoMoreContent"));
+		JavascriptExecutor jse = ((JavascriptExecutor) driver);
+		
+		while(!nomore.isDisplayed())
+		{
+			
+			jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+			
+			nomore = driver.findElement(By.className("apphub_NoMoreContent"));
+			
+			jse.executeScript("window.scrollTo(0, 0)");
+		}jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+		
+		
+		List<WebElement>	reviews = driver.findElements(By.className("apphub_Card"));
+		//System.out.println(reviews.size());
+		
+		int maxCount = reviews.size(); 
+		for(int i=0; i<maxCount; i++){
+			WebElement temp = reviews.get(i);
+			
+			WebElement	writerDiv = temp.findElement(By.className("apphub_CardContentAuthorName"));
+			List<WebElement> inOfWriter = writerDiv.findElements(By.tagName("a"));
+			StringBuilder writer = new StringBuilder();
+			
+			for(WebElement e : inOfWriter){
+				writer.append(e.getText());
+			}
+			
+			WebElement dateDiv	=	temp.findElement(By.className("date_posted"));		
+			
+			String wDate = dateDiv.getText();
+			
+			WebElement txt = temp.findElement(By.className("apphub_CardTextContent"));
+			String text = txt.getText();
+			text = text.replaceAll(wDate, "");
+			
+			ReviewVO	vo	=	new ReviewVO(this.appid,writer.toString(),	wDate,	text,	isPositive) ;
+			result.add(vo);
+			System.out.println("리뷰가 추가되었습니다"+vo);
+		}
+		
+		driver.close();
+		return result;
+	}
+	public void getReviews()
+	{
+		this.positiveReviews	=	getReviews(true);
+		this.negativeReviews=getReviews(false);
+	}
+	
+	
+	public static void main(String[] args) throws AWTException, InterruptedException
+	{
+		AppReviewCrawler	temp = new AppReviewCrawler();
+		temp.appid="47780";
+		temp.getReviews();
+		
+		for(ReviewVO vo : temp.positiveReviews)
+			System.out.println("\n"+vo);
+		
+		for(ReviewVO vo : temp.negativeReviews)
+			System.out.println("\n"+vo);
+		
+		
+	}
 }
+//https://partner.steam-api.com/ISteamApps/GetAppBetas/v1/?key=B45C6883EC5C4506EBFE09C125E7B758&appid=47780
+//https://api.steampowered.com/ISteamApps/GetAppList/v2/?key=B45C6883EC5C4506EBFE09C125E7B758
