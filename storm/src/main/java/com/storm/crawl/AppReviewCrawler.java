@@ -100,8 +100,9 @@ public class AppReviewCrawler
 	
 	public static void main(String[] args) throws AWTException, InterruptedException
 	{
+		long start = System.currentTimeMillis();
 		AppReviewCrawler	temp = new AppReviewCrawler();
-		temp.appid="47780";
+		temp.appid="389730";
 		temp.getReviews();
 		
 		for(ReviewVO vo : temp.positiveReviews)
@@ -111,6 +112,9 @@ public class AppReviewCrawler
 			System.out.println("\n"+vo);
 		
 		
+		long end	=System.currentTimeMillis();
+		
+		System.out.println((end-start)/1000.0);
 	}
 }
 //https://partner.steam-api.com/ISteamApps/GetAppBetas/v1/?key=B45C6883EC5C4506EBFE09C125E7B758&appid=47780
