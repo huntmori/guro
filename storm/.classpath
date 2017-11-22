@@ -25,5 +25,8 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="komoran/komoran-2.4-e.jar"/>
+	<classpathentry kind="lib" path="komoran/shineware-common-2.0.jar"/>
+	<classpathentry kind="lib" path="komoran/shineware-ds-1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
