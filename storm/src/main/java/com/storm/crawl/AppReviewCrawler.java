@@ -102,19 +102,28 @@ public class AppReviewCrawler
 	{
 		long start = System.currentTimeMillis();
 		AppReviewCrawler	temp = new AppReviewCrawler();
-		temp.appid="389730";
+		temp.appid="491710";
 		temp.getReviews();
-		
-		for(ReviewVO vo : temp.positiveReviews)
+		long end;
+		for(ReviewVO vo : temp.positiveReviews){
 			System.out.println("\n"+vo);
+			end	=System.currentTimeMillis();
+			System.out.println((end-start)/1000.0f);
+		}
+			
 		
 		for(ReviewVO vo : temp.negativeReviews)
+		{
 			System.out.println("\n"+vo);
+			end	=System.currentTimeMillis();
+			System.out.println((end-start)/1000.0f);
+		}
+			
 		
 		
-		long end	=System.currentTimeMillis();
+		end	=System.currentTimeMillis();
 		
-		System.out.println((end-start)/1000.0);
+		System.out.println((end-start)/1000.0f);
 	}
 }
 //https://partner.steam-api.com/ISteamApps/GetAppBetas/v1/?key=B45C6883EC5C4506EBFE09C125E7B758&appid=47780
