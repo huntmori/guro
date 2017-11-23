@@ -1,14 +1,21 @@
 package com.storm.crawl;
 
 import java.awt.AWTException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import com.storm.VO.ReviewVO;
+
+import com.storm.CrawlVO.KeywordVO;
+import com.storm.CrawlVO.ReviewVO;
+import com.storm.crawlUtil.KeywordCounter;
+import com.storm.crawlUtil.WordExtractor;
 
 
 //view-source:
@@ -40,7 +47,7 @@ public class AppReviewCrawler
 		try{
 			driver.get(url);
 			
-			System.out.println(driver.getPageSource());
+			//System.out.println(driver.getPageSource());
 		}catch (Exception e) {
 			e.printStackTrace();
 			driver.quit();
@@ -91,6 +98,7 @@ public class AppReviewCrawler
 		driver.close();
 		return result;
 	}
+	
 	public void getReviews()
 	{
 		this.positiveReviews	=	getReviews(true);
@@ -98,32 +106,77 @@ public class AppReviewCrawler
 	}
 	
 	
-	public static void main(String[] args) throws AWTException, InterruptedException
+	public static void main(String[] args) throws AWTException, InterruptedException, FileNotFoundException
 	{
-		long start = System.currentTimeMillis();
 		AppReviewCrawler	temp = new AppReviewCrawler();
-		temp.appid="491710";
-		temp.getReviews();
-		long end;
-		for(ReviewVO vo : temp.positiveReviews){
-			System.out.println("\n"+vo);
-			end	=System.currentTimeMillis();
-			System.out.println((end-start)/1000.0f);
+		temp.appid="286000";
+		temp.getReviews();// 리뷰 크롤링
+		
+		//키워드 추출
+		WordExtractor	we	=	new WordExtractor();
+		ArrayList<String>	positive_keywords = we.getKeywordsArrayList(temp.positiveReviews);
+		ArrayList<String>	negative_keywords = we.getKeywordsArrayList(temp.negativeReviews);
+		
+		// word count util		
+		KeywordCounter	count = new KeywordCounter();
+		count.inputKeywords(positive_keywords);
+		ArrayList<KeywordVO> positiveWordCount = count.getSortedKeywordsList();
+		Collections.sort(positiveWordCount);
+		
+		System.out.println("Positive=======================================================================");
+		for(KeywordVO vo : positiveWordCount){
+			System.out.println(vo.getKeyword()+"\t"+vo.getCount());
 		}
-			
 		
-		for(ReviewVO vo : temp.negativeReviews)
-		{
-			System.out.println("\n"+vo);
-			end	=System.currentTimeMillis();
-			System.out.println((end-start)/1000.0f);
+		count = new KeywordCounter();
+		count.inputKeywords(negative_keywords);
+		ArrayList<KeywordVO>	negativeWordCount = count.getSortedKeywordsList();
+		Collections.sort(negative_keywords);
+		
+		
+		System.out.println("Negative=======================================================================");
+		for(KeywordVO vo : negativeWordCount){
+			System.out.println(vo.getKeyword()+"\t"+vo.getCount());
 		}
+		
+				
+		/*keywords = new ArrayList<String>();
+		for(ReviewVO vo:temp.negativeReviews){
+			@SuppressWarnings("unchecked")
+			List<List<Pair<String,String>>>	result1 = komoran_full.analyze(vo.getText());
+			System.out.println("==========================================================================");
+			for(List<Pair<String, String>>search : result1){
+				for(Pair<String, String> wordMorph : search){
+					if(	wordMorph.getSecond().equals("NNG")||
+							wordMorph.getSecond().equals("NNP")||
+							wordMorph.getSecond().equals("XR"))
+						{
+							System.out.println(wordMorph);
+							keywords.add(wordMorph.getFirst());
+						}
+				}
+			}
+		}
+		
+		count = new KeywordCounter();
+		count.inputKeywords(keywords);
+		
+		HashMap<String, Integer>result1 = count.map;
+		Set<String>	keys1 = result1.keySet();
+		ArrayList<KeywordVO>	sort1=new ArrayList<KeywordVO>();
+		for(String str : keys1){
+			if(str.length()!=1)
+				sort1.add(new KeywordVO(str, result1.get(str)));
+		}
+		
+		PrintWriter	negative = new PrintWriter(new File(temp.appid+"_negative.txt"));
+		Collections.sort(sort1);
+		for(int i=0; i<sort1.size();i++){
 			
+			negative.println(sort1.get(i).getKeyword()+"\t"+sort1.get(i).getCount());
+		}
+		negative.close();*/
 		
-		
-		end	=System.currentTimeMillis();
-		
-		System.out.println((end-start)/1000.0f);
 	}
 }
 //https://partner.steam-api.com/ISteamApps/GetAppBetas/v1/?key=B45C6883EC5C4506EBFE09C125E7B758&appid=47780

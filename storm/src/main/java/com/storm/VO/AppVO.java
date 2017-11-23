@@ -1,96 +1,55 @@
 package com.storm.VO;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 
-public class AppVO implements Comparable<AppVO>, Serializable
+public class AppVO 
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	String id;
-	String title;
-	String url;
+	private	String	id;
+	private	String	title;
+	private	String	text;
+	private	String	imgURL;
 	
-	boolean		isDiscount;
-	public int	price;
-	public int discountedPrice;
+	private	Date	releaseDate;
+	private	int		price;
 	
-	public ArrayList<String>	genre;
-	public ArrayList<String>	tagList;
-	public ArrayList<String>	developList;
-	public ArrayList<String>	publisherList;
-	public ArrayList<String>	categories;
 	
-	public static final int 	INTERFACE=0,	VOICE=1,	SUBTITLE=2;
-	
-	public HashMap<String, boolean[]>	langueges;
-	
-	public	String	releaseDate;
-	public	String	description;
-	
-	public	boolean	 equals(AppVO o)
-	{
-		return this.id.equals(o.id);
-	}
-	public AppVO(String id, String title, String url)
-	{
-		this.id = id;
-		this.title = title;
-		this.url = url;
-		
-		langueges = new HashMap<String, boolean[]>();
-	}
-	
-	public  AppVO() {
-		langueges = new HashMap<String, boolean[]>();
-	}
-	
-	public int compareTo(AppVO o) {
-		int temp1 = Integer.parseInt(this.id);
-		int	temp2 = Integer.parseInt(o.id);
-		return Integer.compare(temp1, temp2);
-	}
-
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public String getUrl() {
-		return url;
+	public String getText() {
+		return text;
 	}
-
-	public void setUrl(String url) {
-		this.url = url;
+	public void setText(String text) {
+		this.text = text;
 	}
-
-	public boolean isDiscount() {
-		return isDiscount;
+	public String getImgURL() {
+		return imgURL;
 	}
-
-	public void setDiscount(boolean isDiscount) {
-		this.isDiscount = isDiscount;
+	public void setImgURL(String imgURL) {
+		this.imgURL = imgURL;
 	}
-
-	public int getDiscountedPrice() {
-		return discountedPrice;
+	
+	public int getPrice() {
+		return price;
 	}
-
-	public void setDiscountedPrice(int discountedPrice) {
-		this.discountedPrice = discountedPrice;
+	public void setPrice(int price) {
+		this.price = price;
 	}
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+	
+	
 }

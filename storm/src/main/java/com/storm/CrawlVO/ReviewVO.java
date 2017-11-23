@@ -1,4 +1,4 @@
-package com.storm.VO;
+package com.storm.CrawlVO;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="AppList">
+	<sql id="selectField">
+	    app_id  as id,
+	    app_title   as title,
+	    app_text    as  text,
+	    app_releasedate  as  releaseDate,
+	    APP_price   as  price,
+	    app_imageurl    as imgURL
+	</sql>
+	<select id="getTotal"	resultType="int">
+		SELECT	COUNT(*)
+			FROM	App_Table			
+	</select>
+	
+	<select	id="appList"	parameterType="hMap"	resultType="appVO">
+		SELECT
+			rownum as rno, t.*
+    	FROM
+    		(SELECT 
+    			<include refid="selectField"/> 
+        	FROM		app_table
+            ORDER BY app_id ) t
+    	WHERE
+    		rownum between #{start} AND #{end}
+	</select>
+	
+	<select	id="tagList"	resultType="tagVO">
+		SELECT
+			tag_name	as		tag_name,
+			tag_id			as		tag_id
+		FROM
+			tag_table
+	</select>
+</mapper>

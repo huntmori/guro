@@ -12,10 +12,10 @@
 	<!-- 커넥션 풀-->
 	<bean id="BaseBDDataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@192.168.137.53:1521:orcl" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
 		<property name="username" value="scott" />
 		<property name="password" value="tiger" />
-	</bean>
+	</bean>  
 	
 	<!--	위의 커넥션 풀 작업의 결과를 윌는 앞으로 myBatis라는 프레임워크를
 			이용해서 처리 할 예정이다.
@@ -33,7 +33,10 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-	
+	<bean	id="AppListDAO"	class="com.storm.DAO.AppListDAO">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="AppListS"			class="com.storm.Service.AppListService"/>
 	<!--  만들어진 DAO를 자동주입하기위한 bean 선언
 	<bean id="loginDAO" class="com.dol.DAO.LoginDAO">
 		자동 주입을 할 때 위에서 설정한 커넥션을 필요로 하고 있기 때문에

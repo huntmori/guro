@@ -8,7 +8,8 @@ import java.util.HashMap;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import  com.storm.VO.AppVO;
+
+import com.storm.CrawlVO.AppVO;
 import com.storm.crawlUtil.JSoupUtil;
 
 public class AppInfoCrawler 

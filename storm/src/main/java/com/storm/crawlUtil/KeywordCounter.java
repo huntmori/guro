@@ -2,26 +2,55 @@ package com.storm.crawlUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
+import java.util.Set;
+
+import com.storm.CrawlVO.KeywordVO;
 
 public class KeywordCounter 
 {
-	HashMap<String, Integer> map;
+	public HashMap<String, Integer> map;
+	
+	public KeywordCounter(){
+		map = new HashMap<String, Integer>();
+	}
 	
 	public void inputKeywords(ArrayList<String> keywords)
 	{
 		int length = keywords.size();
 		for(int i=0;i<length; i++){
 			String key = keywords.get(i);
-			if(map.containsKey(key)){
-				//해당 키워드가 존재
-				//해당 키의 벨류를 1 증가시킨다.
-				int value = map.remove(key);
-				map.put(key, value+1);
-			}
-			else	{//해당 키워드가 존재치 않음
-				//벨류를 1로 하여 삽입
-				map.put(key, 1);
-			}
+			inputKeyword(key);
 		}
+	}
+	
+	public	void	inputKeyword(String	keyword)
+	{
+		if(map.containsKey(keyword))
+		{
+			int value = map.remove(keyword);
+			System.out.print(value+"===>");
+			map.put(keyword, value+1);
+			System.out.println(map.get(keyword));
+		}
+		else
+		{
+			map.put(keyword, 1);
+		}
+		System.out.println(keyword);
+	}
+	
+	public ArrayList<KeywordVO>	getSortedKeywordsList(){
+		Set<String>	keys1 = map.keySet();
+		
+		ArrayList<KeywordVO>	sort1=new ArrayList<KeywordVO>();
+		
+		for(String str : keys1)
+		{
+			if(str.length()!=1)
+				sort1.add(new KeywordVO(str, map.get(str)));
+		}
+		
+		return sort1;
 	}
 }

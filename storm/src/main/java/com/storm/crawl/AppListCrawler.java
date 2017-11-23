@@ -15,8 +15,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import  com.storm.VO.AppVO;
-import  com.storm.VO.TagVO;
+import com.storm.CrawlVO.AppVO;
+import com.storm.CrawlVO.TagVO;
 
 public class AppListCrawler 
 {
