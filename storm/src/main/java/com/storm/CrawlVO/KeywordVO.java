@@ -1,7 +1,13 @@
 package com.storm.CrawlVO;
 
-public class KeywordVO	implements	Comparable<KeywordVO> 
+import java.io.Serializable;
+
+public class KeywordVO	implements	Comparable<KeywordVO> , Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2697468983828334843L;
 	String	keyword;
 	int		count;
 	

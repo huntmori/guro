@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AppVO implements Comparable<AppVO>, Serializable
+import org.apache.log4j.lf5.viewer.categoryexplorer.CategoryExplorerTree;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class AppVO  implements Comparable<AppVO>, Serializable  
 {
-	
 	private static final long serialVersionUID = 1L;
 	int id;
 	String title;
@@ -93,4 +97,5 @@ public class AppVO implements Comparable<AppVO>, Serializable
 	public void setDiscountedPrice(int discountedPrice) {
 		this.discountedPrice = discountedPrice;
 	}
+
 }

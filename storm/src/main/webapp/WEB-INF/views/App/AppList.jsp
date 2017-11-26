@@ -39,29 +39,65 @@
 }
 </style>
 </head>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function()
+	{
+		$("#header").load("../header.jsp");
+		$("#searchBar").load("../App/AppSearchForm.storm");
+		
+	});
+</script>
 
 <body>
-	<form	id="searchForm" action="">
-		<c:forEach	var="tag"	items="${TAG_LIST}"	varStatus="status">
-			<div style="width:300px;">
-				<input	type="checkbox" 	id="tagChecker"	value="${tag.tag_id}">${tag.tag_name}
-			</div>
-			<c:if	test="${status.count mod 4 eq 0}">
-				<br>
-			</c:if>
-		</c:forEach>
-	</form>
-	<div class="divTable">
+	<div	id="header"></div>
+	<div	id="searchBar"></div>
+	<table width="1000" border="1" align="center">
+		<tr>
+			<td align="center">
+				<%--	[이전] --%>
+				<c:if test="${PINFO.startPage eq 1}">
+					[이전]
+				</c:if>
+				<c:if test="${PINFO.startPage ne 1}">
+					<a href="">[이전]</a>
+				</c:if>
+				<%--	[1][2][3] --%>
+				<c:forEach var="page" begin="${PINFO.startPage}" end="${PINFO.endPage}">
+					<a href="../App/AppList.storm?nowPage=${page}">[${page}]</a>
+				</c:forEach>
+				<%--	[다음] --%>
+				<c:if test="${PINFO.endPage eq PINFO.totalPage}">
+					[다음]
+				</c:if>
+				<c:if test="${PINFO.endPage ne PINFO.totalPage}">
+					<a href="">[다음]</a>
+				</c:if>
+			</td>
+		</tr>
+	</table>
+	<div class="divTable"	style="WIDTH:800px;">
 		<div	class="divTableBody">
+			<div	class="divTableRow" >
+				<div class="divTableCell" >이미지</div><!-- APP IMG -->
+				<div class="divTableCell">제목</div>
+				<div class="divTableCell" >출시일</div>
+				<div class="divTableCell" >가격</div>
+			</div>
 			<c:forEach	var="data"	items="${APP_LIST}">
-				<div	class="divTableRow">
-					<div class="divTableCell"  ></div><!-- APP IMG -->
-					<div class="divTableCell">${data.title}</div>
-					<div class="divTableCell">${data.releaseDate}</div>
-					<div class="divTableCell">${data.price}</div>
-				</div>
+					
+					<div	class="divTableRow" >
+						<div class="divTableCell" ></div><!-- APP IMG -->
+						<div class="divTableCell title"  >
+							<a	href="../App/AppView.storm?nowPage=${PINFO.nowPage}&app_id=${data.id}">
+								${data.title}
+							</a>
+						</div>
+						
+						<div class="divTableCell" >${data.realDate}</div>
+						<div class="divTableCell" >${data.price}</div>
+					</div>
+				
 			</c:forEach>
 		</div>
 	</div>

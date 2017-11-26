@@ -4,36 +4,201 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="AppList">
-	<sql id="selectField">
-	    app_id  as id,
-	    app_title   as title,
-	    app_text    as  text,
-	    app_releasedate  as  releaseDate,
-	    APP_price   as  price,
-	    app_imageurl    as imgURL
+	<sql id="appSelectField">
+	    app_id						as		id,
+	    app_title					as		title,
+	    app_text   				as		text,
+	    app_releasedate	as		releaseDate,
+	    APP_price   			as		price,
+	    app_imageurl			as		imgURL
 	</sql>
+	
+	<sql	id="tagSelectField">
+			tag_name	as		name,
+			tag_id			as		id
+	</sql>
+	
+	<sql	id="categorySelectField">
+		category_id 			as  id,
+        category_name  	as  name
+	</sql>
+	
+	
 	<select id="getTotal"	resultType="int">
 		SELECT	COUNT(*)
 			FROM	App_Table			
 	</select>
 	
-	<select	id="appList"	parameterType="hMap"	resultType="appVO">
-		SELECT
-			rownum as rno, t.*
-    	FROM
-    		(SELECT 
-    			<include refid="selectField"/> 
-        	FROM		app_table
-            ORDER BY app_id ) t
-    	WHERE
-    		rownum between #{start} AND #{end}
+	<select	id="appList"	parameterType="hMap"	resultType="AppVO">
+		SELECT		t.*
+		FROM			(SELECT	rownum as r_no,
+                							app_id						as		id,
+                							app_title					as		title,
+                							app_text   				as		text,
+                							app_releasedate	as		releaseDate,
+                							APP_price   			as		price,
+                							app_imageurl			as		imgURL
+    						FROM    app_table
+    						ORDER BY	app_id ) t
+		WHERE		r_no between #{start} AND #{end}
+		ORDER by r_no
 	</select>
 	
-	<select	id="tagList"	resultType="tagVO">
-		SELECT
-			tag_name	as		tag_name,
-			tag_id			as		tag_id
-		FROM
-			tag_table
+	<select	id="tagList"	resultType="TagVO">
+		select	tag_id		as id,
+				tag_name 	as name
+		FROM	tag_table
 	</select>
+	
+	<select	id="appTagList"	parameterType="int"	resultType="TagVO">
+		SELECT		tag.tag_id			as		id,
+							tag.tag_name		as		name
+        	FROM 	(SELECT	*
+                		 FROM	map_app_tag
+	                	 WHERE	app_id = #{app_id}
+        	        	) map,
+            			tag_table   tag
+        	WHERE
+            		map.tag_id = tag.tag_id
+	</select>
+	
+	<select	id="appCategoryList"	parameterType="int"	resultType="CategoryVO">
+		SELECT	cate.category_id 			as  id,
+        				cate.category_name  	as  name
+ 		FROM (	SELECT	*
+                		FROM	map_app_category
+                		WHERE   app_id = #{app_id})	map,
+                		
+        			category_table  cate
+		WHERE
+    			map.category_id =   cate.category_id
+	</select>
+	
+	<select	id="appLanguageList"	parameterType="int"	resultType="LanguageVO">
+		SELECT 	lang.language_id			as		id,
+						lang.language_name		as 	name,
+        				map.lang_interface		as 	supported_interface,
+        				map.lang_voice				as 	supported_voice,
+        				map.lang_subtitle			as 	supported_subtitle
+        	FROM	(	SELECT  * 
+        					FROM    map_app_lang
+        					WHERE   app_id = #{app_id}
+        				) map,
+    					Language_table  lang
+		WHERE	map.language_id =   lang.language_id
+	</select>
+	
+	<select	id="appDeveloperList"	parameterType="int"	resultType="CompanyVO">
+		SELECT	comp.company_id     as	id,
+        			comp.company_name   as	name
+		FROM	(  	SELECT  * 
+        				FROM    map_app_developer
+        				WHERE   app_id = #{app_id}) map,
+    				Company_Table   comp
+		WHERE
+    				map.developer_id =   comp.company_id
+	</select>
+	
+	<select	id="appPublisherList"	parameterType="int"	resultType="CompanyVO">
+		SELECT 	comp.company_id		as  id,
+        			comp.company_name	as  name
+		FROM	(	SELECT  * 
+        				FROM    map_app_publisher
+        				WHERE   app_id = #{app_id}) map,
+    				Company_Table   comp
+		WHERE
+    			map.publisher_id =   comp.company_id
+	</select>
+	
+	<select	id="appGenreList"	parameterType="int"	resultType="GenreVO">
+		SELECT	gen.genre_id			as  id,
+        				gen.genre_name	as  name
+		FROM(   SELECT  * 
+        			FROM    map_app_genre
+        			WHERE   app_id = #{app_id}) map,
+    				Genre_table   gen
+		WHERE	map.genre_id =   gen.genre_id
+	</select>
+	
+	<select	id="appReviewList"	parameterType="hMap"	resultType="ReviewVO">
+		SELECT	review_writer						as		writer,
+						review_recommended		as		isRecommended,
+						review_userplaytime			as		userPlayTime,
+						review_wdate						as		wdate,
+						review_text							as		text,
+						review_app_id					as		app_id
+		FROM		Review_table
+		WHERE			review_app_id=#{app_id}
+				AND		review_recommended=#{isRecommend}				
+	</select>
+	
+	<select	id="appInfo"	parameterType="int"	resultType="AppVO">
+		SELECT
+			<include refid="appSelectField"/>
+		FROM
+			app_table
+		WHERE
+			app_id	=#{app_id}
+	</select>
+	
+	<select	id="genreList"	resultType="GenreVO">
+		SELECT	genre_id			as		id,
+						genre_name	as		name
+			FROM	genre_table
+	</select>
+	<select	id="categoryList"	resultType="CategoryVO">
+		SELECT	category_id			as		id,
+				category_name		as		name
+		FROM	category_table
+	</select>
+	<select	id="languageList"	resultType="LanguageVO">
+		SELECT	language_id			as		id,
+				language_name		as		name
+		FROM	Language_table
+	</select>
+	
+	<select	id="searchSelectedAppOption"	parameterType="hMap" resultType="AppVO">
+		SELECT	app_id 			as id,
+        			app_title   		as  title,
+        			app_text    		as  text,
+        			app_releasedate	as releaseDate,
+        			app_price   		as  price,
+        			app_imageurl  	as imgurl
+		FROM 	app_table
+		<trim	prefix="WHERE"	prefixOverrides="AND|OR">
+			<if test="tagList !=null">
+				AND app_id IN
+			</if>			
+			<foreach collection="tagList" item="tag"
+					 open="(	"
+					 close=" ) "
+					 separator=" INTERSECT ">
+				SELECT	app_id
+				FROM	SearchOpetionView
+				WHERE	tag_id=#{tag}
+			</foreach>
+			
+			<if test="genreList != null">
+				AND app_id IN
+			</if>
+			<foreach collection="genreList" item="genre"
+					 open="(	"	 close=" ) "
+					 separator=" INTERSECT ">
+				SELECT	app_id
+				FROM	SearchOpetionView
+				WHERE	genre_id=#{genre}
+			</foreach>
+			
+			<if test="categoryList != null">
+				AND app_id IN
+			</if>
+			<foreach collection="categoryList" item="category"
+					 open="(	"	 close=" ) "
+					 separator=" INTERSECT ">
+				SELECT	app_id
+				FROM	SearchOpetionView
+				WHERE	category_id=#{category}
+			</foreach>
+		</trim>
+	</select> 
 </mapper>
