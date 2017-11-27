@@ -158,47 +158,57 @@
 	</select>
 	
 	<select	id="searchSelectedAppOption"	parameterType="hMap" resultType="AppVO">
-		SELECT	app_id 			as id,
-        			app_title   		as  title,
-        			app_text    		as  text,
-        			app_releasedate	as releaseDate,
-        			app_price   		as  price,
-        			app_imageurl  	as imgurl
-		FROM 	app_table
+		SELECT	app_id 					as id,
+        				app_title 			  		as  title,
+        				app_text    				as  text,
+        				app_releasedate	as releaseDate,
+        				app_price		   		as  price,
+        				app_imageurl 	 	as imgurl
+		FROM	 	app_table
 		<trim	prefix="WHERE"	prefixOverrides="AND|OR">
-			<if test="tagList !=null">
+			<if test="TAGLIST !=null">
 				AND app_id IN
-			</if>			
-			<foreach collection="tagList" item="tag"
+				<foreach collection="TAGLIST" item="tag"
 					 open="(	"
 					 close=" ) "
 					 separator=" INTERSECT ">
 				SELECT	app_id
-				FROM	SearchOpetionView
+				FROM	searchOptionView
 				WHERE	tag_id=#{tag}
 			</foreach>
+			</if>			
 			
-			<if test="genreList != null">
+			
+			<if test="GENRELIST != null">
 				AND app_id IN
-			</if>
-			<foreach collection="genreList" item="genre"
+				<foreach collection="GENRELIST" item="genre"
 					 open="(	"	 close=" ) "
 					 separator=" INTERSECT ">
 				SELECT	app_id
-				FROM	SearchOpetionView
+				FROM	searchOptionView
 				WHERE	genre_id=#{genre}
 			</foreach>
-			
-			<if test="categoryList != null">
-				AND app_id IN
 			</if>
-			<foreach collection="categoryList" item="category"
+			
+			
+			<if test="CATEGORYLIST != null">
+				AND app_id IN
+					<foreach collection="CATEGORYLIST" item="category"
 					 open="(	"	 close=" ) "
 					 separator=" INTERSECT ">
 				SELECT	app_id
-				FROM	SearchOpetionView
+				FROM	searchOptionView
 				WHERE	category_id=#{category}
 			</foreach>
+			</if>
+		
 		</trim>
 	</select> 
+		
+	<select	id="ajaxTagSearch"	resultType="TagVO">
+		SELECT	tag_id			as		id,
+						tag_name	as		name
+		FROM		tag_table
+		WHERE	UPPER(tag_name) LIKE  UPPER( '%'||#{temp}||'%' )
+	</select>
 </mapper>

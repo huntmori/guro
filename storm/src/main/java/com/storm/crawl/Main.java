@@ -79,7 +79,9 @@ public class Main
 					LANGUAGE_TABLE_SQL=".\\sql\\LANGUAGE_TABLE_SQL.sql";
 	
 	//List URL
-	String url = "http://store.steampowered.com/search/?category1=998&page=";
+	String url =//"http://store.steampowered.com/search/?sort_by=Price_DESC&category1=998";
+			//"http://store.steampowered.com/search/?category1=998&page=";
+			"http://store.steampowered.com/search/?sort_by=Price_ASC&category1=998&page=";
 	String soma= ("http://store.steampowered.com/app/282140");
 	String pubg="http://store.steampowered.com/app/578080/agecheck";
 	String dyinglight="http://store.steampowered.com/agecheck/app/239140/";

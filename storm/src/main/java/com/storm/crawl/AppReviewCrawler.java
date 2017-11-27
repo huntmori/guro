@@ -136,7 +136,7 @@ public class AppReviewCrawler implements	Serializable
 	public static void main(String[] args) throws AWTException, InterruptedException, IOException
 	{		
 		AppReviewCrawler	temp = new AppReviewCrawler();
-		temp.appid="264710";
+		temp.appid="339600";
 		temp.getReviews();// ¸®ºä Å©·Ñ¸µ
 		
 		File	test	=	new File(".\\dat\\"+temp.appid+"\\");

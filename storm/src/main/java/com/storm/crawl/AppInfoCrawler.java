@@ -187,12 +187,18 @@ public class AppInfoCrawler
 	public int	getPrice(Document document)
 	{
 		//Price
-		Elements price = document.getElementsByClass("game_purchase_price price");
+		Elements price = null;
+		try{document.getElementsByClass("game_purchase_price price");}
+		catch (Exception e) {	}
 		
 		
-		if(price.size()==0)//할인 가격 인 경우 처리
+		if(price==null)//할인 가격 인 경우 처리
 		{
-			price = document.getElementsByClass("discount_original_price");
+			try{
+				price = document.getElementsByClass("discount_original_price");
+			}catch (Exception e) {
+				return -1;
+			}
 		}
 		if(price.size()==0){
 			return -1;
@@ -524,7 +530,7 @@ public class AppInfoCrawler
 		appInfo.publisherList	=	getAppPublishers(document);
 		appInfo.langueges	=	getSupportedLanguages(document);
 		appInfo.categories	=	getCategoryList(document);
-		//appInfo.price	=	getPrice(document);
+		appInfo.price	=	getPrice(document);
 	}
 	
 	

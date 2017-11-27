@@ -87,4 +87,21 @@ public class AppListService
 		// TODO Auto-generated method stub
 		return (ArrayList)appDAO.getLanguageList();
 	}
+
+	public ArrayList appSearchProc(HashMap map) {
+		// TODO Auto-generated method stub
+		return (ArrayList)appDAO.appSearchProc(map);
+	}
+
+	public ArrayList ajaxTagSearch(String temp) {
+		return (ArrayList)appDAO.ajaxTagSearch(temp);
+	}
+
+	public HashMap getPositiveReview(int app_id) {
+		return (HashMap)appDAO.getPositiveReivew(app_id);
+	}
+
+	public HashMap getNegativeReview(int app_id) {
+		return (HashMap)appDAO.getNegativeReview(app_id);
+	}
 }

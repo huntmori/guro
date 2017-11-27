@@ -114,10 +114,13 @@ public class ReviewVO implements Serializable
 	public String getInsertSqlStatement(){
 		StringBuilder sb= new StringBuilder();
 		
+		sb.append("INSERT INTO REVIEW_TABLE VALUES ( ");
+		String vote = isPositive ? "Y" : "N";
 		
+		this.writer = this.writer.replaceAll("'", "''");
 		
-		
-		
+		sb.append(" '"+this.writer+"' , '"+vote+"', 0 , SYSDATE , '"+this.text+"' ,"+this.appid+");");
+				
 		return sb.toString();
 	}
 }

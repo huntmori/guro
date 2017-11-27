@@ -62,7 +62,7 @@ public class AppListCrawler
 	public void ProccessCrawl(PrintStream output) throws IOException
 	{
 		//페이지 시작값
-		int page=1;
+		int page=150;
 		output.println("title\tappid\turl");
 		
 		Elements pages = document.getElementsByClass("search_pagination_right");
@@ -74,8 +74,8 @@ public class AppListCrawler
 		}System.out.println();
 				
 		// 최대 페이지 값
-		//int maxPage = Integer.parseInt(realPages.get(realPages.size()-2).text());
-		int maxPage	=	40;	
+		int maxPage = Integer.parseInt(realPages.get(realPages.size()-2).text());
+		//int maxPage	=	page+40;	
 		//TagList
 		Element popupMenuItem = document.getElementById("TagFilter_Container");		
 		Elements divlist = popupMenuItem.select("div[data-value]");
@@ -107,7 +107,7 @@ public class AppListCrawler
 			//Elements	prices	=	document.select("div[col search_price_discount_combined responsive_secondrow]");
 			
 					
-			for(int cnt=0;cnt<ele.size(); cnt++)
+			for(int cnt=0;cnt<ele.size()&& cnt<linkList.size() && cnt<links.size(); cnt++)
 			{				
 				//Element	tempPriceDiv	=	prices.get(0).select("").get(0);
 				
@@ -115,7 +115,9 @@ public class AppListCrawler
 				{
 					
 				}*/
-				
+				if(cnt==ele.size())
+					break;
+				System.out.println(cnt+"\t/"+ele.size()+"\t"+linkList.size()+"\t"+links.size());
 				String	tempTitle 	=	ele.get(cnt).text().replaceAll(" ","_");
 				String	tempId		=	links.get(cnt).attr("data-ds-appid");
 				String	tempUrl		=	linkList.get(cnt).attr("href");

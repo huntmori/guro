@@ -8,7 +8,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.storm.CrawlVO.KeywordVO;
+import com.storm.CrawlVO.ReviewVO;
 import com.storm.VO.AppVO;
+import com.storm.crawlUtil.KeywordCounter;
 
 
 @SuppressWarnings("rawtypes")
@@ -84,5 +87,47 @@ public class AppListDAO extends SqlSessionDaoSupport
 	public ArrayList getLanguageList() {
 		// TODO Auto-generated method stub
 		return (ArrayList)sSession.selectList(nameSpace+"languageList");
+	}
+
+	public ArrayList appSearchProc(HashMap map) {
+		// TODO Auto-generated method stub
+		ArrayList result = (ArrayList)sSession.selectList(nameSpace+"searchSelectedAppOption", map);
+		
+		return result;
+	}
+
+	public ArrayList ajaxTagSearch(String temp) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sSession.selectList(nameSpace+"ajaxTagSearch", temp);
+	}
+
+	public HashMap getPositiveReivew(int app_id) {
+		ArrayList	positives = (ArrayList)sSession.selectList(nameSpace+"getPositiveReview", app_id);
+		KeywordCounter	kc = new KeywordCounter();
+		for(ReviewVO vo : (ArrayList<ReviewVO>)positives){
+			kc.inputKeyword(vo.getText());
+		}
+		
+		HashMap	map = new HashMap();
+		ArrayList<KeywordVO>	positiveKeys = kc.getSortedKeywordsList();
+		for(KeywordVO vo:positiveKeys){
+			map.put(vo.getKeyword(), vo.getCount());
+		}
+		return map;
+	}
+
+	public HashMap getNegativeReview(int app_id) {
+		ArrayList	negatives = (ArrayList)sSession.selectList(nameSpace+"getNegativeReview", app_id);
+		KeywordCounter	kc = new KeywordCounter();
+		for(ReviewVO vo : (ArrayList<ReviewVO>)negatives){
+			kc.inputKeyword(vo.getText());
+		}
+		
+		HashMap	map = new HashMap();
+		ArrayList<KeywordVO>	negativesKeys = kc.getSortedKeywordsList();
+		for(KeywordVO vo:negativesKeys){
+			map.put(vo.getKeyword(), vo.getCount());
+		}
+		return map;
 	}
 }

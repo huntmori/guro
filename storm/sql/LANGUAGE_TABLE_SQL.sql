@@ -25,5 +25,7 @@ INSERT	INTO	Language_table		VALUES(			23,			'Bulgarian'	)
 INSERT	INTO	Language_table		VALUES(			24,			'Czech'	)
 INSERT	INTO	Language_table		VALUES(			25,			'Hungarian'	)
 INSERT	INTO	Language_table		VALUES(			26,			'Greek'	)
-INSERT	INTO	Language_table		VALUES(			27,			'Arabic'	)
+INSERT	INTO	Language_table		VALUES(			27,			'Slovakian'	)
+INSERT	INTO	Language_table		VALUES(			28,			'#lang_#lang_spanish*#lang_full_audio'	)
+INSERT	INTO	Language_table		VALUES(			29,			'#lang_#lang_#lang_english**#lang_full_audio*#lang_full_audio'	)
 SET DEFINE ON;
