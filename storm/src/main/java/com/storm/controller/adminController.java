@@ -13,7 +13,7 @@ public class adminController
 		System.out.println("HELLO MASTER");
 
 		ModelAndView	mv	= new ModelAndView();
-		mv.setViewName("test");
+		mv.setViewName("manageIndex");
 		return mv;
 	}
 }
