@@ -19,4 +19,8 @@ public class TTEST {
 		String test03="eeeeeeeeeeeee";
 		return;
 	}
+	public void test04(){
+		String test04="0004";
+		return;
+	}
 }
