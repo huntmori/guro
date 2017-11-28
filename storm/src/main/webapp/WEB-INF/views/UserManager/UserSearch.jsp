@@ -10,27 +10,52 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <title>Insert title here</title>
 <style>
+h1 {
+	text-align: center;
+}
+
+h2 {
+	height: 40px;
+	border-width: 1px;
+	border-style: solid;
+	font-size: 1.875em;
+	font-weight: normal;
+	color: white;
+	background-color: #191970;
+	text-align: center;
+}
+
+h3 {
+	text-align: right;
+}
+</style>
+
+<style>
 #listheader {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
 }
 
 #listheader td, #listheader th {
-    border: 1px solid #ddd;
-    padding: 8px;
+	border: 1px solid #ddd;
+	padding: 8px;
 }
 
-#listheader tr:nth-child(even){background-color: #f2f2f2;}
+#listheader tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
 
-#listheader tr:hover {background-color: #ddd;}
+#listheader tr:hover {
+	background-color: #ddd;
+}
 
 #listheader th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: 	#191970;
-    color: white;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #191970;
+	color: white;
 }
 </style>
 </head>
@@ -42,6 +67,10 @@
 	<!-- 	검색 폼 만들고 -->
 	<!-- 	검색 결과 출력하고 -->
 	<div class="container">
+		<table class="table table-bordered" width="1000" border="1"
+			align="center">
+			<h2>조회결과</h2>
+		</table>
 		<table id="listheader" width="1000" border="1" align="center">
 			<tr>
 				<th>사용자번호</th>
@@ -53,7 +82,7 @@
 				<tr>
 					<td>${data.user_key}</td>
 					<td>${data.user_email}</td>
-				<td><a
+					<td><a
 						href="../UserManager/UserView.storm?nowPage=${nowPage}&userKey=${data.user_key}">${data.user_nickname}</a>
 					</td>
 					<td>${data.user_enable}</td>
