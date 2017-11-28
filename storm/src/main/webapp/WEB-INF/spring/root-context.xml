@@ -42,9 +42,7 @@
 	<bean id="loginDao" class="com.storm.DAO.LoginDAO">
 		<property name="sqlSessionTemplate" ref="sqlSession" />
 	</bean>	
-	<bean id="joinDao" class="com.storm.DAO.JoinDao">
-		<property name="sqlSessionTemplate" ref="sqlSession" />
-	</bean>	
+
 	<bean id="CommuDAO" class="com.storm.DAO.CommuDAO">
 		<property name="sqlSessionTemplate" ref="sqlSession" />
 	</bean>	
@@ -64,7 +62,7 @@
 	<!-- 만들어진 서비스 클래스를 자동 주입하기 위한 bean 선언 -->
 	<bean id="mypageS" class="com.storm.Service.MypageService"/>
 	<bean id="loginS" class="com.storm.Service.LoginService"/>
-	<bean id="joinS" class="com.storm.Service.JoinService"/>
+
 	<bean id="commuS" class="com.storm.Service.CommuService"/>
 	<bean id="memberS" class="com.storm.Service.MemberService"/>
 	<bean id="AppListS"			class="com.storm.Service.AppListService"/>

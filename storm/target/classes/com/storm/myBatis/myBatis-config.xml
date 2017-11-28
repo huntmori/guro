@@ -22,7 +22,6 @@
 		<typeAlias	alias="CategoryVO"		type="com.storm.VO.CategoryVO"/>
 		<typeAlias	alias="ReviewVO"			type="com.storm.VO.ReviewVO"/>
 		<typeAlias	alias="mVO"					type="com.storm.VO.MemberVO"/>
-		<typeAlias	alias="jVo"						type="com.storm.VO.JoinVO"/>
 		<typeAlias alias="CVO"					type="com.storm.VO.CommuVO" />
 		<typeAlias alias="mbVO"				type="com.storm.VO.MemberVO" />
 		<typeAlias alias="umVO" type="com.storm.VO.UserManagerVO" />
@@ -32,7 +31,6 @@
 	<mappers>
 		<mapper resource="/com/storm/SQL/AppListSQL.xml" />
 		<mapper resource="/com/storm/SQL/LoginSQL.xml" />
-		<mapper resource="/com/storm/SQL/JoinSQL.xml" />
 		<mapper resource="/com/storm/SQL/MypageSQL.xml" />
 		<mapper resource="/com/storm/SQL/CommuSQL.xml" />
 		<mapper resource="/com/storm/SQL/ChartSQL.xml" />

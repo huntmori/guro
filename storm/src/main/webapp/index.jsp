@@ -117,7 +117,7 @@ body {  margin: 0;	}
   <h1>St0rm2.0</h1>
   <p>Resize the browser window to see the responsive effect.</p>
   <div align="right">
-  		<a href="./Join/JoinForm.storm">회원가입</a>
+  		<a href="./Member/MemberForm.storm">회원가입</a>
 		<a href="./Login/LoginForm.storm">로그인</a><br>
 		<input type="text">
 		<input type="button" id="sBtn" value="검색"/>
