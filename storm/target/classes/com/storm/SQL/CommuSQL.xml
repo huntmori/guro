@@ -18,11 +18,19 @@
 		APP_PRICE AS commuprice,
 		APP_IMAGEURL AS commuimgName
 	</sql>
+	<sql id="selectBoard">
+		BOARD_APP_ID AS communo,
+		BOARD_USER_KEY AS baorduserKey,
+		BOARD_NO AS boardno,
+		BOARD_TITEL AS boardname,
+		BOARD_TEXT AS boardtext 
+	</sql>
+	
 
 
 	
 <!-- 	목록 꺼내기 질의 명령 -->
-	<select id="commuList"	parameterType="hMap" resultType="CVO">
+	<select id="commuList"	parameterType="HMap" resultType="CVO">
 <!-- 
 		resultType은 ArrayList로 받으면 안된다.
 		왜냐하면 조건의 따라서 여러줄이 나올수도 있지만 한줄만 나올수도 있다.
@@ -73,33 +81,6 @@
 			bh_User = #{user}
 	</select> -->
 	
-<!-- 	처음 방문한 사람의 위한 이미 본 글번호 등록 질의 명령 -->
-	<insert id="insertHitNO"	parameterType="hMap">
-		INSERT
-		INTO
-			BoardHit
-		VALUES(#{user}, #{no})
-	</insert>
-	
-<!-- 	기존 방문한 사람의 위한 이미 본 글번호 수정 질의 명령  -->
-	<update id="updateHitNO"	parameterType="hMap">
-		UPDATE
-			BoardHit
-		SET
-			bh_No = #{no}
-		WHERE
-			bh_User = #{user}
-	</update>
-	
-<!-- 	조회수 증가 질의 명령 -->
-	<update id="updateHit"	parameterType="int">
-		UPDATE
-			AnBoard
-		SET
-			ab_Hit = ab_Hit + 1
-		WHERE
-			ab_NO = #{oriNo}
-	</update>
 	
 <!-- 	상세보기 질의 명령 -->
 	<select id="commuView"	parameterType="int"	resultType="CVO">
@@ -108,7 +89,49 @@
 		FROM
 			app_table
 		WHERE
-			app_id = #{oriNo}
+			app_id = #{communo}
+	</select>
+	
+	<!--	팔로우 등록을 위한 질의 명령  -->
+	<insert id="Finsert" parameterType="CVO">
+		INSERT
+		INTO
+			USR_COMMU
+		VALUES
+			(#{communo},#{usrKey},'Y')
+	</insert>
+<!--	팔로우 재등록을 위한 질의 명령  -->
+	<update id="Fupdate" parameterType="CVO">
+		UPDATE
+			USR_COMMU
+		SET
+			ISSHOW='Y'
+		WHERE
+			APP_ID=#{communo}
+			AND USR_NO=#{usrKey}
+	</update>
+	
+<!--	팔로우 취소를 위한 질의 명령  -->
+	<update id="UFupdate" parameterType="CVO">
+		UPDATE
+			USR_COMMU
+		SET
+			ISSHOW='N'
+		WHERE
+			APP_ID=#{communo}
+			AND USR_NO=#{usrKey}
+			
+	</update>
+	
+<!--	팔로우 확인을 위한 질의 명령  -->
+	<select id="selectShow" parameterType="CVO"	resultType="String">
+		SELECT
+			ISSHOW
+		FROM
+			USR_COMMU
+		WHERE
+			APP_ID=#{communo}
+			AND USR_NO=#{usrKey}
 	</select>
 	
 <!-- 	원글에 달린 댓글 알아내는 질의 명령 -->
@@ -172,7 +195,7 @@
 	</insert>
 	
 <!--  답글이 입력될때 오더를 정리하기 위한 질의 명령-->
-	<update id="orderSet" parameterType="hMap">
+	<update id="orderSet" parameterType="HMap">
 		UPDATE
 			AnBoard
 		SET
@@ -182,7 +205,7 @@
 			AND ab_Order>=#{border}
 	</update>
 	
-	<select id="search" resultType="CVO" parameterType="hMap">
+	<select id="search" resultType="CVO" parameterType="HMap">
 		SELECT
 			<include refid="selectCommu"/>
 		FROM 
@@ -252,35 +275,32 @@
 			ab_No=#{oriNo}
 			AND ab_Password=#{password}
 	</update>
-<!--	팔로우 등록을 위한 질의 명령  -->
-	<insert id="Finsert" parameterType="CVO">
+	
+<!--	게시물 등록을 위한 질의 명령  -->
+	<insert id="Binsert" parameterType="CVO">
+		<selectKey keyProperty="boardno" resultType="int" order="BEFORE">
+			SELECT
+				NVL(MAX(BOARD_NO), 0) + 1
+			FROM
+				AnBoard
+		</selectKey>
 		INSERT
 		INTO
-			USR_COMMU
+			BOARD_TABLE
 		VALUES
-			(#{communo},#{usrKey},'Y')
+			(#{communo},#{usrKey},#{boardno},#{boardname},SYSDATE,#{boardtext},'Y',1)
 	</insert>
-<!--	팔로우 재등록을 위한 질의 명령  -->
-	<update id="Fupdate" parameterType="CVO">
-		UPDATE
-			USR_COMMU
-		SET
-			ISSHOW='Y'
-		WHREE
-			APP_ID=#{communo}
-			AND USR_NO=#{usrKey}
-	</update>
 	
-<!--	팔로우 취소를 위한 질의 명령  -->
-	<update id="UFupdate" parameterType="CVO">
-		UPDATE
-			USR_COMMU
-		SET
-			ISSHOW='N'
+<!-- 게시글 목록보기를 위한 질의명령  -->
+	<select id="Bshow" parameterType="int" resultType="HMap">
+		SELECT
+			<include refid="selectBoard" />
+		FROM
+			BOARD_TABLE
 		WHERE
-			APP_ID=#{communo}
-			AND USR_NO=#{usrKey}
-	</update>
+			BOARD_APP_ID=#{communo}
+	</select>
+		
 </mapper>
 
 

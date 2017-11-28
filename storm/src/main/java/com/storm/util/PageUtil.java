@@ -1,19 +1,15 @@
 package com.storm.util;
 /* 이 클래스는  페이지 이동 기능을 구현하기 위해서 필요한 7가지 정보를 기억하고 만들어줄 클래스이다.
  * 페이징 처리하기 ***************************************************
-
 [이전]	[1][2][3][4][5]		[다음]
 [이전]	[6][7][8][9][10]	[다음]
 위의 모양을 만들기 위해서 반드시 알아야 할 정보
-
 1. 현재 페이지
 2. 총 데이터 개수
 	=> 위 2개는 반드시 누군가가 알려줘야 할 정보
-
 3. 한 화면에 보여줄 목록의 개수  - 10개
 4. 한 화면에서 이동 가능한 페이지 수
 	=> 개발자가 강제로 지정해야 할 정보
-
 5. 총 페이지 수 
 6. 화면에 표시할 페이지의 시작 페이지
 7. 화면에 표시할 페이지의 마지막 페이지
@@ -32,7 +28,7 @@ public class PageUtil {
 	
 	// 누군가가 이 클래스를 new 시키면서 필수 정보를 알려주기로 하자.
 	public PageUtil(int nowPage, int totalCount) {
-		this(nowPage, totalCount, 3);
+		this(nowPage, totalCount, 10);
 	}
 	//	생성자 함수를 오버로드 하여 다른 기능이 필요하면 받도록 하자.
 	public PageUtil(int nowPage, int totalCount, int listCount) {
@@ -41,7 +37,7 @@ public class PageUtil {
 		
 		// 이따가 이 부분을 수정해서 결과를 확인하도록 하자.
 		this.listCount = listCount;
-		pageGroup = 3;
+		pageGroup = 5;
 		
 		// 아래쪽에 만든 함수를 하나씩 호출해서 나머지 3개의 정보를 만들어놓자.
 		calcTotalPage();

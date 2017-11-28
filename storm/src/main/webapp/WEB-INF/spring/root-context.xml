@@ -62,14 +62,14 @@
 	</bean>
 		
 	<!-- 만들어진 서비스 클래스를 자동 주입하기 위한 bean 선언 -->
-	<bean id="mypageS" class="com.storm.Service.MypageService"/>
-	<bean id="loginS" class="com.storm.Service.LoginService"/>
-	<bean id="joinS" class="com.storm.Service.JoinService"/>
-	<bean id="commuS" class="com.storm.Service.CommuService"/>
-	<bean id="memberS" class="com.storm.Service.MemberService"/>
-	<bean id="AppListS"			class="com.storm.Service.AppListService"/>
+	<bean id="mypageS" 		class="com.storm.Service.MypageService"/>
+	<bean id="loginS" 		class="com.storm.Service.LoginService"/>
+	<bean id="joinS" 		class="com.storm.Service.JoinService"/>
+	<bean id="commuS" 		class="com.storm.Service.CommuService"/>
+	<bean id="memberS"	    class="com.storm.Service.MemberService"/>
+	<bean id="AppListS"		class="com.storm.Service.AppListService"/>
 	<bean id="ChartS"		class="com.storm.Service.ChartService"/>
-	<bean id="umS" class="com.storm.Service.UserManagerService" />
-	<bean id="bmS" class="com.storm.Service.BoardManagerService" />
+	<bean id="umS" 			class="com.storm.Service.UserManagerService" />
+	<bean id="bmS"	 		class="com.storm.Service.BoardManagerService" />
 </beans>
 

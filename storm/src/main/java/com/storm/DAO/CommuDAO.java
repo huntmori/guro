@@ -35,8 +35,6 @@ public class CommuDAO extends SqlSessionDaoSupport {
 */		
 		ArrayList list = 
 			(ArrayList) sSession.selectList("commu.commuList", map);
-
-		System.out.println("##### dao list 가져오니 ? : "+ list.get(1).toString());
 		
 		return list;
 	}
@@ -47,15 +45,14 @@ public class CommuDAO extends SqlSessionDaoSupport {
 	}
 	
 //상세보기 질의를 실행할 함수
-	public CommuVO getCommuView(int oriNo){
+	public CommuVO getCommuView(int communo){
 /*	
  * 	파라메터가 일반 데이터면 #{키값}의 내용과 변수의 이름이 동일해야 한다.
 	★★★
 	질의 명령의 resultType은 질의 실행결과의 한줄만 가지고 생각한다.
 	DAO의 반환값은 실제 나올 수 있는 경우를 대비해서 처리해야 한다.
 	*/
-
-		return sSession.selectOne("commu.commuView",oriNo);
+		return sSession.selectOne("commu.commuView",communo);
 	}
 
 //글에 대한 그룹을 알아내기 위한 질의명령 실행함수
@@ -112,6 +109,15 @@ public class CommuDAO extends SqlSessionDaoSupport {
 	//언팔로우 업데이트
 	public void updateUF(CommuVO CVO){
 		sSession.update("commu.UFupdate", CVO);
+	}
+	
+	//팔로우 확인
+	public String selectshow(CommuVO CVO){
+		System.out.println("가장처음 실행함수= "+(String)sSession.selectOne("commu.selectShow", CVO));
+		return (String)sSession.selectOne("commu.selectShow", CVO);
+		
+		
+		
 	}
 }
 

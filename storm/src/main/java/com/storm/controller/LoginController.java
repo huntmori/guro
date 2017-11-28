@@ -38,14 +38,12 @@ public class LoginController {
 		
 		if(result != null && !StringUtil.isNull((String)result.get("EMAIL"))) {
 			session.setAttribute("UID", (String)result.get("EMAIL"));
-			
-			}
+			session.setAttribute("NICK", (String)result.get("NICK"));
+			session.setAttribute("KEY", result.get("KEY"));
+		}
 		
-			
-		else { new RedirectView("../Login/LoginForm.storm");
-		
-
-				
+		else { 
+			new RedirectView("../Login/LoginForm.storm");
 		}
 		
 		RedirectView rv = new RedirectView("/storm/"); //여기 로그인폼에서 바꾸었음

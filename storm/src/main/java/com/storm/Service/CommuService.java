@@ -1,10 +1,9 @@
 package com.storm.Service;
 
-import java.util.ArrayList;   
+import java.util.ArrayList; 
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.storm.DAO.CommuDAO;
 import com.storm.util.PageUtil;
@@ -64,17 +63,17 @@ public class CommuService {
 	}
 	
 	//상세보기 처리를 보조할 함수
-		public HashMap commuView(int oriNo){
+		public HashMap commuView(int communo){
 		//상세보기를 처리할 경우에는
 		//상세보기 내용을 꺼낸다.
-			CommuVO vo=CDAO.getCommuView(oriNo);
+			CommuVO vo=CDAO.getCommuView(communo);
 			
 		//먼저 그룹을 알아낸다.
 //			int group=CDAO.getGroup(oriNo);
 			
 		//답글 목록을 꺼낸다.
 			
-						HashMap map=new HashMap();
+			HashMap map=new HashMap();
 			map.put("VIEW", vo);
 			System.out.println("뭐가 들었을까요?"+map.toString());
 			
@@ -100,13 +99,17 @@ public class CommuService {
 		else if(whatdo.equals("unfollow")){
 			CDAO.updateUF(CVO);
 		}
+	}
+	
+	public String selectshow(CommuVO CVO){
+		System.out.println("서비스에서 커뮤니티 넘버 ="+CVO.communo);
+		System.out.println("서비스에서 유저 키= "+CVO.usrKey);
+		String show=CDAO.selectshow(CVO);
+		System.out.println("팔로우가 검색이 되나요 ?= "+show);
+		return show;
 		
 	}
-
-	public ArrayList getBoardList(int nowPage, PageUtil pInfo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
+	
 }
+	
+	

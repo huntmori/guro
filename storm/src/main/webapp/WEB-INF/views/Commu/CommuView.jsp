@@ -12,11 +12,16 @@
 	$(document).ready(function() {
 		$(".fbt").click(function() {
 			var whatdo = $(this).attr("data-1");
-			$(location).attr("href", "../Commu/CommuFollow.storm?whatdo="+whatdo+"&data2=${data.communo}&nowpage=${NOWPAGE}");
+			$(location).attr("href", "../Commu/CommuFollow.storm?whatdo="+whatdo+"&data2=${MAP.VIEW.communo}&nowpage=${nowPage}");
+			alert(whatdo+"&data2=${MAP.VIEW.communo}&nowpage=${nowPage}");
 		});
 		$("#clbtn").click(function(){
 			//	목록보기 요청을 하면 된다.
 			$(location).attr("href", "../Commu/CommuMain.storm?nowPage=${nowPage}");
+		});
+		$("#Mbtn").click(function(){
+			//	목록보기 요청을 하면 된다.
+			$(location).attr("href", "../Commu/WriteCommu.storm?nowPage=${nowPage}&communo=${MAP.VIEW.communo}");
 		});
 	});
 </script>
@@ -45,6 +50,9 @@
 		</c:if>
 		<c:if test="${not empty sessionScope.UID and SHOWLIST eq 'Y'}">
 			<input type="button" data-1="unfollow" value="팔로우취소" class="fbt" align="center" style="color:black">
+		</c:if>
+		<c:if test="${not empty sessionScope.UID and SHOWLIST eq 'Y'}">
+			<input type="button" id="Mbtn" value="게시판등록" align="center" style="color:black">
 		</c:if>
 		<input type="button" id="clbtn" value="커뮤니티목록보기" align="center" style="color:black">
 	</div>
