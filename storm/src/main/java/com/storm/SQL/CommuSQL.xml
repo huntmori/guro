@@ -298,16 +298,34 @@
 		FROM
 			BOARD_TABLE
 		WHERE
+
 			BOARD_APP_ID=#{communo}
 	</select>
 		
+
+
+
+
+
+
+<!-- 
+
+	커뮤니티 게시판 처리
+
+ -->
+ 
+<!-- 회원정보 불러오기 -->
+	<select id="getMember" parameterType="String" resultType="mVO" >
+		SELECT 
+			user_email AS id, user_key AS no
+		FROM 
+			user_table
+		WHERE 
+			user_email = #{id}
+	</select>
+
+
 </mapper>
-
-
-
-
-
-
 
 
 

@@ -117,7 +117,7 @@
 											<input type="button" 	id="tagSearchButton" value="태그검색">
 											<script>
 												$(document).ready(function(){
-													$("#tagButton").keypress(function(){
+													$("#tagButton").click(function(){
 														var temp = $("#tagButton").text();
 														var real = $.trim(temp);
 

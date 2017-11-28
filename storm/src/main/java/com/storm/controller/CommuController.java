@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.storm.Service.CommuService;
 import com.storm.util.PageUtil;
 import com.storm.VO.CommuVO;
+import com.storm.VO.MemberVO;
 
 
 @Controller
@@ -116,7 +117,11 @@ public class CommuController {
 			//Dao.updataIsshow(whatdo, communo, usrNo); 
 		}
 		RedirectView rv= 
+
 				new RedirectView("../Commu/CommuView.storm");
+
+				new RedirectView("../Commu/CommuMain.storm");
+
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("communo", CVO.communo);
 		mv.addObject("nowPage", CVO.nowPage);
@@ -125,6 +130,7 @@ public class CommuController {
 		mv.setView(rv);
 			return mv;
 	}
+
 	
 	@RequestMapping("/WriteCommu")
 	public ModelAndView writeCommu(CommuVO CVO,HttpSession session){
@@ -153,3 +159,42 @@ public class CommuController {
 		return mv;
 	}
 }
+
+/*
+ * 커뮤니티 게시판 댓글 처리
+ * 
+ *  	
+ 
+	@RequestMapping("/commureplyForm")
+	public ModelAndView commureplyForm(CommuVO CVO) { 
+
+		ModelAndView	mv = new ModelAndView();
+		mv.addObject("oriNo", CVO.oriNo);
+		mv.addObject("nowPage", aVO.nowPage);
+		mv.setViewName("AnBoard/AnWriteForm");
+		return mv;
+		
+		int	goods_no	=	Integer.parseInt(str_goods_no);
+		int	origin_no	=	Integer.parseInt(str_originNo);
+		int	writer_no	=	new UserDao().getUserNumber(str_writerNo);
+		
+		new CommentDao().insertNewComment(goods_no, origin_no, writer_no, content);
+		req.setAttribute("g_no", goods_no);
+		req.setAttribute("originUser", origin_no);
+		return "../view/Goods/CommentWriteProcess.jsp";
+	}
+
+>>>>>>> branch 'master' of https://github.com/huntmori/guro.git
+}
+<<<<<<< HEAD
+=======
+		
+		*/
+		
+
+
+
+
+
+
+

@@ -10,6 +10,27 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <title>Insert title here</title>
 <style>
+h1 {
+	text-align: center;
+}
+
+h2 {
+	height: 40px;
+	border-width: 1px;
+	border-style: solid;
+	font-size: 1.875em;
+	font-weight: normal;
+	color: white;
+	background-color: #191970;
+	text-align: center;
+}
+
+h3 {
+	text-align: right;
+}
+</style>
+
+<style>
 #listheader {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
@@ -42,6 +63,10 @@
 	<!-- 	검색 폼 만들고 -->
 	<!-- 	검색 결과 출력하고 -->
 	<div class="container">
+			<table class="table table-bordered" width="1000" border="1"
+			align="center">
+			<h2>조회결과</h2>
+		</table>
 		<table id="listheader" width="1000" border="1" align="center">
 			<tr>
 				<th>게시글 번호</th>

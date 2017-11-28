@@ -49,4 +49,5 @@ public class ReviewVO implements	Serializable
 		this.userPlayTime = userPlayTime;
 	}
 	
+	
 }

@@ -9,9 +9,10 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.storm.CrawlVO.KeywordVO;
-import com.storm.CrawlVO.ReviewVO;
 import com.storm.VO.AppVO;
+import com.storm.VO.ReviewVO;
 import com.storm.crawlUtil.KeywordCounter;
+import com.storm.crawlUtil.WordExtractor;
 
 
 @SuppressWarnings("rawtypes")
@@ -101,11 +102,21 @@ public class AppListDAO extends SqlSessionDaoSupport
 		return (ArrayList)sSession.selectList(nameSpace+"ajaxTagSearch", temp);
 	}
 
+	@SuppressWarnings("unchecked")
 	public HashMap getPositiveReivew(int app_id) {
-		ArrayList	positives = (ArrayList)sSession.selectList(nameSpace+"getPositiveReview", app_id);
+		ArrayList<ReviewVO> positives = (ArrayList)sSession.selectList(nameSpace+"getPositiveReview", app_id);
+		System.out.println(positives.size());
+		WordExtractor	we	=	new WordExtractor();
+		
+		StringBuilder sb = new StringBuilder();
+		for(ReviewVO vo:positives){
+			sb.append(vo.getText());
+		}
+		ArrayList<String>positiveKeywords = we.getKeywordArrayList(sb.toString());
+		
 		KeywordCounter	kc = new KeywordCounter();
-		for(ReviewVO vo : (ArrayList<ReviewVO>)positives){
-			kc.inputKeyword(vo.getText());
+		for(String str : positiveKeywords){
+			kc.inputKeyword(str);
 		}
 		
 		HashMap	map = new HashMap();
@@ -117,10 +128,19 @@ public class AppListDAO extends SqlSessionDaoSupport
 	}
 
 	public HashMap getNegativeReview(int app_id) {
-		ArrayList	negatives = (ArrayList)sSession.selectList(nameSpace+"getNegativeReview", app_id);
+		ArrayList<ReviewVO> negatives = (ArrayList)sSession.selectList(nameSpace+"getNegativeReview", app_id);
+		System.out.println(negatives.size());
+		WordExtractor	we	=	new WordExtractor();
+		
+		StringBuilder sb = new StringBuilder();
+		for(ReviewVO vo:negatives){
+			sb.append(vo.getText());
+		}
+		ArrayList<String> positiveKeywords = we.getKeywordArrayList(sb.toString());
+		
 		KeywordCounter	kc = new KeywordCounter();
-		for(ReviewVO vo : (ArrayList<ReviewVO>)negatives){
-			kc.inputKeyword(vo.getText());
+		for(String str : positiveKeywords){
+			kc.inputKeyword(str);
 		}
 		
 		HashMap	map = new HashMap();
@@ -128,6 +148,7 @@ public class AppListDAO extends SqlSessionDaoSupport
 		for(KeywordVO vo:negativesKeys){
 			map.put(vo.getKeyword(), vo.getCount());
 		}
+		//
 		return map;
 	}
 }
