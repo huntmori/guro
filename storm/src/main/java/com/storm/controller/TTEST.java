@@ -15,4 +15,8 @@ public class TTEST {
 		String test02="";
 		return;
 	}
+	public void test03(){
+		String test03="eeeeeeeeeeeee";
+		return;
+	}
 }
