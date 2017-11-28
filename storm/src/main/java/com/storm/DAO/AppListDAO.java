@@ -148,6 +148,7 @@ public class AppListDAO extends SqlSessionDaoSupport
 		for(KeywordVO vo:negativesKeys){
 			map.put(vo.getKeyword(), vo.getCount());
 		}
+		//
 		return map;
 	}
 }
