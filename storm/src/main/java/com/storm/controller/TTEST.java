@@ -11,4 +11,8 @@ public class TTEST {
 		return;
 		
 	}
+	public void test02(){
+		String test02="";
+		return;
+	}
 }
