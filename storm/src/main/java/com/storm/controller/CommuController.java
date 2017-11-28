@@ -100,7 +100,7 @@ public class CommuController {
 			//Dao.updataIsshow(whatdo, communo, usrNo); 
 		}
 		RedirectView rv= 
-				new RedirectView("../Commu/CommuMain.yona");
+				new RedirectView("../Commu/CommuMain.storm");
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("communo", CVO.communo);
 		mv.addObject("nowPage", CVO.nowPage);
