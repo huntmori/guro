@@ -117,8 +117,8 @@ body {  margin: 0;	}
   <h1>St0rm2.0</h1>
   <p>Resize the browser window to see the responsive effect.</p>
   <div align="right">
-  		<a href="#">회원가입</a>
-		<a href="#">로그인</a><br>
+  		<a href="./Join/JoinForm.storm">회원가입</a>
+		<a href="./Login/LoginForm.storm">로그인</a><br>
 		<input type="text">
 		<input type="button" id="sBtn" value="검색"/>
 	</div>
@@ -128,9 +128,9 @@ body {  margin: 0;	}
 		
 		<a href="../storm">홈</a>
 		<a id="gameSearch" href="./App/AppList.storm">게임검색</a>
-		<a href="#">통계</a>
-		<a href="#">커뮤니티</a>
-		<a href="#">마이페이지</a>
+		<a href="./Chart/ChartView.storm">통계</a>
+		<a href="./Commu/CommuMain.storm">커뮤니티</a>
+		<a href="./Mypage/MypageList.storm">마이페이지</a>
 		
 </div>
 

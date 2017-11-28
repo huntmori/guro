@@ -12,9 +12,9 @@
 	<!-- 커넥션 풀-->
 	<bean id="BaseBDDataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@192.168.182.131:1521:xe" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
 		<property name="username" value="scott" />
-		<property name="password" value="scott" />
+		<property name="password" value="tiger" />
 	</bean>  
 	
 	<!--	위의 커넥션 풀 작업의 결과를 윌는 앞으로 myBatis라는 프레임워크를
@@ -36,24 +36,40 @@
 	<bean	id="AppListDAO"	class="com.storm.DAO.AppListDAO">
 		<property name="sqlSessionTemplate" ref="sqlSession" />
 	</bean>
-	<bean id="AppListS"			class="com.storm.Service.AppListService"/>
-	<!--  만들어진 DAO를 자동주입하기위한 bean 선언
-	<bean id="loginDAO" class="com.dol.DAO.LoginDAO">
-		자동 주입을 할 때 위에서 설정한 커넥션을 필요로 하고 있기 때문에
-		이 것을 등록해서 주입되도록 해 놓는다. 
+	<bean id="mypageDao" class="com.storm.DAO.MypageDao">
 		<property name="sqlSessionTemplate" ref="sqlSession" />
 	</bean>	
-	<bean id="anBoardDAO" class="com.dol.DAO.AnBoardDAO">
+	<bean id="loginDao" class="com.storm.DAO.LoginDAO">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>	
+	<bean id="joinDao" class="com.storm.DAO.JoinDao">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>	
+	<bean id="CommuDAO" class="com.storm.DAO.CommuDAO">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>	
+	<bean id="ChartDAO"	class="com.storm.DAO.ChartDAO">
 		<property name="sqlSessionTemplate" ref="sqlSession" />
 	</bean>
-	<bean id="fileDAO"	class="com.dol.DAO.FileBoardDAO">
+	<bean id="MemberDAO"	class="com.storm.DAO.MemberDAO">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="umDAO" class="com.storm.DAO.UserManagerDAO">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="bmDAO" class="com.storm.DAO.BoardManagerDAO">
 		<property name="sqlSessionTemplate" ref="sqlSession" />
 	</bean>
 		
-	만들어진 서비스 클래스를 자동 주입하기 위한 bean 선언
-	<bean id="loginS"			class="com.dol.Service.LoginService"/>
-	<bean id="anBoardS"		class="com.dol.Service.AnBoardService" />
-	<bean id="FileBoardS"		class="com.dol.Service.FileBoardService"/>
-	 -->
+	<!-- 만들어진 서비스 클래스를 자동 주입하기 위한 bean 선언 -->
+	<bean id="mypageS" class="com.storm.Service.MypageService"/>
+	<bean id="loginS" class="com.storm.Service.LoginService"/>
+	<bean id="joinS" class="com.storm.Service.JoinService"/>
+	<bean id="commuS" class="com.storm.Service.CommuService"/>
+	<bean id="memberS" class="com.storm.Service.MemberService"/>
+	<bean id="AppListS"			class="com.storm.Service.AppListService"/>
+	<bean id="ChartS"		class="com.storm.Service.ChartService"/>
+	<bean id="umS" class="com.storm.Service.UserManagerService" />
+	<bean id="bmS" class="com.storm.Service.BoardManagerService" />
 </beans>
 

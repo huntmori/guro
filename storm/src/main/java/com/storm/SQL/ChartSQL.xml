@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="Chart">
+	<!--
+		하나의 질의명령은 
+		
+		선택속성
+			resultType
+				==> 질의 실행결과를 어떤 형태로 받을지 지정
+			parameterType
+				==> 	질의 실행을 할 때 필요한 데이터(PSTMT의 ?부분)을 채운 데이터를
+						어떤 형태로 제공할 지를 지정한다. 	
+			문제는 이들 속성에 기록한 형태는 풀 클래스 형태로 기록해야한다
+			예를들어 ? 에 채울 데이터가 문자열이면
+			parameterType="String"은 틀린것이고
+			parameterType="java.lang.String" 으로 기록해야 한다.
+			
+			이러다보면 이들 형태를 기록하는 것이 매우 번잡하다.
+			그래서 myBatis 환경 설정 파일에서 각각의형태를 줄임말로 기록한 후
+			사용하는 방식을 채택했다.
+			
+			참고	?를 기록한 방법
+					myBatis에서는 ?를 직접사용하지않고
+					대신에 #{적당한말}을 이용해서 기록하게된다.
+					
+					적당한 말은 ?를 채울 데이터에 따라서 조금씩 방식이 다르게 제공된다.
+	 -->
+	<select id="genreView" resultType="GenreVO" >
+	 <![CDATA[
+        SELECT
+			genre as genreName, sum(num) as cnt
+		FROM
+			(SELECT CASE 
+		        		  when rno <= 8 then name
+		        		 when rno > 8 then '기타'
+		    		end as genre,
+		        		num
+			FROM 
+				(SELECT ta.*, ROWNUM as rno FROM(
+					SELECT a.genre_name as name, count(*) as num
+					FROM genre_table a, map_app_genre b
+					WHERE a.genre_id=b.genre_id 
+					GROUP BY genre_name
+		    			ORDER BY count(*) DESC) ta))
+		GROUP BY genre ORDER BY cnt DESC
+	]]>
+	</select>
+	<select id="langView" resultType="hMap" >
+	 <![CDATA[
+		select 
+			lang as languageName, sum(언어별게임) as cnt
+		from
+			(select case 
+			        when rno <= 11 then language_name 
+			        when rno > 11 then '기타'
+			        end as lang,
+			        언어별게임
+			from 
+				(select ta.*, rownum as rno 
+				from(
+					select a.language_name, count(*) as 언어별게임
+					from language_table a, map_app_lang b
+					where a.language_id=b.language_id 
+					group by language_name
+			    order by count(*) desc) ta))
+		GROUP BY lang order by cnt desc
+	]]>
+	</select>
+	<select id="tagView" resultType="hMap">
+		 <![CDATA[
+		select 
+		 	tag_name as text, cnt as count
+		from 
+			(
+			select 
+				ta.*, rownum as rno 
+			from(
+				select 
+					a.tag_name, count(*) as cnt
+				from
+					tag_table a, map_app_tag b
+				where 
+					a.tag_id=b.tag_id 
+				group by tag_name
+			    order by count(*) desc) 
+			ta)
+		where rno<=100
+		 ]]>
+	</select>
+
+</mapper>

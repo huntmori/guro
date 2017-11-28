@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+<sql id="memberField">
+		user_email     AS id,
+		user_password		AS pw,
+		user_nick		AS nick,
+		user_key     AS no
+	
+</sql>
+
+	
+	<insert id="insertMember" parameterType="mbVO">
+		<selectKey keyProperty="no"	resultType="int"	order="BEFORE">
+			SELECT
+				NVL(MAX(user_key), 0) + 1
+			FROM
+				user_table
+		</selectKey>
+		
+		INSERT
+		INTO
+			user_table
+		VALUES(#{no}, #{id} ,#{nick},#{pw}, 'Y')
+			
+	</insert>
+	
+	
+	<select id="checkId"		resultType="int"		parameterType="hMap">
+		
+		SELECT
+			COUNT(*)
+		FROM
+			user_table
+		WHERE
+					user_email = #{id}
+	</select>
+	
+
+</mapper>

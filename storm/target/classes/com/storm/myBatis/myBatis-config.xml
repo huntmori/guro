@@ -21,10 +21,23 @@
 		<typeAlias	alias="LanguageVO"	type="com.storm.VO.LanguageVO"/>
 		<typeAlias	alias="CategoryVO"		type="com.storm.VO.CategoryVO"/>
 		<typeAlias	alias="ReviewVO"			type="com.storm.VO.ReviewVO"/>
+		<typeAlias	alias="mVO"					type="com.storm.VO.MemberVO"/>
+		<typeAlias	alias="jVo"						type="com.storm.VO.JoinVO"/>
+		<typeAlias alias="CVO"					type="com.storm.VO.CommuVO" />
+		<typeAlias alias="mbVO"				type="com.storm.VO.MemberVO" />
+		<typeAlias alias="umVO" type="com.storm.VO.UserManagerVO" />
+		<typeAlias alias="bmVO" type="com.storm.VO.BoardManagerVO" />	
 	</typeAliases>
 	<!--  SQL 파일을 등록할 xml파일을 지정한다. -->
 	<mappers>
 		<mapper resource="/com/storm/SQL/AppListSQL.xml" />
 		<mapper resource="/com/storm/SQL/LoginSQL.xml" />
+		<mapper resource="/com/storm/SQL/JoinSQL.xml" />
+		<mapper resource="/com/storm/SQL/MypageSQL.xml" />
+		<mapper resource="/com/storm/SQL/CommuSQL.xml" />
+		<mapper resource="/com/storm/SQL/ChartSQL.xml" />
+		<mapper resource="/com/storm/SQL/MemberSQL.xml" />
+		<mapper resource="/com/storm/SQL/UserManagerSQL.xml" />
+		<mapper resource="/com/storm/SQL/BoardManagerSQL.xml" />
 	</mappers>
 </configuration>

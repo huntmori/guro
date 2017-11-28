@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypage">
+<!--	<select id="mypageList"	parameterType="hMap"	resultType="int">
+		select  m_id 
+		from    member  
+		
+	</select>
+	
+	<select id="getTotal"	resultType="int">
+		select  COUNT(*) AS CNT  
+		from    SALES_TABLE  
+	</select>
+	  -->
+
+	<select id="getMember" parameterType="String" resultType="mVO" >
+		SELECT 
+			user_email AS email, user_nickname AS nick, user_password AS pw, 
+			user_key AS key, user_enable AS enable
+		FROM 
+			user_table
+		WHERE 
+			user_email = #{email}
+	</select>
+
+	<select id="modifyView" parameterType="int" resultType="mVO">
+		SELECT
+			user_email AS email, 
+			user_nickname AS nick, 
+			user_password AS pw
+		FROM
+			user_table
+		WHERE
+			user_key = #{key}
+	</select>
+
+	<update id="updateUT" parameterType="int">
+		UPDATE
+			user_table
+		SET
+			user_email = #{email},
+			user_nick = #{nick}
+		WHERE
+			user_key = #{key}
+	
+	</update>
+
+
+	
+	<select id="mycommuList" parameterType="hMap" resultType="mVO">
+		SELECT
+			at.APP_ID AS communo,
+			at.APP_TITLE AS communame
+		FROM
+			map_user_community uc, app_table at
+		WHERE
+			uc.user_key = #{KEY}
+		and
+			uc.community_id = at.app_id
+	</select>
+</mapper>

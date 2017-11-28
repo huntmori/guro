@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 	xml 파일이 되기 위해서는 
+		1.	Header 가 존재해야 하고
+		2.	root 태그가 존재해야 한다.
+		
+		참고로	xml 파일에 특정 태그만 기록하기 위해서는
+		DTD, 스키마 선언이 되어야 한다.
+-->
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commu">
+	<sql id="selectCommu">
+		APP_ID	AS communo,
+		APP_TITLE AS communame,
+		APP_TEXT AS commutext,
+		APP_RELEASEDATE AS commudate,
+		APP_PRICE AS commuprice,
+		APP_IMAGEURL AS commuimgName
+	</sql>
+
+
+	
+<!-- 	목록 꺼내기 질의 명령 -->
+	<select id="commuList"	parameterType="hMap" resultType="CVO">
+<!-- 
+		resultType은 ArrayList로 받으면 안된다.
+		왜냐하면 조건의 따라서 여러줄이 나올수도 있지만 한줄만 나올수도 있다.
+		
+		★★★
+		그래서 myBatis에서 resultType은 결과의 줄수는 생각하지 말고
+		한줄의 데이터를 어떻게 받을지를 고민하면 된다.
+		
+		VO로 결과를 받도록 하는 경우에는 결과물의 데이터를 기억할 수 있는
+		setXxx()가 VO에 준비되어야 한다.
+-->
+		SELECT
+			<include refid="selectCommu" />
+		FROM
+			app_table
+		WHERE
+			app_id between 1 and 50
+		ORDER BY
+			app_id
+	</select>
+		
+	
+<!-- 	페이지 정보를 구하기 위한 총 데이터 개수 구하기 질의 -->
+	<select id="getTotal"	resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			app_table
+	</select>
+<!-- 	이미 본 글 번호를 조회할 질의 명령 
+		노파심
+		파라메터 방식
+		1.	일반 데이터 방식	==>		데이터 개수가 적을때
+		2.	Map
+		3.	VO
+-->
+	<!-- <resultMap id="clobMap" type="hMap">
+		<result property="no" column="bh_No" jdbcType="CLOB" 
+		javaType="java.lang.String" />
+	</resultMap>
+	<select id="getHitNO" parameterType="String" resultMap="clobMap">
+		SELECT
+			bh_User	AS who,
+			bh_No
+		FROM
+			BoardHit
+		WHERE
+			bh_User = #{user}
+	</select> -->
+	
+<!-- 	처음 방문한 사람의 위한 이미 본 글번호 등록 질의 명령 -->
+	<insert id="insertHitNO"	parameterType="hMap">
+		INSERT
+		INTO
+			BoardHit
+		VALUES(#{user}, #{no})
+	</insert>
+	
+<!-- 	기존 방문한 사람의 위한 이미 본 글번호 수정 질의 명령  -->
+	<update id="updateHitNO"	parameterType="hMap">
+		UPDATE
+			BoardHit
+		SET
+			bh_No = #{no}
+		WHERE
+			bh_User = #{user}
+	</update>
+	
+<!-- 	조회수 증가 질의 명령 -->
+	<update id="updateHit"	parameterType="int">
+		UPDATE
+			AnBoard
+		SET
+			ab_Hit = ab_Hit + 1
+		WHERE
+			ab_NO = #{oriNo}
+	</update>
+	
+<!-- 	상세보기 질의 명령 -->
+	<select id="commuView"	parameterType="int"	resultType="CVO">
+		SELECT
+			<include refid="selectCommu" />
+		FROM
+			app_table
+		WHERE
+			app_id = #{oriNo}
+	</select>
+	
+<!-- 	원글에 달린 댓글 알아내는 질의 명령 -->
+<!--	oriNo만 가지고 있으므로 필요한 Group을 구하기 위한 질의명령을
+		먼저 실행한다.  -->
+	<!-- <select id="getGroup" parameterType="int" resultType="int">
+			SELECT
+				ab_Group AS bgroup
+			FROM
+				AnBoard
+			WHERE
+				ab_NO=#{oriNo}
+	</select> -->
+	<select id="anList"	parameterType="int"	resultType="CVO">
+		SELECT
+			<include refid="selectCommu" />
+		FROM
+			AnBoard
+		WHERE
+	<!--	원글인 경우에는 원글의 번호가 그룹번호가 같아지기 때문에 원글인 경우에는
+			같은 그룹의 글들을 검색할 수 있었다. 댓글인 경우에는 댓글의 번호와
+			그룹 번호가 같지 않다.  
+			
+			해결방법	비교 대상을 그룹의 변호를 이용해서 처리해야 한다.
+					즉, 상세보기를 요청할때 그룹도 같이 알려줘서 그 그룹을
+					이용해서 처리하도록 해야한다.조건식의 데이터가 바뀌므로
+					컨트롤러에서 oriNo를 사용하던 것을 그룹 번호로 바꿔서
+					처리하도록 고친다.
+					
+			
+	-->
+			ab_Group = #{bgroup}
+		ORDER BY
+			ab_Order
+	</select>
+
+<!--	댓글 저장용 질의 명령  -->
+	<insert id="anInsert" parameterType="CVO">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT
+				NVL(MAX(ab_NO),0)+1
+			FROM
+				AnBoard
+		</selectKey>
+		INSERT
+		INTO
+			AnBoard
+		VALUES
+			(#{no},#{title},#{writer},#{body},SYSDATE,0,
+			#{password},#{tags},#{bgroup},#{bstep},#{border},'Y')
+		
+	<!--<selectKey order="AFTER">
+			UPDATE
+			AnBoard
+		SET
+			ab_Order=ab_Order+1
+		WHERE
+			ab_Group=#{bgroup}
+			AND ab_Order>=#{border}
+		</selectKey> -->
+	</insert>
+	
+<!--  답글이 입력될때 오더를 정리하기 위한 질의 명령-->
+	<update id="orderSet" parameterType="hMap">
+		UPDATE
+			AnBoard
+		SET
+			ab_Order=ab_Order+1
+		WHERE
+			ab_Group=#{bgroup}
+			AND ab_Order>=#{border}
+	</update>
+	
+	<select id="search" resultType="CVO" parameterType="hMap">
+		SELECT
+			<include refid="selectCommu"/>
+		FROM 
+			AnBoard
+		WHERE
+			ab_Step=0
+			AND ab_Group IN(
+			SELECT
+				ab_Group
+			FROM
+				AnBoard
+			WHERE
+			<!--	조건은 4가지 경우에 따라서 달라지며
+					어디서 검색할지는 kind라는 변수에
+					기억되어 있다.  -->
+			<!--	제목 검색  -->
+			<if test="kind eq 'title'">
+				ab_Title LIKE '%'||#{word}||'%'
+			</if>
+			<!--	본문 검색  -->
+			<if test="kind eq 'body'">
+				ab_Body LIKE '%'||#{word}||'%'
+			</if>
+			<!--	글쓴이 검색  -->
+			<if test="kind eq 'writer'">
+				ab_Writer LIKE '%'||#{word}||'%'
+			</if>
+			<!--	태그 검색  -->
+			<if test="kind eq 'tags'">
+				ab_Tag LIKE '%#'||#{word}||'#%'
+			</if>
+			)	
+	</select>
+	
+<!-- 	게시물 수정을 위한 질의 명령 
+	
+		이 경우는 수정될 수도 있고, 수정이 되지 않을 수도 있다.
+			
+		JDBC에서는 update, delete 질의 명령을 실행하면 변화된 
+		데이터의 개수를 알려줄 수 있다.
+			
+		우리로 말하면
+		수정되면		결과가 	1
+		수정되지 않으면	결과가 	0
+			
+		이것을 이용해서 수정 결과를 알 수 있다.
+-->
+	<update id="updateBoard"	parameterType="CVO">
+		UPDATE
+			AnBoard
+		SET
+			ab_Title = #{title},
+			ab_Body = #{body},
+			ab_Tag = #{tags}
+		WHERE
+			ab_No = #{oriNo}			
+			AND	ab_Password = #{password}
+	</update>
+	
+<!-- 	삭제를 위한 질의 명령 -->	
+	<update id="delete" parameterType="CVO">
+		UPDATE
+			AnBoard
+		SET
+			ab_IsShow='N'
+		WHERE
+			ab_No=#{oriNo}
+			AND ab_Password=#{password}
+	</update>
+<!--	팔로우 등록을 위한 질의 명령  -->
+	<insert id="Finsert" parameterType="CVO">
+		INSERT
+		INTO
+			USR_COMMU
+		VALUES
+			(#{communo},#{usrKey},'Y')
+	</insert>
+<!--	팔로우 재등록을 위한 질의 명령  -->
+	<update id="Fupdate" parameterType="CVO">
+		UPDATE
+			USR_COMMU
+		SET
+			ISSHOW='Y'
+		WHREE
+			APP_ID=#{communo}
+			AND USR_NO=#{usrKey}
+	</update>
+	
+<!--	팔로우 취소를 위한 질의 명령  -->
+	<update id="UFupdate" parameterType="CVO">
+		UPDATE
+			USR_COMMU
+		SET
+			ISSHOW='N'
+		WHERE
+			APP_ID=#{communo}
+			AND USR_NO=#{usrKey}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
