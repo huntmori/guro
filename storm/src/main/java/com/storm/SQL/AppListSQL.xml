@@ -211,4 +211,28 @@
 		FROM		tag_table
 		WHERE	UPPER(tag_name) LIKE  UPPER( '%'||#{temp}||'%' )
 	</select>
+	
+	<select id="getNegativeReview"	parameterType="int" resultType="ReviewVO">
+		SELECT	review_writer						as		writer,
+						review_recommended		as		isRecommended,
+						review_userplaytime			as		userPlayTime,
+						review_wdate						as		wdate,
+						review_text							as		text,
+						app_id									as		app_id
+		FROM		review_table
+		WHERE	app_id = #{app_id}				AND
+						review_recommended = 'N'
+	</select>
+	
+	<select id="getPositiveReview"	parameterType="int" resultType="ReviewVO">
+		SELECT	review_writer								as		writer,
+						REVIEW_RECOMMENDED		as		isRecommended,
+						review_userplaytime					as		userPlayTime,
+						review_wdate								as		wdate,
+						review_text									as		text,
+						app_id											as		app_id
+		FROM		review_table
+		WHERE	app_id = #{app_id}				AND
+						review_recommended = 'Y'
+	</select>
 </mapper>

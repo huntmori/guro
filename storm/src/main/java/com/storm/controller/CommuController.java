@@ -116,14 +116,14 @@ public class CommuController {
  * 
  *  	
  */
-	
+	@RequestMapping("/commureplyForm")
 	public ModelAndView commureplyForm(CommuVO CVO) { 
-		
-		
-		String	content	=	req.getParameter("content");
-		String	str_goods_no	=	req.getParameter("gno");
-		String	str_originNo	=	req.getParameter("originUID");
-		String	str_writerNo	=	req.getParameter("writerNo");
+
+		ModelAndView	mv = new ModelAndView();
+		mv.addObject("oriNo", CVO.oriNo);
+		mv.addObject("nowPage", aVO.nowPage);
+		mv.setViewName("AnBoard/AnWriteForm");
+		return mv;
 		
 		int	goods_no	=	Integer.parseInt(str_goods_no);
 		int	origin_no	=	Integer.parseInt(str_originNo);
