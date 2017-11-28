@@ -16,6 +16,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.storm.Service.CommuService;
 import com.storm.util.PageUtil;
 import com.storm.VO.CommuVO;
+import com.storm.VO.MemberVO;
 
 @Controller
 @RequestMapping("/Commu")
@@ -109,6 +110,39 @@ public class CommuController {
 		mv.setView(rv);
 			return mv;
 	}
+
+/*
+ * 커뮤니티 게시판 댓글 처리
+ * 
+ *  	
+ */
+	
+	public ModelAndView commureplyForm(CommuVO CVO) { 
+		
+		
+		String	content	=	req.getParameter("content");
+		String	str_goods_no	=	req.getParameter("gno");
+		String	str_originNo	=	req.getParameter("originUID");
+		String	str_writerNo	=	req.getParameter("writerNo");
+		
+		int	goods_no	=	Integer.parseInt(str_goods_no);
+		int	origin_no	=	Integer.parseInt(str_originNo);
+		int	writer_no	=	new UserDao().getUserNumber(str_writerNo);
+		
+		new CommentDao().insertNewComment(goods_no, origin_no, writer_no, content);
+		req.setAttribute("g_no", goods_no);
+		req.setAttribute("originUser", origin_no);
+		return "../view/Goods/CommentWriteProcess.jsp";
+	}
+
 }
+		
+		
+		
+
+
+
+
+
 
 

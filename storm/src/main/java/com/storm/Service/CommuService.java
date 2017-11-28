@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.storm.DAO.CommuDAO;
 import com.storm.util.PageUtil;
 import com.storm.VO.CommuVO;
+import com.storm.VO.MemberVO;
 
 
 public class CommuService {
@@ -103,9 +104,26 @@ public class CommuService {
 		
 	}
 
+/*
+ * 
+ * 커뮤니티 게시판 댓글 처리
+ * 
+ */
 	public ArrayList getBoardList(int nowPage, PageUtil pInfo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	//글쓴이에 쓰기위해 디비에서닉네임가져온다
+	public MemberVO getMember(String id) {
+		MemberVO vo = CDAO.getMember(id);
+		System.out.println("커뮤서비스 :getMember : " +id);
+		return vo;
+	}
+
+	public void oriInsert(CommuVO cVO) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

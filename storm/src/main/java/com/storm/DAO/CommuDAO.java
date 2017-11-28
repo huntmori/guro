@@ -8,6 +8,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.storm.VO.CommuVO;
+import com.storm.VO.MemberVO;
 
 public class CommuDAO extends SqlSessionDaoSupport {
 /*	이 클래스는 질의 명령을 실행하기 위한 클래스이다.
@@ -112,6 +113,20 @@ public class CommuDAO extends SqlSessionDaoSupport {
 	//언팔로우 업데이트
 	public void updateUF(CommuVO CVO){
 		sSession.update("commu.UFupdate", CVO);
+	}
+
+	
+/*
+ * 
+ * 커뮤니티 게시판 댓글 처리
+ * 	
+ */
+	
+	
+	public MemberVO getMember(String id) {
+		MemberVO vo = (MemberVO)sSession.selectOne("commu.getMember", id);
+		System.out.println("dao : getMember : "+id);
+		return vo;
 	}
 }
 
