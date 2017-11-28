@@ -3,6 +3,7 @@ package com.storm.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,6 +61,7 @@ public class AppListController
 		System.out.println("applist end");
 		return mv;
 	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping("/SearchProc")
 	public ModelAndView	appSearchProc(HttpServletRequest request,	HttpServletResponse response)
@@ -117,33 +119,29 @@ public class AppListController
 		return mv;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@RequestMapping("/AppView")
 	public	ModelAndView	appView(int nowPage, int app_id)
 	{
-		//AppVO를 불러온다
-		AppVO	info	=	appService.getAppInfo(app_id);
-		
-		//Genre리스트를 불러온다
-		ArrayList	genre_list	=	appService.getGenreList(app_id);
 
-		//Category리스트를 불러온다
-		ArrayList	category_list	=	appService.getCategoryList(app_id);
+		AppVO	info	=	appService.getAppInfo(app_id);							//AppVO를 불러온다		
+		ArrayList	genre_list	=	appService.getGenreList(app_id);			//Genre리스트를 불러온다
+		ArrayList	category_list	=	appService.getCategoryList(app_id);	//Category리스트를 불러온다
+		ArrayList	tag_list	=	appService.getTagList(app_id);		//Tag리스트를 불러온다
+		ArrayList	language_list	=	appService.getLanguageList(app_id);		//Language리스트를 불러온다
+		ArrayList	developer_list	=	appService.getDeveloperList(app_id);		//Developer	리스트를 불러온다
+		ArrayList	publisher_list	=	appService.getPublisherList(app_id);		//Publisher		리스트를 불러온다		
 		
-		//Tag리스트를 불러온다
-		ArrayList	tag_list	=	appService.getTagList(app_id);
-		
-		//Language리스트를 불러온다
-		ArrayList	language_list	=	appService.getLanguageList(app_id);
-
-		//Developer	리스트를 불러온다
-		ArrayList	developer_list	=	appService.getDeveloperList(app_id);
-		
-		//Publisher		리스트를 불러온다
-		ArrayList	publisher_list	=	appService.getPublisherList(app_id);
-		
-		//HashMap	positive = appService.getPositiveReview(app_id);
-		//HashMap	negative = appService.getNegativeReview(app_id);
-		
+		HashMap	positive = appService.getPositiveReview(app_id);
+		HashMap	negative = appService.getNegativeReview(app_id);
+		Set<String>	keys = positive.keySet();
+		for(String str : keys){
+			System.out.println(str+"\t"+positive.get(str));
+		}
+		keys = negative.keySet();
+		for(String str : keys){
+			System.out.println(str+"\t"+negative.get(str));
+		}
 		ModelAndView	mv	=	new ModelAndView();
 		mv.addObject("APP_INFO",				info);
 		mv.addObject("GENRE_LIST",			genre_list);
@@ -156,6 +154,7 @@ public class AppListController
 		return mv;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping(value="AjaxTagSearch", method=RequestMethod.POST)
 	@ResponseBody
 	public ArrayList	tagSearch(@RequestBody String input)

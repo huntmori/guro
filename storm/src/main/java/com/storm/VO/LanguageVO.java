@@ -7,6 +7,13 @@ public class LanguageVO
 	private	String	supported_interface;
 	private	String	supported_voice;
 	private	String	supported_subtitle;
+	
+	private	int		languageNo;
+	private	String	 languageName;
+	private	boolean	languageSubtitle;
+	private	boolean	languageVoice;
+	private	boolean	languageInterface;
+	
 	public int getId() {
 		return id;
 	}
@@ -37,26 +44,7 @@ public class LanguageVO
 	public void setSupported_subtitle(String supported_subtitle) {
 		this.supported_subtitle = supported_subtitle;
 	}
-	
-	
-	private	int		languageNo;
-	private	String	 languageName;
-	private	boolean	languageSubtitle;
-	private	boolean	languageVoice;
-	private	boolean	languageInterface;
-
-	public LanguageVO(int no, String name, boolean[] support){
-		this.languageNo	=	no;
-		this.languageName	=	name;
 		
-		if(support==null)
-			return;
-		
-		this.languageInterface	=	support[0];
-		this.languageVoice	=	support[1];
-		this.languageSubtitle	=	support[2];
-	}
-	
 	public int getLanguageNo() {
 		return languageNo;
 	}
@@ -87,4 +75,5 @@ public class LanguageVO
 	public void setLanguageInterface(boolean languageInterface) {
 		this.languageInterface = languageInterface;
 	}
+	
 }
