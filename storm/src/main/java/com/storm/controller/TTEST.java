@@ -23,4 +23,8 @@ public class TTEST {
 		String test04="0004";
 		return;
 	}
+	public void test05(){
+		String test05="hello world";
+		return;
+	}
 }
