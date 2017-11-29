@@ -337,9 +337,33 @@
 		</div>
 	</div>
 	<!--  태그클라우드 -->
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+  			<h3 class="panel-title">키워드 분석</h3>
+		</div>
+		<div class="panel-body" style="width:550px">
+  			<div class="panel panel-primary">
+				<div class="panel-heading">
+  					<h3 class="panel-title">추천 리뷰</h3>
+				</div>
+				<div class="panel-body" style="width:550px">
+  					<div id="positiveCloud" style="width: 550px; height: 350px"></div>
+				</div>
+			</div>
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+  					<h3 class="panel-title">비추천 리뷰</h3>
+				</div>
+				<div class="panel-body">
+  					<div id="negativeCloud"style="width: 550px; height: 350px"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
-	<div id="positiveCloud" style="width: 550px; height: 350px"></div>
-	<div id="negativeCloud"style="width: 550px; height: 350px"></div>
+	
+	
+	
 	<div class="panel panel-primary">
 		<div class="panel-heading">
   			<h3 class="panel-title">가격</h3>
