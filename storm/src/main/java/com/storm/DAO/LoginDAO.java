@@ -1,6 +1,6 @@
 package com.storm.DAO;
 
-import java.util.HashMap;
+import java.util.HashMap;  
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -12,7 +12,6 @@ public class LoginDAO extends SqlSessionDaoSupport {
 	public SqlSessionTemplate sqlSession;
 
 	public HashMap loginProc(HashMap map) {
-
 		HashMap result = sqlSession.selectOne("login.login", map);
 		System.out.println("dao:loginProc");
 		return result;

@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class CommuVO {
 
+	public int    cnt; 		//카운트
 	public int    communo; 		//일련번호
 	public String communame; 	//커뮤니티 이름
 	public String commutext; 	//커뮤니티 소개
@@ -12,7 +13,11 @@ public class CommuVO {
 	public int commuprice;		//가격
 	
 	public int usrKey; //유저번호
-	public int gNo; // 상품일련번호
+	public String usrId; //유저 아이디
+	
+	public int boardno; //게시글 번호
+	public String boardtext; //게시글내용
+	public String boardname; //게시물제목
 	
 	public int oriNo;
 	public int nowPage;
@@ -67,12 +72,6 @@ public class CommuVO {
 	public void setUsrKey(int usrKey) {
 		this.usrKey = usrKey;
 	}
-	public int getgNo() {
-		return gNo;
-	}
-	public void setgNo(int gNo) {
-		this.gNo = gNo;
-	}
 	public int getOriNo() {
 		return oriNo;
 	}
@@ -103,9 +102,31 @@ public class CommuVO {
 	public void setGname(String gname) {
 		this.gname = gname;
 	}
-	
-	
-	
+
+	public int getBoardno() {
+		return boardno;
+	}
+	public void setBoardno(int boardno) {
+		this.boardno = boardno;
+	}
+	public String getBoardtext() {
+		return boardtext;
+	}
+	public void setBoardtext(String boardtext) {
+		this.boardtext = boardtext;
+	}
+	public String getUsrId() {
+		return usrId;
+	}
+	public void setUsrId(String usrId) {
+		this.usrId = usrId;
+	}
+	public String getBoardname() {
+		return boardname;
+	}
+	public void setBoardname(String boardname) {
+		this.boardname = boardname;
+	}
 	
 	
 	

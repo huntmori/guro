@@ -1,66 +1,52 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 	function Search() {
-		//	¹«°á¼º °Ë»ç ÇÏ°í
+		//	ë¬´ê²°ì„± ê²€ì‚¬ í•˜ê³ 
 		$("#sfrm").submit();
 	}
 	$(document).ready(function(){
-		$(".fBtn").click(function() {
-			alert("commufollow½ÇÇàÇÏ´Â ÇÔ¼ö");
-			var whatdo = $(this).attr("data-1");
-			$(location).attr("href", "../Commu/CommuFollow.storm?whatdo="+whatdo+"&data2=${LIST.communo}&nowPage=${PINFO.nowPage}");
-		});	
+		
 		$("#sBtn").click(Search);
 		
 	});
 </script>
 <body>
 	<div>
-<!-- 	°Ë»öÃ¢À» ¸¸µç´Ù. 
+<!-- 	ê²€ìƒ‰ì°½ì„ ë§Œë“ ë‹¤. -->
 		<form method="POST" id="sfrm" action="../Commu/CommuSearch.storm">
 			<input type="hidden" name="nowPage" value="1">
 			<table width="1000" border="1" align="center">
 				<tr>
 					<td align="center">
 						<select id="target" name="target">
-							<option value="category">Ä«Å×°í¸®</option>
-							<option value="genre">Àå¸£</option>
-							<option value="tag">ÅÂ±×</option>
+							<option value="category">ì¹´í…Œê³ ë¦¬</option>
+							<option value="genre">ì¥ë¥´</option>
+							<option value="tag">íƒœê·¸</option>
 						</select>
 						<input type="text" id="word" name="word">
-						<input type="button" id="sBtn" value="°Ë»öÇÏ±â">					
+						<input type="button" id="sBtn" value="ê²€ìƒ‰í•˜ê¸°">					
 					</td>
 				</tr>
 			</table>
-		</form>-->
+		</form>
 	<!--<img src="../img/commu/${data.commuImgName}" alt="" width="380"/>  -->
-<!-- 	¸ñ·Ïº¸±â¸¦ º¸¿©ÁØ´Ù. -->
+<!-- 	ëª©ë¡ë³´ê¸°ë¥¼ ë³´ì—¬ì¤€ë‹¤. -->
 
 		<c:forEach var="data" items="${LIST}">
-			<div align="center">
-				<c:if test="${not empty sessionScope.UID and empty SHOWLIST}">
-					<input type="button" data-1="add" value="ÆÈ·Î¿ì" class="fBtn" align="center" style="color:black">
-				</c:if>
-				<c:if test="${not empty sessionScope.UID and SHOWLIST eq 'N'}">
-					<input type="button" data-1="follow" value="ÆÈ·Î¿ìÀçµî·Ï" class="fBtn" align="center" style="color:black" >
-				</c:if>
-				<c:if test="${not empty sessionScope.UID and SHOWLIST eq 'Y'}">
-					<input type="button" data-1="unfollow" value="ÆÈ·Î¿ìÃë¼Ò" class="fBtn" align="center" style="color:black">
-				</c:if>
-			</div>
-			<div class="box"  style="cursor: pointer;  color:silver; background-color:#001638;" onclick="location.href='../Commu/CommuView.storm?oriNo=${data.communo}&nowPage=${PINFO.nowPage}'">
+			<div class="box"  style="cursor: pointer;  color:silver; background-color:#001638;" onclick="location.href='../Commu/CommuView.storm?communo=${data.communo}&nowPage=${PINFO.nowPage}'">
 				<div id="change">
-					<img src="http://ww2.sjkoreancatholic.org/files/testing_image.jpg" alt="Ä¿¹Â´ÏÆ¼ÀÌ¹ÌÁö" width="300"/><br><br>${data.commutext} 								
+					<img src="http://ww2.sjkoreancatholic.org/files/testing_image.jpg" alt="ì»¤ë®¤ë‹ˆí‹°ì´ë¯¸ì§€" width="300"/><br><br>${data.commutext} 								
 				</div>
 				<div class="inner">
+					${data.communo }
 					<h3>${data.communame}</h3>
 				</div>
 			</div>
@@ -73,19 +59,19 @@
 		<tr style="color:silver">
 			<td align="center">
 				<c:if test="${PINFO.startPage eq 1}">
-					[ÀÌÀü]
+					[ì´ì „]
 				</c:if>	
 				<c:if test="${PINFO.startPage ne 1}">
-					<a href="../Commu/CommuMain.storm?nowPage=${PINFO.startPage - 1}">[ÀÌÀü]</a>
+					<a href="../Commu/CommuMain.storm?nowPage=${PINFO.startPage - 1}">[ì´ì „]</a>
 				</c:if>		
 				<c:forEach var="i" begin="${PINFO.startPage}" end="${PINFO.endPage}">
 					[<a href="../Commu/CommuMain.storm?nowPage=${i}">${i}</a>]								
 				</c:forEach>
 				<c:if test="${PINFO.endPage eq PINFO.totalPage}">
-					[´ÙÀ½]
+					[ë‹¤ìŒ]
 				</c:if>
 				<c:if test="${PINFO.endPage ne PINFO.totalPage}">
-					<a href="../Commu/CommuMain.storm?nowPage=${PINFO.endPage + 1}">[´ÙÀ½]</a>
+					<a href="../Commu/CommuMain.storm?nowPage=${PINFO.endPage + 1}">[ë‹¤ìŒ]</a>
 				</c:if>
 			</td>
 		</tr>

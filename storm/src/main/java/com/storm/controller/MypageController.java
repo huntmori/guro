@@ -88,7 +88,7 @@ public class MypageController {
 		String email=(String)session.getAttribute("UID");
 		mVO= mService.getMember(email);
 		
-		int total= CService.getTotal();
+		int total= CService.getcommuTotal();
 		PageUtil pInfo= new PageUtil(nowPage, total);
 		
 		ArrayList list= mService.getMyCommuList(nowPage, pInfo, mVO);

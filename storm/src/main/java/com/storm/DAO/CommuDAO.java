@@ -1,6 +1,6 @@
 package com.storm.DAO;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;  
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -8,6 +8,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.storm.VO.CommuVO;
+import com.storm.VO.MemberVO;
 
 public class CommuDAO extends SqlSessionDaoSupport {
 /*	이 클래스는 질의 명령을 실행하기 위한 클래스이다.
@@ -35,27 +36,25 @@ public class CommuDAO extends SqlSessionDaoSupport {
 */		
 		ArrayList list = 
 			(ArrayList) sSession.selectList("commu.commuList", map);
-
-		System.out.println("##### dao list 가져오니 ? : "+ list.get(1).toString());
 		
 		return list;
 	}
 	
 //	총 데이터 개수 구하기 질의 명령 실행 함수
-	public int getTotal() {
-		return sSession.selectOne("commu.getTotal");
+	public int getcommuTotal() {
+		return sSession.selectOne("commu.getCommuTotal");
 	}
 	
+	
 //상세보기 질의를 실행할 함수
-	public CommuVO getCommuView(int oriNo){
+	public CommuVO getCommuView(int communo){
 /*	
  * 	파라메터가 일반 데이터면 #{키값}의 내용과 변수의 이름이 동일해야 한다.
 	★★★
 	질의 명령의 resultType은 질의 실행결과의 한줄만 가지고 생각한다.
 	DAO의 반환값은 실제 나올 수 있는 경우를 대비해서 처리해야 한다.
 	*/
-
-		return sSession.selectOne("commu.commuView",oriNo);
+		return sSession.selectOne("commu.commuView",communo);
 	}
 
 //글에 대한 그룹을 알아내기 위한 질의명령 실행함수
@@ -112,6 +111,55 @@ public class CommuDAO extends SqlSessionDaoSupport {
 	//언팔로우 업데이트
 	public void updateUF(CommuVO CVO){
 		sSession.update("commu.UFupdate", CVO);
+	}
+
+	
+	//팔로우 확인
+	public String selectshow(CommuVO CVO){
+		System.out.println("가장처음 실행함수= "+(String)sSession.selectOne("commu.selectShow", CVO));
+		return (String)sSession.selectOne("commu.selectShow", CVO);
+		
+	}
+	
+	
+	//게시물 등록
+	public void binsert(CommuVO CVO) {
+		sSession.insert("commu.BInsert", CVO);
+/*		모든 질의 실행함수의 첫번째 파라메터는 실행 질의 명령을 찾아올
+		질의 코드값을 입력한다.
+		질의 코드값		SQL파일의 namespace.질의의 id
+		
+		두번째 파라메터 부터는 질의 실행에 필요한 데이터를 입력하는 부분이다.
+		
+		myBatis를 사용하면 스테이트먼트도 자동 생성되고
+		사용후 close도 자동 처리된다.
+*/
+	}
+	
+	public int getboardTotal(){
+		return sSession.selectOne("commu.getBoardTotal");
+	}
+	
+	public ArrayList Blist(HashMap map) {	
+		ArrayList list = 
+				(ArrayList) sSession.selectList("commu.BList", map);
+		return list;
+	}
+	
+	
+	
+/*
+ * 
+ * 커뮤니티 게시판 댓글 처리
+ * 	
+ */
+	
+	
+	public MemberVO getMember(String id) {
+		MemberVO vo = (MemberVO)sSession.selectOne("commu.getMember", id);
+		System.out.println("dao : getMember : "+id);
+		return vo;
+
 	}
 }
 
