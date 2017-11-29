@@ -1,6 +1,6 @@
 package com.storm.controller;
 
-import java.util.ArrayList;   
+import java.util.ArrayList; 
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.storm.Service.CommuService;
-import com.storm.util.PageUtil;
 import com.storm.VO.CommuVO;
-import com.storm.VO.MemberVO;
+import com.storm.util.PageUtil;
 
 
 @Controller
@@ -35,8 +34,9 @@ public class CommuController {
 //	파라메터 받기
 //	데이터베이스에서 목록을 뽑는다.
 //1.총 데이터 개수를 구해서 페이지 정보를 만든다.
-		int total=CService.getTotal();
-		PageUtil pInfo=new PageUtil(nowPage,total);
+		int total=CService.getcommuTotal();
+		PageUtil pInfo=
+				new PageUtil(nowPage,total);
 //2.페이지 정보를 이요해서 그 페이지에 필요한 목록만 구한다.
 		ArrayList list= CService.getCommuList(nowPage, pInfo);
 //	뷰에 모델로 알려준다.
@@ -55,11 +55,18 @@ public class CommuController {
 	
 	//상세보기 요청을 처리할 컨트롤러 함수
 	@RequestMapping("/CommuView")
-	public ModelAndView commuView(CommuVO CVO,HttpSession session){
-	//할일
-	//파라메터를 받는다.
-	//상세보기 내용을 구한다.
-	//원글에 달린 댓글을 구한다.
+	public ModelAndView commuView
+	(CommuVO CVO,HttpSession session,
+	@RequestParam(value="nowPage",defaultValue="1")int nowPage){
+//		할일
+//		파라메터 받기
+//		데이터베이스에서 목록을 뽑는다.
+	//1.총 데이터 개수를 구해서 페이지 정보를 만든다.
+			int total=CService.getboardTotal();
+			PageUtil pInfo=new PageUtil(nowPage,total);
+	//2.페이지 정보를 이요해서 그 페이지에 필요한 목록만 구한다.
+			ArrayList list= CService.getBlist(nowPage, pInfo,CVO);
+
 			HashMap map=CService.commuView(CVO.communo);
 	
 			int usrKey=Integer.parseInt(String.valueOf(session.getAttribute("KEY")));
@@ -80,6 +87,8 @@ public class CommuController {
 			System.out.println(map);
 			mv.addObject("SHOWLIST", whatshow);
 			System.out.println("SHOWLIST= "+whatshow);
+			mv.addObject("PINFO",pInfo);
+			mv.addObject("BLIST",list);
 		//요청설계를 할 때 nowPage는 컨트롤러가 필요해서 받은것이 아니고 다음을 위해서
 		//릴레이 시킨 파라메터 이므로 잊지말고 다음에 반드시 전달해야 한다.
 			mv.addObject("nowPage", CVO.nowPage);
@@ -136,12 +145,14 @@ public class CommuController {
 	public ModelAndView writeCommu(CommuVO CVO,HttpSession session){
 		HashMap map=CService.commuView(CVO.communo);
 		
-		int usrKey=Integer.parseInt(String.valueOf(session.getAttribute("KEY")));
-		CVO.usrKey=usrKey;
-	
+		String usrId=(String.valueOf(session.getAttribute("UID")));
+		CVO.usrId=usrId;
+		
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("MAP",map);
-		System.out.println(map);
+		mv.addObject("LIST",CVO);
+		System.out.println("WriteCommu MAP ="+map);
+		System.out.println("WriteCommu CVO ="+CVO);
 	//요청설계를 할 때 nowPage는 컨트롤러가 필요해서 받은것이 아니고 다음을 위해서
 	//릴레이 시킨 파라메터 이므로 잊지말고 다음에 반드시 전달해야 한다.
 		mv.addObject("nowPage", CVO.nowPage);
@@ -151,11 +162,20 @@ public class CommuController {
 	}
 	
 	@RequestMapping("/WriteProc")
-	public ModelAndView writeProc(){
+	public ModelAndView writeProc(HttpSession session,CommuVO CVO){
+		String	id = (String) session.getAttribute("UID");
+		CVO.usrId = id;
 		
+		//		디비에 입력하고
+		CService.binsert(CVO);
+		System.out.println(CVO.usrId);
 		
-		ModelAndView mv=new ModelAndView();
-		mv.setViewName("/Commu/CommuView");
+		//		뷰를 부른다.
+		RedirectView rv=
+			new RedirectView("../Commu/CommuView.storm");
+		ModelAndView mv =new ModelAndView();
+		mv.addObject("WLIST", CVO);
+		mv.setView(rv);
 		return mv;
 	}
 }

@@ -1,6 +1,6 @@
 package com.storm.DAO;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;  
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -41,9 +41,10 @@ public class CommuDAO extends SqlSessionDaoSupport {
 	}
 	
 //	총 데이터 개수 구하기 질의 명령 실행 함수
-	public int getTotal() {
-		return sSession.selectOne("commu.getTotal");
+	public int getcommuTotal() {
+		return sSession.selectOne("commu.getCommuTotal");
 	}
+	
 	
 //상세보기 질의를 실행할 함수
 	public CommuVO getCommuView(int communo){
@@ -119,7 +120,33 @@ public class CommuDAO extends SqlSessionDaoSupport {
 		return (String)sSession.selectOne("commu.selectShow", CVO);
 		
 	}
-
+	
+	
+	//게시물 등록
+	public void binsert(CommuVO CVO) {
+		sSession.insert("commu.BInsert", CVO);
+/*		모든 질의 실행함수의 첫번째 파라메터는 실행 질의 명령을 찾아올
+		질의 코드값을 입력한다.
+		질의 코드값		SQL파일의 namespace.질의의 id
+		
+		두번째 파라메터 부터는 질의 실행에 필요한 데이터를 입력하는 부분이다.
+		
+		myBatis를 사용하면 스테이트먼트도 자동 생성되고
+		사용후 close도 자동 처리된다.
+*/
+	}
+	
+	public int getboardTotal(){
+		return sSession.selectOne("commu.getBoardTotal");
+	}
+	
+	public ArrayList Blist(HashMap map) {	
+		ArrayList list = 
+				(ArrayList) sSession.selectList("commu.BList", map);
+		return list;
+	}
+	
+	
 	
 /*
  * 

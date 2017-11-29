@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=EUC-KR" %>
 <!Doctype html>
 <html>
 <head>
@@ -76,7 +76,11 @@ body {  margin: 0;	}
 <script>
 	$(document).ready(function(){
 		$("#searchBar").load("App/AppSearchForm.storm");
-		$("#signup").attr("href","../Commu/WriteProc.storm");	
+		$("#singup").click(function(){
+			//	¹«°á¼º °Ë»ç¸¦ ÇÑ´Ù.
+			
+			$("#cFrm").submit();
+		});	
 	});
 
 </script>
@@ -86,20 +90,20 @@ body {  margin: 0;	}
   <h1>St0rm2.0</h1>
   <p>Resize the browser window to see the responsive effect.</p>
   <div align="right">
-  		<a href="./Join/JoinForm.storm">íšŒì›ê°€ì…</a>
-		<a href="./Login/LoginForm.storm">ë¡œê·¸ì¸</a><br>
+  		<a href="./Join/JoinForm.storm">È¸¿ø°¡ÀÔ</a>
+		<a href="./Login/LoginForm.storm">·Î±×ÀÎ</a><br>
 		<input type="text">
-		<input type="button" id="sBtn" value="ê²€ìƒ‰"/>
+		<input type="button" id="sBtn" value="°Ë»ö"/>
 	</div>
 </div>
 
 <div class="topnav">
 		
-		<a href="../storm">í™ˆ</a>
-		<a id="gameSearch" href="./App/AppList.storm">ê²Œì„ê²€ìƒ‰</a>
-		<a href="./Chart/ChartView.storm">í†µê³„</a>
-		<a href="./Commu/CommuMain.storm">ì»¤ë®¤ë‹ˆí‹°</a>
-		<a href="./Mypage/MypageList.storm">ë§ˆì´í˜ì´ì§€</a>
+		<a href="../storm">È¨</a>
+		<a id="gameSearch" href="./App/AppList.storm">°ÔÀÓ°Ë»ö</a>
+		<a href="./Chart/ChartView.storm">Åë°è</a>
+		<a href="./Commu/CommuMain.storm">Ä¿¹Â´ÏÆ¼</a>
+		<a href="./Mypage/MypageList.storm">¸¶ÀÌÆäÀÌÁö</a>
 		
 </div>
 
@@ -108,51 +112,37 @@ body {  margin: 0;	}
     <h2>Side</h2>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit..</p>
   </div>
-  <div class="column middle"	id="mainBody">
+  <div class="column middle" id="mainBody">
   	<div	id="searchBar">
   	</div>
-    <h2>ê²Œì‹œíŒë“±ë¡</h2>
-    <table align="left">
-    	<tr>
-    		<td>
-    			ì»¤ë®¤ë‹ˆí‹°ë²ˆí˜¸
-    		</td>
-    		<td>
-    			${MAP.VIEW.communo }
-    		</td>
-    		<td>
-				ì•„ì´ë””
-			</td>
-			<td>	
-				
-			</td>
-    	</tr>
-		<tr>
-			<td>
-				ë²ˆí˜¸
-			</td>
-			<td>
-				
-			</td>
-		</tr>
-		<tr>
-			<td>
-				ì œëª©
-			</td>
-			<td>
-				<textarea></textarea>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				ë‚´ìš©
-			</td>
-			<td>
-				<textarea></textarea>
-			</td>
-		</tr>
-    </table>
-    <input type="button" id="singup" value="ê¸€ì“°ê¸°">
+    <h2>°Ô½ÃÆÇµî·Ï</h2>
+    <form method="POST" id="cFrm" action="../Commu/WriteProc.storm">
+    	<table align="left">
+    		<tr>
+	    		<td>Ä¿¹Â´ÏÆ¼¹øÈ£</td>
+    			<td>
+    				<input type="text" id="communo" name="communo" value="${MAP.VIEW.communo }" readonly>
+	    		</td>
+   				<td>±Û¾´ÀÌ</td>
+				<td>
+				<input type="text" id="writer" name="writer" value="${sessionScope.UID}" readonly>
+				</td>
+    		</tr>
+			<tr>
+				<td>Á¦¸ñ</td>
+				<td>
+					<textarea id="boardname" name="boardname"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>³»¿ë</td>
+				<td>
+					<textarea id="boardtext" name="boardtext"></textarea>
+				</td>
+			</tr>
+    	</table><br><br><br><br><br><br><br><br>
+    	<input type="button" id="singup" value="±Û¾²±â">
+    </form>
   </div>
   <div class="column side">
     

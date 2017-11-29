@@ -1,9 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=EUC-KR" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta charset="EUC-KR">
 	<title>Document</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
@@ -16,63 +16,91 @@
 			alert(whatdo+"&data2=${MAP.VIEW.communo}&nowpage=${nowPage}");
 		});
 		$("#clbtn").click(function(){
-			//	ëª©ë¡ë³´ê¸° ìš”ì²­ì„ í•˜ë©´ ëœë‹¤.
+			//	¸ñ·Ïº¸±â ¿äÃ»À» ÇÏ¸é µÈ´Ù.
 			$(location).attr("href", "../Commu/CommuMain.storm?nowPage=${nowPage}");
 		});
 		$("#Mbtn").click(function(){
-			//	ëª©ë¡ë³´ê¸° ìš”ì²­ì„ í•˜ë©´ ëœë‹¤.
+			//	¸ñ·Ïº¸±â ¿äÃ»À» ÇÏ¸é µÈ´Ù.
 			$(location).attr("href", "../Commu/WriteCommu.storm?nowPage=${nowPage}&communo=${MAP.VIEW.communo}");
 		});
 	});
 </script>
 <body>
-	<table width="1000" border="1">
+	<table width="500" border="1">
 		<tr>
-				<%--	ì»¨íŠ¸ë¡¤ë¡œì—ì„œ ì •ë³´ë°›ê¸°	--%>
-			<td><img src="http://ww2.sjkoreancatholic.org/files/testing_image.jpg" width="350"></td>
+				<%--	ÄÁÆ®·Ñ·Î¿¡¼­ Á¤º¸¹Ş±â	--%>
+			<td><img src="http://ww2.sjkoreancatholic.org/files/testing_image.jpg" width="300"></td>
 		</tr>
 		<tr>
-	 		<td><h1>ì»¤ë®¤ë‹ˆí‹°ëª… : ${MAP.VIEW.communame}</h1>${MAP.VIEW.commutext}</td>
+	 		<td><h1>Ä¿¹Â´ÏÆ¼¸í : ${MAP.VIEW.communame}</h1>${MAP.VIEW.commutext}</td>
 	 	</tr>
 	 	<tr>
-			<td>ì¶œì‹œì¼ : ${MAP.VIEW.commudate}<br>
-			ê°€ê²© : ${MAP.VIEW.commuprice}
+			<td>Ãâ½ÃÀÏ : ${MAP.VIEW.commudate}<br>
+			°¡°İ : ${MAP.VIEW.commuprice}
 			</td>
 			 
 		</tr>
 	</table>
-	<div align="center">
+	<div align="left">
 		<c:if test="${not empty sessionScope.UID and empty SHOWLIST}">
-			<input type="button" data-1="add" value="íŒ”ë¡œìš°" class="fbt" align="center" style="color:black">
+			<input type="button" data-1="add" value="ÆÈ·Î¿ì" class="fbt" align="center" style="color:black">
 		</c:if>
 		<c:if test="${not empty sessionScope.UID and SHOWLIST eq 'N'}">
-			<input type="button" data-1="follow" value="íŒ”ë¡œìš°ì¬ë“±ë¡" class="fbt" align="center" style="color:black" >
+			<input type="button" data-1="follow" value="ÆÈ·Î¿ìÀçµî·Ï" class="fbt" align="center" style="color:black" >
 		</c:if>
 		<c:if test="${not empty sessionScope.UID and SHOWLIST eq 'Y'}">
-			<input type="button" data-1="unfollow" value="íŒ”ë¡œìš°ì·¨ì†Œ" class="fbt" align="center" style="color:black">
+			<input type="button" data-1="unfollow" value="ÆÈ·Î¿ìÃë¼Ò" class="fbt" align="center" style="color:black">
 		</c:if>
 		<c:if test="${not empty sessionScope.UID and SHOWLIST eq 'Y'}">
-			<input type="button" id="Mbtn" value="ê²Œì‹œíŒë“±ë¡" align="center" style="color:black">
+			<input type="button" id="Mbtn" value="°Ô½ÃÆÇµî·Ï" align="center" style="color:black">
 		</c:if>
-		<input type="button" id="clbtn" value="ì»¤ë®¤ë‹ˆí‹°ëª©ë¡ë³´ê¸°" align="center" style="color:black">
+		<input type="button" id="clbtn" value="Ä¿¹Â´ÏÆ¼¸ñ·Ïº¸±â" align="center" style="color:black">
 	</div>
 	<div>
 		<br><br><br>
 	</div>
-	<c:forEach var="review"		items="${REVIEWLIST}">
+	
+	<c:if test="${not empty BLIST}">
+	 <table width="500" border="1" align="center">
+		<tr>
+			<th>¹øÈ£</th>
+			<th>Á¦¸ñ</th>
+			<th>±Û¾´ÀÌ</th>
+			<th>ÀÛ¼ºÀÏ</th>
+			<th>Á¶È¸¼ö</th>
+		</tr>
+		<c:forEach var="data" items="${BLIST}">
+			<tr>
+				<td>	</td>
+				<td>
+					<a href=
+					"../Commu/BoardView.storm?nowPage=
+					${PINFO.nowPage }&barodno=${data.boardno}">
+					${data.boardname }</a>
+				</td>
+				<td></td>
+				<td>${data.boardtext }</td>
+		</c:forEach>
+	</table> 
+	</c:if>
+	
+	
+	
+	
+	<%-- <c:forEach var="review"		items="${REVIEWLIST}">
    		<table style="width: 80%; background-color:#001638;">
     		 <tr>
     		 	<td>
     				<div class="row">
         				<div class="col-sm-2 text-center">
-    		 				<img src="../img/GoodsImg/${review.usrimgname}"  height="150" width="150" alt="êµ¬ë§¤ìƒí’ˆì‚¬ì§„" align="rigth">
+    		 				<img src="../img/GoodsImg/${review.usrimgname}"  height="150" width="150" alt="±¸¸Å»óÇ°»çÁø" align="rigth">
    	 					</div>
  		 				<div class="col-sm-2 text-center">
  		 		<br> 
- 		 					<img src="../img/logo/profile.png" class="img-circle" height="100" width="100" alt="íšŒì›ì‚¬ì§„"align="left">
+ 		 					<img src="../img/logo/profile.png" class="img-circle" height="100" width="100" alt="È¸¿ø»çÁø"align="left">
         				</div>
 				<br>
-          			<h4><small>ë‹‰ë„¤ì„ :</small>${review.nickname}  <small>êµ¬ë§¤í•œ ì œí’ˆ :</small>${review.gname} &nbsp;&nbsp;</h4>
+          			<h4><small>´Ğ³×ÀÓ :</small>${review.nickname}  <small>±¸¸ÅÇÑ Á¦Ç° :</small>${review.gname} &nbsp;&nbsp;</h4>
           <p>${review.content}</p>
 	        <br>
   
@@ -80,7 +108,7 @@
       </div></td>
       </tr>
       </table>
-    </c:forEach>
+    </c:forEach> --%>
 
 
 </body>

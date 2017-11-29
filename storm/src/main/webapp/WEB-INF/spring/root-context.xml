@@ -63,16 +63,10 @@
 
 	<bean id="mypageS" 		class="com.storm.Service.MypageService"/>
 	<bean id="loginS" 		class="com.storm.Service.LoginService"/>
-	<bean id="commuS" 		class="com.storm.Service.CommuService"/>
-	<bean id="memberS"	    class="com.storm.Service.MemberService"/>
 	<bean id="AppListS"		class="com.storm.Service.AppListService"/>
 
-	<bean id="mypageS" class="com.storm.Service.MypageService"/>
-	<bean id="loginS" class="com.storm.Service.LoginService"/>
-
-	<bean id="commuS" 		class="com.storm.Service.CommuService"/>
-	<bean id="memberS" 		class="com.storm.Service.MemberService"/>
-	<bean id="AppListS"		class="com.storm.Service.AppListService"/>
+	<bean id="CommuS" 		class="com.storm.Service.CommuService"/>
+	<bean id="MemberS" 		class="com.storm.Service.MemberService"/>
 	<bean id="ChartS"		class="com.storm.Service.ChartService"/>
 	<bean id="umS" 			class="com.storm.Service.UserManagerService" />
 	<bean id="bmS"	 		class="com.storm.Service.BoardManagerService" />

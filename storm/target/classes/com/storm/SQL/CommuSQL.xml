@@ -20,9 +20,9 @@
 	</sql>
 	<sql id="selectBoard">
 		BOARD_APP_ID AS communo,
-		BOARD_USER_KEY AS baorduserKey,
+		BOARD_USER_KEY AS boarduserKey,
 		BOARD_NO AS boardno,
-		BOARD_TITEL AS boardname,
+		BOARD_TITLE AS boardname,
 		BOARD_TEXT AS boardtext 
 	</sql>
 	
@@ -31,55 +31,24 @@
 	
 <!-- 	목록 꺼내기 질의 명령 -->
 	<select id="commuList"	parameterType="HMap" resultType="CVO">
-<!-- 
-		resultType은 ArrayList로 받으면 안된다.
-		왜냐하면 조건의 따라서 여러줄이 나올수도 있지만 한줄만 나올수도 있다.
-		
-		★★★
-		그래서 myBatis에서 resultType은 결과의 줄수는 생각하지 말고
-		한줄의 데이터를 어떻게 받을지를 고민하면 된다.
-		
-		VO로 결과를 받도록 하는 경우에는 결과물의 데이터를 기억할 수 있는
-		setXxx()가 VO에 준비되어야 한다.
--->
 		SELECT
 			<include refid="selectCommu" />
 		FROM
 			app_table
 		WHERE
-			app_id between 1 and 50
+			app_id between #{start} and #{end}
 		ORDER BY
 			app_id
 	</select>
 		
 	
 <!-- 	페이지 정보를 구하기 위한 총 데이터 개수 구하기 질의 -->
-	<select id="getTotal"	resultType="int">
+	<select id="getCommuTotal"	resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
 			app_table
 	</select>
-<!-- 	이미 본 글 번호를 조회할 질의 명령 
-		노파심
-		파라메터 방식
-		1.	일반 데이터 방식	==>		데이터 개수가 적을때
-		2.	Map
-		3.	VO
--->
-	<!-- <resultMap id="clobMap" type="hMap">
-		<result property="no" column="bh_No" jdbcType="CLOB" 
-		javaType="java.lang.String" />
-	</resultMap>
-	<select id="getHitNO" parameterType="String" resultMap="clobMap">
-		SELECT
-			bh_User	AS who,
-			bh_No
-		FROM
-			BoardHit
-		WHERE
-			bh_User = #{user}
-	</select> -->
 	
 	
 <!-- 	상세보기 질의 명령 -->
@@ -92,7 +61,7 @@
 			app_id = #{communo}
 	</select>
 	
-	<!--	팔로우 등록을 위한 질의 명령  -->
+<!--	팔로우 등록을 위한 질의 명령  -->
 	<insert id="Finsert" parameterType="CVO">
 		INSERT
 		INTO
@@ -133,78 +102,8 @@
 			APP_ID=#{communo}
 			AND USR_NO=#{usrKey}
 	</select>
-	
-<!-- 	원글에 달린 댓글 알아내는 질의 명령 -->
-<!--	oriNo만 가지고 있으므로 필요한 Group을 구하기 위한 질의명령을
-		먼저 실행한다.  -->
-	<!-- <select id="getGroup" parameterType="int" resultType="int">
-			SELECT
-				ab_Group AS bgroup
-			FROM
-				AnBoard
-			WHERE
-				ab_NO=#{oriNo}
-	</select> -->
-	<select id="anList"	parameterType="int"	resultType="CVO">
-		SELECT
-			<include refid="selectCommu" />
-		FROM
-			AnBoard
-		WHERE
-	<!--	원글인 경우에는 원글의 번호가 그룹번호가 같아지기 때문에 원글인 경우에는
-			같은 그룹의 글들을 검색할 수 있었다. 댓글인 경우에는 댓글의 번호와
-			그룹 번호가 같지 않다.  
-			
-			해결방법	비교 대상을 그룹의 변호를 이용해서 처리해야 한다.
-					즉, 상세보기를 요청할때 그룹도 같이 알려줘서 그 그룹을
-					이용해서 처리하도록 해야한다.조건식의 데이터가 바뀌므로
-					컨트롤러에서 oriNo를 사용하던 것을 그룹 번호로 바꿔서
-					처리하도록 고친다.
-					
-			
-	-->
-			ab_Group = #{bgroup}
-		ORDER BY
-			ab_Order
-	</select>
 
-<!--	댓글 저장용 질의 명령  -->
-	<insert id="anInsert" parameterType="CVO">
-		<selectKey keyProperty="no" resultType="int" order="BEFORE">
-			SELECT
-				NVL(MAX(ab_NO),0)+1
-			FROM
-				AnBoard
-		</selectKey>
-		INSERT
-		INTO
-			AnBoard
-		VALUES
-			(#{no},#{title},#{writer},#{body},SYSDATE,0,
-			#{password},#{tags},#{bgroup},#{bstep},#{border},'Y')
-		
-	<!--<selectKey order="AFTER">
-			UPDATE
-			AnBoard
-		SET
-			ab_Order=ab_Order+1
-		WHERE
-			ab_Group=#{bgroup}
-			AND ab_Order>=#{border}
-		</selectKey> -->
-	</insert>
-	
-<!--  답글이 입력될때 오더를 정리하기 위한 질의 명령-->
-	<update id="orderSet" parameterType="HMap">
-		UPDATE
-			AnBoard
-		SET
-			ab_Order=ab_Order+1
-		WHERE
-			ab_Group=#{bgroup}
-			AND ab_Order>=#{border}
-	</update>
-	
+<!--	검색 질의 명령  -->
 	<select id="search" resultType="CVO" parameterType="HMap">
 		SELECT
 			<include refid="selectCommu"/>
@@ -255,7 +154,7 @@
 -->
 	<update id="updateBoard"	parameterType="CVO">
 		UPDATE
-			AnBoard
+			BOARD_TABLE
 		SET
 			ab_Title = #{title},
 			ab_Body = #{body},
@@ -277,12 +176,12 @@
 	</update>
 	
 <!--	게시물 등록을 위한 질의 명령  -->
-	<insert id="Binsert" parameterType="CVO">
+	<insert id="BInsert" parameterType="CVO">
 		<selectKey keyProperty="boardno" resultType="int" order="BEFORE">
 			SELECT
 				NVL(MAX(BOARD_NO), 0) + 1
 			FROM
-				AnBoard
+				BOARD_TABLE
 		</selectKey>
 		INSERT
 		INTO
@@ -291,28 +190,24 @@
 			(#{communo},#{usrKey},#{boardno},#{boardname},SYSDATE,#{boardtext},'Y',1)
 	</insert>
 	
+	
 <!-- 게시글 목록보기를 위한 질의명령  -->
-	<select id="Bshow" parameterType="int" resultType="HMap">
+	<select id="BList" parameterType="HMap" resultType="CVO">
 		SELECT
 			<include refid="selectBoard" />
 		FROM
 			BOARD_TABLE
 		WHERE
-
 			BOARD_APP_ID=#{communo}
 	</select>
 		
+	<select id="getBoardTotal"	resultType="int">
+		SELECT
+			COUNT(*) cnt
+		FROM
+			BOARD_TABLE
+	</select>
 
-
-
-
-
-
-<!-- 
-
-	커뮤니티 게시판 처리
-
- -->
  
 <!-- 회원정보 불러오기 -->
 	<select id="getMember" parameterType="String" resultType="mVO" >
