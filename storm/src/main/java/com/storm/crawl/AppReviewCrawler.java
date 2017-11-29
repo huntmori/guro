@@ -45,7 +45,7 @@ public class AppReviewCrawler implements	Serializable
 	
 	public AppReviewCrawler(String app_id) throws IOException, ClassNotFoundException{
 		
-		this.appid="35140";
+		this.appid=app_id;
 		this.getReviews();// ¸®ºä Å©·Ñ¸µ
 		
 		File	test	=	new File(".\\dat\\"+this.appid+"\\");
@@ -272,7 +272,10 @@ public class AppReviewCrawler implements	Serializable
 		output.close();
 	}
 	
-	public static void main(String[] arsgs){
+	public static void main(String[] arsgs) throws ClassNotFoundException, IOException{
+		AppReviewCrawler	ac1		=new AppReviewCrawler("264710");
+		AppReviewCrawler	aa2	=	new AppReviewCrawler("588430");
+		AppReviewCrawler	aca3	=new AppReviewCrawler("379720");
 		
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.storm.CrawlVO.KeywordVO;
 import com.storm.VO.AppVO;
+import com.storm.VO.KeyWordVO;
 import com.storm.VO.ReviewVO;
 import com.storm.crawlUtil.KeywordCounter;
 import com.storm.crawlUtil.WordExtractor;
@@ -103,52 +104,17 @@ public class AppListDAO extends SqlSessionDaoSupport
 	}
 
 	@SuppressWarnings("unchecked")
-	public HashMap getPositiveReivew(int app_id) {
-		ArrayList<ReviewVO> positives = (ArrayList)sSession.selectList(nameSpace+"getPositiveReview", app_id);
-		System.out.println(positives.size());
-		WordExtractor	we	=	new WordExtractor();
+	public ArrayList<KeyWordVO> getPositiveKeyword(int app_id) {
+		ArrayList<KeyWordVO>	list = (ArrayList)sSession.selectList(nameSpace+"getPositiveKeyword", app_id);
+		System.out.println(list.size());
 		
-		StringBuilder sb = new StringBuilder();
-		for(ReviewVO vo:positives){
-			sb.append(vo.getText());
-		}
-		ArrayList<String>positiveKeywords = we.getKeywordArrayList(sb.toString());
-		
-		KeywordCounter	kc = new KeywordCounter();
-		for(String str : positiveKeywords){
-			kc.inputKeyword(str);
-		}
-		
-		HashMap	map = new HashMap();
-		ArrayList<KeywordVO>	positiveKeys = kc.getSortedKeywordsList();
-		for(KeywordVO vo:positiveKeys){
-			map.put(vo.getKeyword(), vo.getCount());
-		}
-		return map;
+		return list;
 	}
 
-	public HashMap getNegativeReview(int app_id) {
-		ArrayList<ReviewVO> negatives = (ArrayList)sSession.selectList(nameSpace+"getNegativeReview", app_id);
-		System.out.println(negatives.size());
-		WordExtractor	we	=	new WordExtractor();
+	public ArrayList<KeyWordVO> getNegativeKeyword(int app_id) {
+		ArrayList<KeyWordVO>	list = (ArrayList)sSession.selectList(nameSpace+"getNegativeKeyword", app_id);
+		System.out.println(list.size());
 		
-		StringBuilder sb = new StringBuilder();
-		for(ReviewVO vo:negatives){
-			sb.append(vo.getText());
-		}
-		ArrayList<String> positiveKeywords = we.getKeywordArrayList(sb.toString());
-		
-		KeywordCounter	kc = new KeywordCounter();
-		for(String str : positiveKeywords){
-			kc.inputKeyword(str);
-		}
-		
-		HashMap	map = new HashMap();
-		ArrayList<KeywordVO>	negativesKeys = kc.getSortedKeywordsList();
-		for(KeywordVO vo:negativesKeys){
-			map.put(vo.getKeyword(), vo.getCount());
-		}
-		//
-		return map;
+		return list;
 	}
 }

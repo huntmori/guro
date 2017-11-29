@@ -119,7 +119,7 @@ public class ReviewVO implements Serializable
 		
 		this.writer = this.writer.replaceAll("'", "''");
 		
-		sb.append(" '"+this.writer+"' , '"+vote+"', 0 ,'"+tempDate+"',  "+this.text.replaceAll("'", "''")+"' ,"+this.appid+");");
+		sb.append(" '"+this.writer+"' , '"+vote+"', 0 ,'"+tempDate+"',  '"+this.text.replaceAll("'", "''")+"' ,"+this.appid+");");
 				
 		return sb.toString();
 	}

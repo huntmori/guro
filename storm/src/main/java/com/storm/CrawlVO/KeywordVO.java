@@ -60,9 +60,8 @@ public class KeywordVO	implements	Comparable<KeywordVO> , Serializable
 	
 	public String	getNegativeSQLFormat(){
 		StringBuilder	sb	=	new StringBuilder();
-		
 		sb.append("INSERT INTO Negative_Keywords_table VALUES ( ");
-		sb.append(this.app_id+", '"+this.keyword+"' ,"+this.count + " ) ");
+		sb.append(this.app_id+", '"+this.keyword.replaceAll("'", "''")+"' ,"+this.count + " ) ");
 				
 		return sb.toString();
 	}

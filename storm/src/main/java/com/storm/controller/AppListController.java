@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.storm.Service.AppListService;
 import com.storm.VO.AppVO;
+import com.storm.VO.KeyWordVO;
 import com.storm.VO.TagVO;
 import com.storm.util.PageUtil;
 
@@ -132,24 +133,19 @@ public class AppListController
 		ArrayList	developer_list	=	appService.getDeveloperList(app_id);		//Developer	리스트를 불러온다
 		ArrayList	publisher_list	=	appService.getPublisherList(app_id);		//Publisher		리스트를 불러온다		
 		
-		//HashMap	positive = appService.getPositiveReview(app_id);
-		//HashMap	negative = appService.getNegativeReview(app_id);
-		/*Set<String>	keys = positive.keySet();
-		for(String str : keys){
-			System.out.println(str+"\t"+positive.get(str));
-		}
-		keys = negative.keySet();
-		for(String str : keys){
-			System.out.println(str+"\t"+negative.get(str));
-		}*/
+		ArrayList<KeyWordVO>	positives = appService.getPositiveReview(app_id);
+		ArrayList<KeyWordVO>	negatives = appService.getNegativeReview(app_id);
+		
 		ModelAndView	mv	=	new ModelAndView();
-		mv.addObject("APP_INFO",				info);
-		mv.addObject("GENRE_LIST",			genre_list);
-		mv.addObject("TAG_LIST",				tag_list);
-		mv.addObject("CATEGORY_LIST",	category_list);
-		mv.addObject("LANGUAGE_LIST",	language_list);
-		mv.addObject("DEVELOPER_LIST",	developer_list);
-		mv.addObject("PUBLISHER_LIST",	publisher_list);
+		mv.addObject("APP_INFO",						info);
+		mv.addObject("GENRE_LIST",					genre_list);
+		mv.addObject("TAG_LIST",						tag_list);
+		mv.addObject("CATEGORY_LIST",			category_list);
+		mv.addObject("LANGUAGE_LIST",			language_list);
+		mv.addObject("DEVELOPER_LIST",			developer_list);
+		mv.addObject("PUBLISHER_LIST",			publisher_list);
+		mv.addObject("POSITIVE_KEYWORD", 	positives);
+		mv.addObject("NEGATIVE_KEYWORD",	negatives);
 		mv.setViewName("App/AppView");
 		return mv;
 	}

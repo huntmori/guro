@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.storm.DAO.AppListDAO;
 import com.storm.VO.AppVO;
+import com.storm.VO.KeyWordVO;
 import com.storm.util.PageUtil;
 
 public class AppListService 
@@ -97,11 +98,11 @@ public class AppListService
 		return (ArrayList)appDAO.ajaxTagSearch(temp);
 	}
 
-	public HashMap getPositiveReview(int app_id) {
-		return (HashMap)appDAO.getPositiveReivew(app_id);
+	public ArrayList<KeyWordVO> getPositiveReview(int app_id) {
+		return (ArrayList<KeyWordVO>)appDAO.getPositiveKeyword(app_id);
 	}
 
-	public HashMap getNegativeReview(int app_id) {
-		return (HashMap)appDAO.getNegativeReview(app_id);
+	public ArrayList<KeyWordVO> getNegativeReview(int app_id) {
+		return (ArrayList<KeyWordVO>)appDAO.getNegativeKeyword(app_id);
 	}
 }

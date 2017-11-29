@@ -212,27 +212,37 @@
 		WHERE	UPPER(tag_name) LIKE  UPPER( '%'||#{temp}||'%' )
 	</select>
 	
-	<select id="getNegativeReview"	parameterType="int" resultType="ReviewVO">
-		SELECT	review_writer						as		writer,
-						review_recommended		as		isRecommended,
-						review_userplaytime			as		userPlayTime,
-						review_wdate						as		wdate,
-						review_text							as		text,
-						app_id									as		app_id
-		FROM		review_table
-		WHERE	app_id = #{app_id}				AND
-						review_recommended = 'N'
+	<select id="getPositiveKeyword"	parameterType="int"  resultType="keywordVO">
+		SELECT 	r.app_id					as		app_id,
+						r.keyword_name	as		keyword,
+						r.keyword_count	as		count
+		FROM		(	SELECT 	rownum r_no,
+											tmp.* 
+    						FROM (	SELECT	*
+    										FROM		positive_Keywords_table 
+    										WHERE	app_id =#{app_id} 
+    										ORDER BY keyword_count desc
+    									)	tmp
+  		  				) r
+		WHERE	r_no between 0 and	(	SELECT 	COUNT(*)	*	0.05
+																FROM		positive_keywords_table
+																WHERE	app_id = #{app_id})
 	</select>
 	
-	<select id="getPositiveReview"	parameterType="int" resultType="ReviewVO">
-		SELECT	review_writer								as		writer,
-						REVIEW_RECOMMENDED		as		isRecommended,
-						review_userplaytime					as		userPlayTime,
-						review_wdate								as		wdate,
-						review_text									as		text,
-						app_id											as		app_id
-		FROM		review_table
-		WHERE	app_id = #{app_id}				AND
-						review_recommended = 'Y'
+	<select id="getNegativeKeyword"	parameterType="int" resultType="keywordVO">
+		SELECT 	r.app_id					as		app_id,
+						r.keyword_name	as		keyword,
+						r.keyword_count	as		count
+		FROM(	SELECT 	rownum r_no,
+										tmp.* 
+    					FROM (	SELECT	*
+    									FROM		negative_keywords_table
+    									WHERE	app_id =#{app_id} 
+    									ORDER BY keyword_count desc
+    								)	tmp
+  		  			) r
+  		WHERE	r_no between 0 and	(	SELECT 	COUNT(*)	*	0.05
+																FROM		negative_keywords_table
+																WHERE	app_id = #{app_id})
 	</select>
 </mapper>

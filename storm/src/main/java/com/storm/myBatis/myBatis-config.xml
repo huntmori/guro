@@ -26,7 +26,8 @@
 		<typeAlias alias="CVO"			type="com.storm.VO.CommuVO" />
 		<typeAlias alias="mbVO"			type="com.storm.VO.MemberVO" />
 		<typeAlias alias="umVO" 		type="com.storm.VO.UserManagerVO" />
-		<typeAlias alias="bmVO" 		type="com.storm.VO.BoardManagerVO" />	
+		<typeAlias alias="bmVO" 		type="com.storm.VO.BoardManagerVO" />
+		<typeAlias alias="keywordVO" 		type="com.storm.VO.KeyWordVO" />		
 
 	</typeAliases>
 	<!--  SQL 파일을 등록할 xml파일을 지정한다. -->
