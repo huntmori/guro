@@ -16,6 +16,8 @@ public class AppVO  implements Comparable<AppVO>, Serializable
 	String title;
 	String url;
 	
+	public String imgUrl;
+	
 	boolean		isDiscount;
 	public int	price;
 	public int discountedPrice;

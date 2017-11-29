@@ -62,7 +62,7 @@ public class AppListCrawler
 	public void ProccessCrawl(PrintStream output) throws IOException
 	{
 		//페이지 시작값
-		int page=150;
+		int page=1;
 		output.println("title\tappid\turl");
 		
 		Elements pages = document.getElementsByClass("search_pagination_right");
@@ -74,8 +74,8 @@ public class AppListCrawler
 		}System.out.println();
 				
 		// 최대 페이지 값
-		int maxPage = Integer.parseInt(realPages.get(realPages.size()-2).text());
-		//int maxPage	=	page+40;	
+		//int maxPage = Integer.parseInt(realPages.get(realPages.size()-2).text());
+		int maxPage	=	page+20;	
 		//TagList
 		Element popupMenuItem = document.getElementById("TagFilter_Container");		
 		Elements divlist = popupMenuItem.select("div[data-value]");

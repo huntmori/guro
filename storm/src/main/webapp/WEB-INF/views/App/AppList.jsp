@@ -200,24 +200,31 @@
 	    	</nav>
 	    </form>
     <div class="col-sm-9">   
-	    <div class="divTable"	style="WIDTH:800px;">
+	    <div class="divTable"	>
 			<div	class="divTableBody">
 				<div	class="divTableRow" >
 					<div class="divTableCell" >이미지</div><!-- APP IMG -->
 					<div class="divTableCell">제목</div>
-					<div class="divTableCell" >출시일</div>
 					<div class="divTableCell" >가격</div>
 				</div>
 				<c:forEach	var="data"	items="${APP_LIST}">
 					<div	class="divTableRow" >
-						<div class="divTableCell" ></div><!-- APP IMG -->
+						<div class="divTableCell" ><img src="${data.imgURL}" width="50%" height="50%"></div><!-- APP IMG -->
 						<div class="divTableCell title"  >
 							<a	href="../App/AppView.storm?nowPage=${PINFO.nowPage}&app_id=${data.id}">
 								${data.title}
+								<br>
+								${data.realDate} 출시
 							</a>
 						</div>
-						<div class="divTableCell" >${data.realDate}</div>
-						<div class="divTableCell" >${data.price}</div>
+						<div class="divTableCell" >
+							<c:if test="${data.price eq 0}">
+								무료
+							</c:if>
+							<c:if test="${data.price ne 0}">
+								${data.price}
+							</c:if>
+						</div>
 					</div>
 				</c:forEach>
 			</div>
@@ -235,7 +242,11 @@
 					</c:if>
     			</li>
     			<c:forEach var="page" begin="${PINFO.startPage}" end="${PINFO.endPage}">
-						<li><a href="../App/AppList.storm?nowPage=${page}">[${page}]</a></li>
+						<li>
+							<a href="../App/AppList.storm?nowPage=${page}">
+								${page}
+							</a>
+						</li>
 				</c:forEach>
     		<li>
       			<c:if test="${PINFO.endPage eq PINFO.totalPage}">

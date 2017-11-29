@@ -22,30 +22,5 @@ public class JSoupUtil
 		
 		return result;
 	}
-	
-	public static void main(String[] args) throws IOException, ClassNotFoundException
-	{
-		String app_id = "35140";
-		FileInputStream	fis = new FileInputStream(".\\dat\\"+app_id+"\\"+app_id+"_positiveReview.dat");
-		ObjectInputStream	ois = new ObjectInputStream(fis);
-		
-		ArrayList<ReviewVO> negatives = (ArrayList<ReviewVO>) ois.readObject();
-		ois.close();
-		fis.close();
-		
-		PrintWriter output=new PrintWriter(".\\dat\\"+app_id+"\\"+app_id+"_sql.sql");
-		for(ReviewVO vo : negatives){
-			output.println(vo.getInsertSqlStatement());
-		}
-		
-		fis = new FileInputStream(".\\dat\\"+app_id+"\\"+app_id+"_negativeReview.dat");
-		ois = new ObjectInputStream(fis);
-		
-		ArrayList<ReviewVO> positives = (ArrayList<ReviewVO>)ois.readObject();
-		for(ReviewVO vo : positives){
-			output.println(vo.getInsertSqlStatement());
-		}
-		output.flush();
-		output.close();
-	}
+
 }

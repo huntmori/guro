@@ -132,16 +132,16 @@ public class AppListController
 		ArrayList	developer_list	=	appService.getDeveloperList(app_id);		//Developer	리스트를 불러온다
 		ArrayList	publisher_list	=	appService.getPublisherList(app_id);		//Publisher		리스트를 불러온다		
 		
-		HashMap	positive = appService.getPositiveReview(app_id);
-		HashMap	negative = appService.getNegativeReview(app_id);
-		Set<String>	keys = positive.keySet();
+		//HashMap	positive = appService.getPositiveReview(app_id);
+		//HashMap	negative = appService.getNegativeReview(app_id);
+		/*Set<String>	keys = positive.keySet();
 		for(String str : keys){
 			System.out.println(str+"\t"+positive.get(str));
 		}
 		keys = negative.keySet();
 		for(String str : keys){
 			System.out.println(str+"\t"+negative.get(str));
-		}
+		}*/
 		ModelAndView	mv	=	new ModelAndView();
 		mv.addObject("APP_INFO",				info);
 		mv.addObject("GENRE_LIST",			genre_list);

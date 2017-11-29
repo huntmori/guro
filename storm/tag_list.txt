@@ -12,8 +12,8 @@ Key	Type	TagName
 701	tags	Sports
 4667	tags	Violent
 699	tags	Racing
-3859	tags	Multiplayer
 4345	tags	Gore
+3859	tags	Multiplayer
 1756	tags	Great Soundtrack
 4166	tags	Atmospheric
 1664	tags	Puzzle
@@ -84,8 +84,8 @@ Key	Type	TagName
 4106	tags	Action-Adventure
 1643	tags	Building
 1678	tags	War
-1702	tags	Crafting
 4234	tags	Short
+1702	tags	Crafting
 3987	tags	Historical
 5611	tags	Mature
 5537	tags	Puzzle-Platformer
@@ -100,11 +100,11 @@ Key	Type	TagName
 1645	tags	Tower Defense
 12472	tags	Management
 7478	tags	Illuminati
+4791	tags	Top-Down
 4747	tags	Character Customization
 1654	tags	Relaxing
 1669	tags	Moddable
 3835	tags	Post-apocalyptic
-4791	tags	Top-Down
 9551	tags	Dating Sim
 4434	tags	JRPG
 1621	tags	Music
@@ -179,8 +179,8 @@ Key	Type	TagName
 5030	tags	Dystopian 
 5348	tags	Mod
 7782	tags	Cult Classic
-9541	tags	Demons
 6730	tags	PvE
+9541	tags	Demons
 5186	tags	Psychological
 4562	tags	Cartoon
 7743	tags	1980s
@@ -192,8 +192,8 @@ Key	Type	TagName
 5708	tags	Remake
 4975	tags	2.5D
 11014	tags	Interactive Fiction
-25085	tags	Touch-Friendly
 4736	tags	2D Fighter
+25085	tags	Touch-Friendly
 1688	tags	Ninja
 10816	tags	Split Screen
 4821	tags	Mechs
@@ -219,14 +219,14 @@ Key	Type	TagName
 12057	tags	Tutorial
 4598	tags	Alternate History
 6052	tags	Noir
-1714	tags	Psychedelic
 31275	tags	Text-Based
-31579	tags	Otome
-5502	tags	Hacking
 5179	tags	Cold War
+1714	tags	Psychedelic
 5055	tags	e-sports
-1647	tags	Western
+5502	tags	Hacking
+31579	tags	Otome
 19995	tags	Dark Comedy
+1647	tags	Western
 1732	tags	Voxel
 11123	tags	Mouse only
 5765	tags	Gun Customization
@@ -237,12 +237,12 @@ Key	Type	TagName
 4474	tags	CRPG
 10808	tags	Supernatural
 6910	tags	Naval
-3813	tags	Real Time Tactics
 1717	tags	Hex Grid
+3813	tags	Real Time Tactics
 4508	tags	Co-op Campaign
+5154	tags	Score Attack
 1651	tags	Satire
 4559	tags	Quick-Time Events
-5154	tags	Score Attack
 9564	tags	Hunting
 5300	tags	God Game
 4145	tags	Cinematic
@@ -250,10 +250,10 @@ Key	Type	TagName
 1680	tags	Heist
 11333	tags	Villain Protagonist
 8666	tags	Runner
+4853	tags	Political
 4754	tags	Politics
 3955	tags	Character Action Game
 4018	tags	Vampire
-4853	tags	Political
 5094	tags	Narration
 7226	tags	Football
 13190	tags	America
@@ -307,9 +307,9 @@ Key	Type	TagName
 8253	tags	Music-Based Procedural Generation
 603297	tags	Hardware
 9592	tags	Dynamic Narration
-1674	tags	Typing
 6310	tags	Diplomacy
 6702	tags	Mars
+1674	tags	Typing
 198631	tags	Mystery Dungeon
 24904	tags	NSFW
 9994	tags	Experience

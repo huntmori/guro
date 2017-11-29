@@ -2,8 +2,11 @@ package com.storm.crawl;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -41,7 +44,20 @@ public class AppInfoCrawler
 	{
 		this.ps = ps;
 	}
-	
+	public String	getFullHeaderImage(Document document){
+		String	result = new String();
+		
+		Element image = null;
+		
+		try{
+			image = document.getElementsByClass("game_header_image_full").get(0);
+			result = image.attr("src");
+		}catch (Exception e) {
+			
+		}
+		
+		return result;
+	}
 	// 카테고리에 대한 ArrayList반환
 	public	ArrayList<String>getCategoryList(Document document)
 	{
@@ -129,7 +145,9 @@ public class AppInfoCrawler
 	{
 		//ReleaseDate
 		Elements details = null;
-		
+		String[]	monthNames={
+				"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
+		};
 		try{
 			details = document.getElementsByClass("details_block");
 		}
@@ -144,7 +162,50 @@ public class AppInfoCrawler
 			return "";
 		ps.println("ReleaseDate : "+date.text());
 		
-		return date.text();
+		String wDate = date.text();
+		wDate = wDate.replaceAll("Posted: ", "");
+		System.out.println(wDate);
+		StringTokenizer	st	=	new StringTokenizer(wDate, " ,");
+		String strDate = st.nextToken().replaceAll(" ", "");
+		System.out.println("strDate:\t"+strDate);
+		int day=-1;
+		int month = -1;
+		int year = -1;
+		try{
+			day = Integer.parseInt(strDate);
+			System.out.println("day:\t"+day);
+			String tempMonth = st.nextToken().replaceAll(" ", "");
+			System.out.println("tempMonth:\t"+tempMonth);
+			for(int m=0;m<monthNames.length; m++){
+				if(tempMonth.equals(monthNames[m]))
+					month = m+1;
+			}
+		}
+		catch (Exception e) {
+			for(int m=0;m<monthNames.length; m++){
+				if(strDate.equals(monthNames[m]))
+					month = m+1;
+			}
+			String dayToken =st.nextToken().replaceAll(" ", "");
+			 day = Integer.parseInt(dayToken.replaceAll("th", ""));
+			 System.out.println("day:\t"+day);
+		}
+		
+		if(!st.hasMoreTokens()){
+			long time = System.currentTimeMillis();
+			SimpleDateFormat	dayTime = new SimpleDateFormat("yyyy");
+			String strYear	=	dayTime.format(new Date());
+			
+			year = Integer.parseInt(strYear);
+		}
+		else{
+			year = Integer.parseInt(st.nextToken().replaceAll(" ", ""));
+		}
+			
+		String tempDate = year+"-"+month+"-"+day;
+		System.out.println("TEMP DATE:\t"+tempDate);
+		
+		return tempDate;
 	}
 	
 	//할인률을 가져오는 함수
@@ -188,11 +249,57 @@ public class AppInfoCrawler
 	{
 		//Price
 		Elements price = null;
-		try{document.getElementsByClass("game_purchase_price price");}
-		catch (Exception e) {	}
+		try{
+			price = document.getElementsByClass("game_purchase_price price");
+			
+			if(price==null)//할인 가격 인 경우 처리
+			{
+				try{
+					price = document.getElementsByClass("discount_original_price");
+				}catch (Exception e) {
+					return -1;
+				}
+			}
+			if(price.size()==0){
+				return -1;
+			}
+			
+			String strPrice = price.get(0).text();
+			System.out.println("STR_PRICE : \t"+strPrice);
+			//단위 표시를 잘라낸다
+			if(strPrice.indexOf("demo")!=-1){
+				strPrice	=	price.get(1).text();
+			}
+				
+			System.out.println(strPrice);
+			if(strPrice.indexOf("Free")!=-1){
+				return 0;
+			}
+			if(strPrice.indexOf("Third")!=-1){
+				return -1;
+			}
+			strPrice	=	strPrice.substring(1);
+			//콤마와 공백을 모두 제거
+			strPrice = strPrice.replaceAll(",", "");
+			strPrice = strPrice.replaceAll(" ", "");
+			ps.println("Origin PRICE : "+strPrice);
+			//appInfo.price = Integer.parseInt(strPrice);
+			
+			int result = 0;
+			try{
+				result = Integer.parseInt(strPrice);
+			}catch (Exception e) {
+				return -1;
+			}
+			System.out.println("result PRICE : " +result);
+			return result;
+		}
+		catch (Exception e) {	
+			return -1;
+		}
 		
 		
-		if(price==null)//할인 가격 인 경우 처리
+	/*	if(price==null)//할인 가격 인 경우 처리
 		{
 			try{
 				price = document.getElementsByClass("discount_original_price");
@@ -202,8 +309,9 @@ public class AppInfoCrawler
 		}
 		if(price.size()==0){
 			return -1;
-		}
-		String strPrice = price.get(0).text();
+		}*/
+		/*String strPrice = price.get(0).text();
+		System.out.println("STR_PRICE : \t"+strPrice);
 		//단위 표시를 잘라낸다
 		if(strPrice.indexOf("demo")!=-1){
 			strPrice	=	price.get(1).text();
@@ -229,8 +337,8 @@ public class AppInfoCrawler
 		}catch (Exception e) {
 			return -1;
 		}
-		
-		return result;
+		System.out.println("result PRICE : " +result);
+		return result;*/
 	}
 	
 	// 개발사 목록을 가져오는 함수
@@ -522,6 +630,8 @@ public class AppInfoCrawler
 	}
 	public void ProccessCrawl(Document document)
 	{		
+		appInfo.imgUrl			=	getFullHeaderImage(document);
+		System.out.println(appInfo.imgUrl);
 		appInfo.tagList 			=		getAppTagList(document);
 		appInfo.description		=	getAppDescription(document);
 		appInfo.releaseDate	=		getReleaseDate(document);

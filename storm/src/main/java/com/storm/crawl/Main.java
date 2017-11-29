@@ -80,8 +80,9 @@ public class Main
 	
 	//List URL
 	String url =//"http://store.steampowered.com/search/?sort_by=Price_DESC&category1=998";
-			//"http://store.steampowered.com/search/?category1=998&page=";
-			"http://store.steampowered.com/search/?sort_by=Price_ASC&category1=998&page=";
+			"http://store.steampowered.com/search/?category1=998&page=";
+			//"http://store.steampowered.com/search/?sort_by=Price_ASC&category1=998&page=";
+			//"http://store.steampowered.com/search/?sort_by=Price_DESC&category1=998&page=";
 	String soma= ("http://store.steampowered.com/app/282140");
 	String pubg="http://store.steampowered.com/app/578080/agecheck";
 	String dyinglight="http://store.steampowered.com/agecheck/app/239140/";
@@ -133,7 +134,7 @@ public class Main
 		//웹 클라이언트 생성 및 설정
 		java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(java.util.logging.Level.OFF);
 		webClient = new WebClient(BrowserVersion.CHROME);
-		webClient.waitForBackgroundJavaScript(500);
+		webClient.waitForBackgroundJavaScript(1000);
  
 		webClient.addRequestHeader("Accept-Language", "ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4, value"); 
 		webClient.addRequestHeader("Accept-Charset", "windows-949,utf-8;q=0.7,*;q=0.3"); 
@@ -772,7 +773,7 @@ public class Main
 		String	tempDes	=	replaceForInsert(vo.description);
 		StringBuilder sb	=	new StringBuilder();
 		sb.append("INSERT INTO APP_TABLE	 VALUES( ");
-		sb.append(vo.getId()+", '"+tempTitle+"', '"+tempDes+"', SYSDATE ,"+vo.price+", '' )");		
+		sb.append(vo.getId()+", '"+tempTitle+"', '"+tempDes+"', '"+vo.releaseDate+"' ,"+vo.price+", '"+vo.imgUrl+"' )");		
 				
 		return sb.toString();
 	}
@@ -939,7 +940,12 @@ public class Main
 		
 		return sb.toString();
 	}
-	
+	public void ReviewCraw(){
+		String[] list = {
+				"624090","457140",
+		};
+		
+	}
 	public void printAppVO(PrintStream pw){
 		Set<Integer>	keyset	=	this.appInfoMap.keySet();
 		
