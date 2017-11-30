@@ -6,10 +6,10 @@
 <mapper namespace="member">
 
 <sql id="memberField">
-		user_email     AS id,
+		user_email     AS email,
 		user_password		AS pw,
-		user_nick		AS nick,
-		user_key     AS no
+		user_nickname		AS nick,
+		user_key     AS key
 	
 </sql>
 
@@ -25,7 +25,7 @@
 		INSERT
 		INTO
 			user_table
-		VALUES(#{no}, #{id} ,#{nick},#{pw}, 'Y')
+		VALUES(#{key}, #{email} ,#{nick},#{pw}, 'Y')
 			
 	</insert>
 	
@@ -37,7 +37,7 @@
 		FROM
 			user_table
 		WHERE
-					user_email = #{id}
+					user_email = #{email}
 	</select>
 	
 

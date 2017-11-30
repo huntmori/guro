@@ -32,12 +32,12 @@
 	<select	id="appList"	parameterType="hMap"	resultType="AppVO">
 		SELECT		t.*
 		FROM			(SELECT	rownum as r_no,
-                							app_id						as		id,
-                							app_title					as		title,
-                							app_text   				as		text,
-                							app_releasedate	as		releaseDate,
-                							APP_price   			as		price,
-                							app_imageurl			as		imgURL
+                				app_id						as		id,
+                				app_title					as		title,
+                				app_text   				as		text,
+                				app_releasedate	as		releaseDate,
+                				APP_price   			as		price,
+                				app_imageurl			as		imgURL
     						FROM    app_table
     						ORDER BY	app_id ) t
 		WHERE		r_no between #{start} AND #{end}
@@ -121,15 +121,15 @@
 	</select>
 	
 	<select	id="appReviewList"	parameterType="hMap"	resultType="ReviewVO">
-		SELECT	review_writer						as		writer,
-						review_recommended		as		isRecommended,
-						review_userplaytime			as		userPlayTime,
-						review_wdate						as		wdate,
-						review_text							as		text,
-						review_app_id					as		app_id
-		FROM		Review_table
-		WHERE			review_app_id=#{app_id}
-				AND		review_recommended=#{isRecommend}				
+		SELECT	review_writer			as		writer,
+				review_recommended		as		isRecommended,
+				review_userplaytime		as		userPlayTime,
+				review_wdate			as		wdate,
+				review_text				as		text,
+				review_app_id			as		app_id
+		FROM	Review_table
+		WHERE		review_app_id=#{app_id}
+				AND	review_recommended=#{isRecommend}				
 	</select>
 	
 	<select	id="appInfo"	parameterType="int"	resultType="AppVO">
@@ -159,12 +159,12 @@
 	
 	<select	id="searchSelectedAppOption"	parameterType="hMap" resultType="AppVO">
 		SELECT	app_id 					as id,
-        				app_title 			  		as  title,
-        				app_text    				as  text,
-        				app_releasedate	as releaseDate,
-        				app_price		   		as  price,
-        				app_imageurl 	 	as imgurl
-		FROM	 	app_table
+        		app_title 			  		as  title,
+        		app_text    				as  text,
+        		app_releasedate	as releaseDate,
+        		app_price		   		as  price,
+        		app_imageurl 	 	as imgurl
+		FROM	app_table
 		<trim	prefix="WHERE"	prefixOverrides="AND|OR">
 			<if test="TAGLIST !=null">
 				AND app_id IN
@@ -309,5 +309,26 @@
         				app_imageurl 	 	as imgurl
 		FROM    APP_TABLE
 		WHERE   app_id = #{app_id}
+	</select>
+	
+	<select id="appTextSearch"	parameterType="String" resultType="AppVO">
+		select app_id			as		id,
+	 		   app_title		as		title,
+			   app_text   		as		text,
+			   app_releasedate	as		releaseDate,
+	 		   APP_price   		as		price,
+	 		   app_imageurl		as		imgURL 
+		from    app_table
+		where   UPPER(app_text) like  '%'||UPPER(#{text})||'%'
+	</select>
+	<select id="appTitleSearch"	parameterType="String" resultType="AppVO">
+		select app_id			as		id,
+	 		   app_title		as		title,
+			   app_text   		as		text,
+			   app_releasedate	as		releaseDate,
+	 		   APP_price   		as		price,
+	 		   app_imageurl		as		imgURL 
+		from    app_table
+		where   UPPER(app_title) like  '%'||UPPER(#{text})||'%'
 	</select>
 </mapper>

@@ -138,4 +138,14 @@ public class AppListDAO extends SqlSessionDaoSupport
 		AppVO	result	=	sSession.selectOne(nameSpace+"getApp", app_id);
 		return result;
 	}
+
+	public ArrayList getTitleMatch(String text) {
+		// TODO Auto-generated method stub
+		return (ArrayList) sSession.selectList(nameSpace+"appTitleSearch",text);
+	}
+
+	public ArrayList getTextMatch(String text) {
+		// TODO Auto-generated method stub
+		return (ArrayList) sSession.selectList(nameSpace+"appTextSearch",text);
+	}
 }

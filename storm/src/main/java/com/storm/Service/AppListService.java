@@ -120,4 +120,14 @@ public class AppListService
 		// TODO Auto-generated method stub
 		return appDAO.getCommingSoon();
 	}
+
+	public ArrayList getTitleMatch(String text) {
+		// TODO Auto-generated method stub
+		return (ArrayList)appDAO.getTitleMatch(text);
+	}
+
+	public ArrayList getTextMatch(String text) {
+		// TODO Auto-generated method stub
+		return (ArrayList)appDAO.getTextMatch(text);
+	}
 }

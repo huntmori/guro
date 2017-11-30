@@ -93,8 +93,10 @@ body {  margin: 0;	}
   <div align="right">
   		<a href="./Member/MemberForm.storm">회원가입</a>
 		<a href="./Login/LoginForm.storm">로그인</a><br>
-		<input type="text">
-		<input type="button" id="sBtn" value="검색"/>
+		<form	id="search"	action="./App/SearchTextProc.storm" method="POST">
+			<input type="text" id="text" name="text">
+			<input type="submit" id="sBtn" value="검색"/>
+		</form>
 	</div>
 </div>
 

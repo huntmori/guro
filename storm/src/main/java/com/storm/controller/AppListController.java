@@ -124,7 +124,6 @@ public class AppListController
 	@RequestMapping("/AppView")
 	public	ModelAndView	appView(int nowPage, int app_id)
 	{
-
 		AppVO	info	=	appService.getAppInfo(app_id);							//AppVO를 불러온다		
 		ArrayList	genre_list	=	appService.getGenreList(app_id);			//Genre리스트를 불러온다
 		ArrayList	category_list	=	appService.getCategoryList(app_id);	//Category리스트를 불러온다
@@ -165,5 +164,71 @@ public class AppListController
 		System.out.println(matchList.size());
 		return matchList;
 		//ArrayList	list	=	appService.searchTag(text);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping("/SearchTextProc")
+	public ModelAndView	appSearchByText(HttpServletRequest request,	HttpServletResponse response)
+	{
+		String text = request.getParameter("text");
+		System.out.println(text);
+		String[] genreValues = request.getParameterValues("GENRE_VALUES");
+		String[] tagValues = request.getParameterValues("TAG_VALUES");
+		String[] categoryValues = request.getParameterValues("CATEGORY_VALUES");
+		
+		ArrayList	genreList = null;
+		ArrayList	tagList	=	null;
+		ArrayList	categoryList	=	null;
+		
+		if(genreValues!=null)	{
+			genreList = new ArrayList();
+			for(String str : genreValues)
+				genreList.add(Integer.parseInt(str));
+		}
+		
+		if(tagValues!=null){
+			tagList	=	 new ArrayList();
+			for(String str : tagValues)
+				tagList.add(Integer.parseInt(str));
+		}
+		if(categoryValues!=null){
+			categoryList = new ArrayList();
+			for(String str : categoryValues)
+				categoryList.add(Integer.parseInt(str));
+		}
+				
+		HashMap	map = new HashMap();
+		if(tagList!=null)
+			map.put("TAGLIST", tagList);
+		if(genreList!=null)
+			map.put("GENRELIST", genreList);
+		if(categoryList!=null)
+			map.put("CATEGORYLIST", categoryList);
+		
+		ArrayList appList=	new ArrayList();
+		
+		ArrayList	titleMatch 	= appService.getTitleMatch(text);
+		ArrayList	textMatch	= appService.getTextMatch(text);	
+		for(int i=0;i<titleMatch.size();i++)
+			appList.add(titleMatch.get(i));
+		for(int i=0;i<textMatch.size();i++)
+			appList.add(textMatch.get(i));
+		
+		int total = appList.size();
+		PageUtil	pInfo	=	new PageUtil(1, total, 25);
+		
+		ArrayList		genreTemp			=	appService.getGenreList();		//장르 목록을 받아온다
+		ArrayList		categoryTemp	=	appService.getCategoryList();	//카테고리 목록을 받아온다
+		ArrayList		tagTemp				=	appService.getTagList();			//태그 목록을 받아온다
+		//ArrayList		languageList	=	appService.getLanguageList();	//언어 목록을 받아온다
+		
+		ModelAndView	mv	=	new ModelAndView();
+		mv.addObject("PINFO",		pInfo);
+		mv.addObject("APP_LIST",	appList);
+		mv.addObject("GENRE_LIST",			genreTemp);
+		mv.addObject("CATEGORY_LIST",	categoryTemp);
+		mv.addObject("TAG_LIST",				tagTemp);
+		mv.setViewName("App/AppList");
+		return mv;
 	}
 }
