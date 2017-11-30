@@ -245,4 +245,69 @@
 																FROM		negative_keywords_table
 																WHERE	app_id = #{app_id})
 	</select>
+	
+	<select	id="getHotGame"	resultType="int">
+		SELECT tb.app_id	as		app_id
+		FROM
+    		((	Select rownum as r_no  , t.*
+    			FROM
+    			(	SELECT	count(*) as cnt, 
+    								a.app_id  
+    				FROM		app_table a,
+    								review_table r 
+    				WHERE 		a.app_id = r.app_id
+    				GROUP BY a.app_id)t) tb
+    		)
+		WHERE tb.r_no=1
+	</select>
+	
+	<select	id="getRecentGame"	resultType="int">
+		SELECT  tb.id as app_id
+		FROM
+    	(	SELECT 	rownum 							as r_no,
+        					app.app_id  					as id,
+        					app.app_title   				as title,
+        					app.app_text    				as  text,
+        					app.app_releasedate		as releasedate,
+        					app.app_price   				as  price,
+        					app.app_imageurl			as imgURL
+			FROM		(	SELECT		*
+								FROM			app_table
+								WHERE		app_releaseDate <![CDATA[ < ]]> SYSDATE 
+								ORDER BY	app_releaseDate desc
+							) app
+    	)	tb
+		WHERE tb.r_no = 1 	
+	</select>
+	
+	<select	id="getCommingSoon"	resultType="int">
+		SELECT  tb.id as app_id
+		FROM
+    			(	SELECT  rownum 							as r_no,
+        							app.app_id  					as id,
+        							app.app_title   				as title,
+        							app.app_text    				as  text,
+        							app.app_releasedate		as releasedate,
+        							app.app_price   				as  price,
+        							app.app_imageurl			as imgURL
+    				FROM		(	SELECT	*
+    				 					FROM		app_table where app_releaseDate
+    				 									<![CDATA[ > ]]>
+    				 									 SYSDATE 
+    				 					ORDER BY	app_releaseDate desc
+    				 				) 	app
+    			)	tb
+		WHERE tb.r_no = 1 		
+	</select>
+	
+	<select	id="getApp"	parameterType="int"	resultType="AppVO">
+		SELECT	app_id 					as id,
+        				app_title 			  		as  title,
+        				app_text    				as  text,
+        				app_releasedate	as releaseDate,
+        				app_price		   		as  price,
+        				app_imageurl 	 	as imgurl
+		FROM    APP_TABLE
+		WHERE   app_id = #{app_id}
+	</select>
 </mapper>

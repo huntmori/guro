@@ -117,4 +117,25 @@ public class AppListDAO extends SqlSessionDaoSupport
 		
 		return list;
 	}
+
+	public AppVO getHotGame() {
+		// TODO Auto-generated method stub
+		int app_id	=	sSession.selectOne(nameSpace+"getHotGame");
+		AppVO	result	=	sSession.selectOne(nameSpace+"getApp", app_id);
+		return result;
+	}
+
+	public AppVO getRecentGame() {
+		// TODO Auto-generated method stub
+		int app_id	=	sSession.selectOne(nameSpace+"getRecentGame");
+		AppVO	result	=	sSession.selectOne(nameSpace+"getApp", app_id);
+		return result;
+	}
+
+	public AppVO getCommingSoon() {
+		// TODO Auto-generated method stub
+		int app_id	=	sSession.selectOne(nameSpace+"getCommingSoon");
+		AppVO	result	=	sSession.selectOne(nameSpace+"getApp", app_id);
+		return result;
+	}
 }

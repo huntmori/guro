@@ -414,77 +414,93 @@
 		</div>
 	</div>
 	
-	<br><br>
-	<div>개발사:
-		<c:forEach	var="DEV"	items="${DEVELOPER_LIST}"	varStatus="status">
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+  			<h3 class="panel-title">개발사</h3>
+		</div>
+		<div class="panel-body">
+  			<c:forEach	var="DEV"	items="${DEVELOPER_LIST}"	varStatus="status">
 			<input type="hidden"	id="${DEV.id}"	value="${DEV.id}">
 				<button class="btn btn-primary" type="button">
 					${DEV.name}
 				</button>
-		</c:forEach>	
+			</c:forEach>	
+		</div>
 	</div>
-	<br><br>
-	<div>배급사:
-		<c:forEach	var="PUB"	items="${PUBLISHER_LIST}"	varStatus="status">
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+  			<h3 class="panel-title">배급사</h3>
+		</div>
+		<div class="panel-body">
+  			<c:forEach	var="PUB"	items="${PUBLISHER_LIST}"	varStatus="status">
 			<input type="hidden"	id="${PUB.id}"	value="${PUB.id}">
 				<button class="btn btn-primary" type="button">
 					${PUB.name}
 				</button>
-		</c:forEach>	
-	</div>	
-	<br><br>
-	<div>카테고리:
-		<c:forEach	var="CATEGORY"	items="${CATEGORY_LIST}"	varStatus="status">
+			</c:forEach>	
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+  			<h3 class="panel-title">카테고리</h3>
+		</div>
+		<div class="panel-body">
+  			<c:forEach	var="CATEGORY"	items="${CATEGORY_LIST}"	varStatus="status">
 			<input type="hidden"	id="${CATEGORY.id}"	value="${CATEGORY.id}">
 				<button class="btn btn-primary" type="button">
 					${CATEGORY.name}
 				</button>
-		</c:forEach>
+		</c:forEach>	
+		</div>
 	</div>
-	
-	<div>언어:<br>
-	<table class="table table-striped">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+  			<h3 class="panel-title">지원 언어 </h3>
+		</div>
+		<div class="panel-body">
+  			<table class="table table-striped">
 		<tr>
-			<th>언어</th>
+			<th></th>
 			<th>인터페이스</th>
 			<th>음성</th>
 			<th>자막</th>
 		</tr>
-		
-		
-		<c:forEach	var="LANGUAGE"		items="${LANGUAGE_LIST}"	varStatus="status">
-			<tr>
-					<td>
-						<input type="hidden"	id="${LANGUAGE.id}"	value="${LANGUAGE.id}">
-							${LANGUAGE.name}
-					</td> 
-					<td>
-						<c:if	test ="${LANGUAGE.supported_interface eq 'Y' }">
-							지원
-						</c:if>
-						<c:if	test ="${LANGUAGE.supported_interface ne 'Y' }">
-							미지원
-						</c:if>
-					</td> 
-					<td>
-						<c:if	test ="${LANGUAGE.supported_voice eq 'Y' }">
-							지원
-						</c:if>
-						<c:if	test ="${LANGUAGE.supported_voice ne 'Y' }">
-							미지원
-						</c:if>
-					</td> 
-					<td>
-						<c:if	test ="${LANGUAGE.supported_subtitle eq 'Y' }">
-							지원
-						</c:if>
-						<c:if	test ="${LANGUAGE.supported_subtitle ne 'Y' }">
-							미지원
-						</c:if>
-					</td>
-				</tr>
-		</c:forEach>
-	</table>
+			<c:forEach	var="LANGUAGE"		items="${LANGUAGE_LIST}"	varStatus="status">
+				<tr>
+						<td>
+							<input type="hidden"	id="${LANGUAGE.id}"	value="${LANGUAGE.id}">
+								${LANGUAGE.name}
+						</td> 
+						<td>
+							<c:if	test ="${LANGUAGE.supported_interface eq 'Y' }">
+								지원
+							</c:if>
+							<c:if	test ="${LANGUAGE.supported_interface ne 'Y' }">
+								미지원
+							</c:if>
+						</td> 
+						<td>
+							<c:if	test ="${LANGUAGE.supported_voice eq 'Y' }">
+								지원
+							</c:if>
+							<c:if	test ="${LANGUAGE.supported_voice ne 'Y' }">
+								미지원
+							</c:if>
+						</td> 
+						<td>
+							<c:if	test ="${LANGUAGE.supported_subtitle eq 'Y' }">
+								지원
+							</c:if>
+							<c:if	test ="${LANGUAGE.supported_subtitle ne 'Y' }">
+								미지원
+							</c:if>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
 	</div>
 </body>
 </html>
