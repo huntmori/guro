@@ -158,10 +158,6 @@
 	</select>
 	
 	<select	id="searchSelectedAppOption"	parameterType="hMap" resultType="AppVO">
-<<<<<<< HEAD
-		SELECT	<include refid="appSelectField"/>
-		FROM		app_table
-=======
 		SELECT	app_id 					as id,
         		app_title 			  		as  title,
         		app_text    				as  text,
@@ -169,7 +165,6 @@
         		app_price		   		as  price,
         		app_imageurl 	 	as imgurl
 		FROM	app_table
->>>>>>> branch 'master' of https://github.com/huntmori/guro.git
 		<trim	prefix="WHERE"	prefixOverrides="AND|OR">
 			<if test="TAGLIST !=null">
 				AND app_id IN
