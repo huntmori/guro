@@ -46,6 +46,11 @@ public class MemberVO {
 	public void setCommuname(String communame) {
 		this.communame = communame;
 	}
-
+	public void	setId(String id){
+		this.email = id;
+	}
+	public String getId(){
+		return this.email;
+	}
 
 }

@@ -105,4 +105,29 @@ public class AppListService
 	public ArrayList<KeyWordVO> getNegativeReview(int app_id) {
 		return (ArrayList<KeyWordVO>)appDAO.getNegativeKeyword(app_id);
 	}
+
+	public AppVO getHotGame() {
+		// TODO Auto-generated method stub
+		return appDAO.getHotGame();
+	}
+
+	public AppVO getRecentGame() {
+		// TODO Auto-generated method stub
+		return appDAO.getRecentGame();
+	}
+
+	public AppVO getCommingSoon() {
+		// TODO Auto-generated method stub
+		return appDAO.getCommingSoon();
+	}
+
+	public ArrayList getTitleMatch(String text) {
+		// TODO Auto-generated method stub
+		return (ArrayList)appDAO.getTitleMatch(text);
+	}
+
+	public ArrayList getTextMatch(String text) {
+		// TODO Auto-generated method stub
+		return (ArrayList)appDAO.getTextMatch(text);
+	}
 }

@@ -273,9 +273,8 @@ public class AppReviewCrawler implements	Serializable
 	}
 	
 	public static void main(String[] arsgs) throws ClassNotFoundException, IOException{
-		AppReviewCrawler	ac1		=new AppReviewCrawler("264710");
-		AppReviewCrawler	aa2	=	new AppReviewCrawler("588430");
-		AppReviewCrawler	aca3	=new AppReviewCrawler("379720");
+		AppReviewCrawler	ac1		=new AppReviewCrawler("601510");
+		
 		
 	}
 }

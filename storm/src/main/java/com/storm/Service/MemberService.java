@@ -18,7 +18,11 @@ public class MemberService {
 	public MemberDAO mbDAO;
 
 	public void insertMember(MemberVO mbVO) {
-	
+		
+		System.out.println(mbVO.getEmail());
+		System.out.println(mbVO.getPw());
+		System.out.println(mbVO.getNick());
+		System.out.println(mbVO.getKey());
 		mbDAO.insertMember(mbVO);
 	}
 

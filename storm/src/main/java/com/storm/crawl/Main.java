@@ -339,7 +339,7 @@ public class Main
 			
 			int cnt=0;
 			for(Integer i : sortedkeys){	
-				if(cnt==1000)
+				if(cnt==5)
 					break;
 				System.out.println("==============================="+cnt++);
 				AppVO	vo	=	map.get(i);

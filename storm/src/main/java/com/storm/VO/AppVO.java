@@ -15,6 +15,9 @@ public class AppVO
 	private	String	realDate;
 	private	int		price;
 	
+	public boolean equals(AppVO vo){
+		return this.id==vo.id;
+	}
 	
 	public int getId() {
 		return (this.id);
