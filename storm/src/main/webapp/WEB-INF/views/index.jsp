@@ -88,12 +88,20 @@ body {  margin: 0;	}
 <body>
 
 <div class="header">
+<<<<<<< HEAD
 	<h1>St0rm2.0</h1>
 	<p>Resize the browser window to see the responsive effect.</p>
 	<div align="right">
   		<a href="./Member/MemberForm.storm">회원가입</a>
 		<a href="./Login/LoginForm.storm">로그인</a><br>
 	
+=======
+  <h1>St0rm2.0</h1>
+  <p>Resize the browser window to see the responsive effect.</p>
+  <div align="right">
+  		<a href="./Member/MemberForm.storm">회원가입</a>
+		<a href="./Login/LoginForm.storm">로그인</a><br>
+>>>>>>> branch 'master' of https://github.com/huntmori/guro.git
 		<form	id="search"	action="./App/SearchTextProc.storm" method="POST">
 			<input type="text" id="text" name="text">
 			<input type="submit" id="sBtn" value="검색"/>

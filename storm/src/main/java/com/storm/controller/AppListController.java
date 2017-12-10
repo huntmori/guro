@@ -209,6 +209,7 @@ public class AppListController
 		
 		ArrayList	titleMatch 	= appService.getTitleMatch(text);
 		ArrayList	textMatch	= appService.getTextMatch(text);	
+<<<<<<< HEAD
 		for(int i=0;i<titleMatch.size();i++){
 			appList.add(titleMatch.get(i));
 		}
@@ -222,6 +223,12 @@ public class AppListController
 			}
 		}
 			
+=======
+		for(int i=0;i<titleMatch.size();i++)
+			appList.add(titleMatch.get(i));
+		for(int i=0;i<textMatch.size();i++)
+			appList.add(textMatch.get(i));
+>>>>>>> branch 'master' of https://github.com/huntmori/guro.git
 		
 		int total = appList.size();
 		PageUtil	pInfo	=	new PageUtil(1, total, 25);

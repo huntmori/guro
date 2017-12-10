@@ -1,5 +1,9 @@
  <%@ page contentType="text/html; charset=UTF-8" %>
+<<<<<<< HEAD
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+=======
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+>>>>>>> branch 'master' of https://github.com/huntmori/guro.git
 <!doctype html>
 <html>
 <head>
@@ -12,4 +16,4 @@
 	<c:redirect url="./main.storm"></c:redirect>
 </body>
 </html>
- 
+  
